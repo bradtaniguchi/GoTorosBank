@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="goTorosBankLogin:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="goTorosIndexServer.war">
+      <element id="artifact" artifact-name="goTorosBankLogin:war exploded" />
+    </root>
+  </artifact>
+</component>
