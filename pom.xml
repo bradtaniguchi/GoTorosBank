@@ -29,11 +29,9 @@
               <artifactId>tomcat7-maven-plugin</artifactId>
               <version>2.2</version>
               <configuration>
-                  <url>http://10.17.1.6/manager/text</url>
+                  <url>http://10.17.1.6:80/manager/text</url>
                   <server>TomcatServer</server>
                   <path>/ROOT</path>
-                  <username>admin</username>
-                  <password></password><!--you must add this later-->
               </configuration>
           </plugin>
       </plugins>
