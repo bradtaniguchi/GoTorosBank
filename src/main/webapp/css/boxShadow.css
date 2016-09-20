@@ -1,0 +1,9 @@
+#dropShadow {
+    color: #fff;
+    background-color: #860038;
+    box-shadow: 10px 10px 5px #888888;
+}
+
+#shadowOnly {
+    box-shadow: 10px 10px 5px #888888;
+}
