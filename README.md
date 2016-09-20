@@ -4,14 +4,15 @@ Legitimatly uses Java Servlets and an Apache Tomcat server to provide basic util
 The server is hosted at CSUDH locally. 
 
 ### Project Team   
-Jesus Cortez  
+[Jesus Cortez][1]  
 Josue Flores  
 Daniel Hernandez  
-[Crosby Lanham][1]  
+[Crosby Lanham][2]  
 Rudy Leiva  
 DaMond Smith  
-[Bradley Taniguchi][2]
+[Bradley Taniguchi][3]
 
-[1]:https://github.com/crosby0320
-[2]:https://github.com/bradtaniguchi
+[1]:https://github.com/jeuscortez
+[2]:https://github.com/crosby0320
+[3]:https://github.com/bradtaniguchi
 
