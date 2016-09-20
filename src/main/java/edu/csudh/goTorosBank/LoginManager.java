@@ -28,7 +28,7 @@ public class LoginManager extends HttpServlet {
         getServletContext().log("Service() called");
         /*TODO: change this code, to do some actual legit checking...*/
         if(request.getParameter("userName").equals(userName)) {
-            response.getWriter().write("Correct Login!");
+            response.getWriter().write("Correct Login!, Welcome: " + request.getParameter("userName"));
         }
         else {
             response.getWriter().write("Incorrect Login! Try again");
