@@ -19,10 +19,10 @@
                 <jsp:include page="jsp/genericFileLoads.jsp"/>
                 <div class="row">
                     <div class="col-md-4" id="dropShadow">
-                        <h1>SPAN4</h1>
+
                     </div>
                     <div class="col-md-8" id="dropShadow">
-                        <h1>SPAN8</h1>
+                        <h4>Account Overview</h4>
                     </div>
                 </div>
             </div>
