@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <h4>User Tools</h4>
-<ul>
+<ul style="list-style-type:none">
     <li>ProfilePage</li>
     <li>Deposit</li>
     <li>Withdraw</li>
