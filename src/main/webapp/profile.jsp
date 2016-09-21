@@ -19,10 +19,10 @@
                 <jsp:include page="jsp/genericFileLoads.jsp"/>
                 <div class="row">
                     <div class="col-md-4" id="dropShadow">
-
+                        <jsp:include page="jsp/UserTools.jsp"/>
                     </div>
                     <div class="col-md-8" id="dropShadow">
-                        <h4>Account Overview</h4>
+                        <jsp:include page="jsp/AccountOverview.jsp"/>
                     </div>
                 </div>
             </div>
