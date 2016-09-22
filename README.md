@@ -11,7 +11,7 @@ Daniel Hernandez
 Rudy Leiva  
 DaMond Smith  
 [Bradley Taniguchi][3]
-
+:)
 [1]:https://github.com/jeuscortez
 [2]:https://github.com/crosby0320
 [3]:https://github.com/bradtaniguchi
