@@ -27,11 +27,15 @@ public class LoginManager extends HttpServlet {
         throws ServletException, IOException {
         getServletContext().log("Service() called");
         /*TODO: change this code, to do some actual legit checking...*/
-        if(request.getParameter("userName").equals(userName)) {
-            response.getWriter().write("Correct Login!, Welcome: " + request.getParameter("userName"));
+        if(request.getParameter("userName").equals(userName) &&
+                request.getParameter("password").equals(password)) {
+             
+            response.setContentType("application/json");
+            response.getWriter().write("{\"test\":\"works\"}");
         }
         else {
-            response.getWriter().write("Incorrect Login! Try again");
+            response.setContentType("application/json");
+            response.getWriter().write("{\"test\":\"no works\"}");
         }
     }
 

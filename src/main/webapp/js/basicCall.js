@@ -14,9 +14,14 @@ $(document).ready(function() {
                 userName: name,
                 password: pass
             },
-            success: function(responseText) {
+            success: function(response) {
                 console.log("Response Successful");
-                $('#returnDiv').text(responseText);
+                if(response["test"] == "no works") {
+                    $('#returnDiv').text("no works");
+                }else {
+                    $('#returnDiv').text("works");
+                }
+
             }
         });
     }
