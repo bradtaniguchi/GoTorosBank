@@ -16,10 +16,11 @@ $(document).ready(function() {
             },
             success: function(response) {
                 console.log("Response Successful");
-                if(response["test"] == "no works") {
-                    $('#returnDiv').text("no works");
-                }else {
-                    $('#returnDiv').text("works");
+                if(response["successfulLogin"] == "false") {
+                    $('#returnDiv').text(response["message"]);
+                }else { //if true we should be getting re-directed
+                    $('#returnDiv').text(response["message"]);
+                    /*Redirect the user here...*/
                 }
 
             }

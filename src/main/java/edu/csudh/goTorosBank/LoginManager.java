@@ -29,13 +29,15 @@ public class LoginManager extends HttpServlet {
         /*TODO: change this code, to do some actual legit checking...*/
         if(request.getParameter("userName").equals(userName) &&
                 request.getParameter("password").equals(password)) {
-             
+
             response.setContentType("application/json");
-            response.getWriter().write("{\"test\":\"works\"}");
+            response.getWriter().write("{\"successfulLogin\":\"true\"}, " +
+                    "\"message\": Invalid Login}");
         }
         else {
             response.setContentType("application/json");
-            response.getWriter().write("{\"test\":\"no works\"}");
+            response.getWriter().write("{\"successfulLogin\":\"false\", " +
+                    "\"message\": valid Login}"); //note the user wont see this..
         }
     }
 
