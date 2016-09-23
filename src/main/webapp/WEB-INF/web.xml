@@ -13,5 +13,14 @@
         <servlet-name>LoginManager</servlet-name>
         <url-pattern>/LoginManager</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogoutManager</servlet-name>
+        <servlet-class>edu.csudh.goTorosBank.LogoutManager</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutManager</servlet-name>
+        <url-pattern>/LogoutManager</url-pattern>
+    </servlet-mapping>
 </web-app>
 

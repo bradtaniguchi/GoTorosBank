@@ -12,8 +12,9 @@
         <li><a href="profile.jsp">ProfileTest</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Login <span class="glyphicon glyphicon-user"></span></a></li>
-        <li><a href="#">Settings</a></li>
+        <li><a id="logout" href="#">Logout <span class="glyphicon glyphicon-user"></span></a></li>
+        <li><a href="profile.jsp">my Account</a></li>
     </ul>
+    Relative Path: <%= request.getServletPath() %>
 </nav>
 

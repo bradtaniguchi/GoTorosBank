@@ -27,5 +27,7 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="js/logoutManager.js"></script>
+        <!--add other scripts to see if user logged in here?-->
     </body>
 </html>
