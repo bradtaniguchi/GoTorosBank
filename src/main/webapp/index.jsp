@@ -35,7 +35,7 @@
                 <br/>
                 <!--add the header navbar depending if logged in or not-->
                 <jsp:include page="jsp/genericFileLoads.jsp"/>
-                <script type="text/javascript" src="js/basicCall.js"></script>
+                <script type="text/javascript" src="js/loginManager.js"></script>
             </div>
         </div>
     </body>
