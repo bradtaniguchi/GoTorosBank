@@ -1,6 +1,8 @@
 <html>
     <head>
+        <meta charset="utf-8">
         <title>Test Temp Index</title>
+        <link rel="shortcut icon" href="favicon.png"/>
     </head>
     <body>
         <div class="container">
