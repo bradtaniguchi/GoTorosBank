@@ -31,6 +31,9 @@ public class LoginManager extends HttpServlet {
                 request.getParameter("password").equals(password)) {
 
             response.setContentType("application/json");
+            Cookie cookie = new Cookie("userName", userName);
+            cookie.setMaxAge(30*60); //expires in 30 minutes
+            response.addCookie(cookie);
             response.getWriter().write("{\"successfulLogin\":\"true\", " +
                     "\"message\": \"valid Login\"}"); //note the user wont see this..
         }
