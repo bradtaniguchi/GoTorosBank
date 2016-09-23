@@ -18,7 +18,7 @@ $(document).ready(function() {
                 console.log("Response Successful");
                 if(response["successfulLogin"] == "false") {
                     $('#returnDiv').text(response["message"]);
-                }else { //if true we should be getting re-directed
+                } else if(response["successfulLogin"] == "true") { //if true we should be getting re-directed
                     $('#returnDiv').text(response["message"]);
                     /*Redirect the user here...*/
                 }

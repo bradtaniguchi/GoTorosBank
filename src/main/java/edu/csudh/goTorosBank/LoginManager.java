@@ -31,7 +31,7 @@ public class LoginManager extends HttpServlet {
                 request.getParameter("password").equals(password)) {
 
             response.setContentType("application/json");
-            response.getWriter().write("{\"successfulLogin\":\"true\"}, " +
+            response.getWriter().write("{\"successfulLogin\":\"true\", " +
                     "\"message\": \"valid Login\"}"); //note the user wont see this..
         }
         else {
