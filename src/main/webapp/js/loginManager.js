@@ -1,14 +1,17 @@
 /**
  * Created by brad on 9/19/16.
+ * This script handles the login/index page of the site.
+ * Then handles the redirects of the user from the backend.
  */
-console.log("basicCall was called")
 $(document).ready(function() {
+    console.log("loginManager.js loaded");
     /*Main function to submit*/
-    function submitData() {
-        console.log("Button Clicked");
+    function login() {
+        console.log("Attempting to login");
         var name = $('#userName').val();
         var pass = $('#userPass').val();
         $.ajax({
+            //type: 'POST' //change this in the backend
             url:'LoginManager',
             data: {
                 userName: name,
@@ -23,7 +26,6 @@ $(document).ready(function() {
                     /*Redirect the user here...*/
                     window.location = "/profile.jsp";
                 }
-
             }
         });
     }
