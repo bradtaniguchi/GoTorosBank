@@ -33,7 +33,6 @@ public class LoginManager extends HttpServlet {
             response.setContentType("application/json");
             response.getWriter().write("{\"successfulLogin\":\"true\", " +
                     "\"message\": \"valid Login\"}"); //note the user wont see this..
-
         }
         else {
             response.setContentType("application/json");

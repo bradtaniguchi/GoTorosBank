@@ -21,6 +21,7 @@ $(document).ready(function() {
                 } else if(response["successfulLogin"] == "true") { //if true we should be getting re-directed
                     $('#returnDiv').text(response["message"]);
                     /*Redirect the user here...*/
+                    window.location = "/profile.jsp";
                 }
 
             }
