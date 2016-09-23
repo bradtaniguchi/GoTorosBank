@@ -8,8 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>ProfileTest</title>
-
+        <link rel="shortcut icon" href="favicon.png"/>
     </head>
     <body>
         <div class="container">
