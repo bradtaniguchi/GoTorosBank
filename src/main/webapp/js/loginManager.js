@@ -32,7 +32,7 @@ $(document).ready(function() {
     /*Click listener*/
     $('#userPass').keypress(function(e) {
         if(e.which == 13) {
-            submitData();
+            login();
         }
     });
     $('#submit').on('click', function() {
