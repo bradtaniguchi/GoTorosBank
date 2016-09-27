@@ -6,10 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<h4>User Tools</h4>
-<ul style="list-style-type:none">
-    <li>ProfilePage</li>
-    <li>Deposit</li>
-    <li>Withdraw</li>
-    <li>Transfer</li>
-</ul> <!--different menu static items list-->
+<div class="btn-group-vertical">
+    <!--change this to:
+    http://v4-alpha.getbootstrap.com/components/navs/
+    -->
+    <button type="button" class="btn btn-primary" id="ProfilePage">ProfilePage</button>
+    <button type="button" class="btn btn-primary" id="Deposit">Deposit</button>
+    <button type="button" class="btn btn-primary" id="Withdraw">Withdraw</button>
+    <button type="button" class="btn btn-primary" id="Transfer">Transfer</button>
+    <button type="button" class="btn btn-primary" id="PayBills">PayBills</button>
+</div> <!--different menu static items list-->
