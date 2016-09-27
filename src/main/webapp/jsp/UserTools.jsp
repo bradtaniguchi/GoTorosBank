@@ -10,9 +10,11 @@
     <!--change this to:
     http://v4-alpha.getbootstrap.com/components/navs/
     -->
-    <button type="button" class="btn btn-primary" id="ProfilePage">ProfilePage</button>
-    <button type="button" class="btn btn-primary" id="Deposit">Deposit</button>
-    <button type="button" class="btn btn-primary" id="Withdraw">Withdraw</button>
-    <button type="button" class="btn btn-primary" id="Transfer">Transfer</button>
-    <button type="button" class="btn btn-primary" id="PayBills">PayBills</button>
+    <ul class="nav nav-pills nav-stacked">
+        <li class="active" id="ProfilePage"><a href="#">ProfilePage</a></li>
+        <li id="Deposit"><a href="#">Deposit</a></li>
+        <li id="Withdraw"><a href="#">Withdraw</a></li>
+        <li id="Transfer"><a href="#">Transfer</a></li>
+        <li id="PayBills"><a href="#">PayBills</a></li>
+    </ul>
 </div> <!--different menu static items list-->

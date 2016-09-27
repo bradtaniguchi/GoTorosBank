@@ -1,9 +1,19 @@
 #dropShadow {
     color: #fff;
     background-color: #860038;
-    box-shadow: 10px 10px 5px #888888;
+    box-shadow: 10px 10px 5px #333333;
 }
 
 #shadowOnly {
-    box-shadow: 10px 10px 5px #888888;
+    box-shadow: 10px 10px 5px #333333;
+}
+
+#backgroundColor {
+    background-color: #4f5b66;
+    color: #fff;
+}
+
+#headerColor {
+    background-color: #990000;
+    color: #fff;
 }
