@@ -8,7 +8,7 @@
         <div class="container" >
             <jsp:include page="jsp/navbar.jsp"/>
             <div>
-                <div class="panel panel-default" id="headerColor"><div class="panel-body">
+                <div class="panel panel-default shadowOnly" id="headerColor"><div class="panel-body">
                     <h1 style="text-align:center">GoToros! Bank</h1>
                     <img src="pictures/bank-clipart.png" style="display: block; margin: 0 auto">
                     <hr/>

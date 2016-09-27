@@ -4,7 +4,7 @@
     box-shadow: 10px 10px 5px #333333;
 }
 
-#shadowOnly {
+.shadowOnly {
     box-shadow: 10px 10px 5px #333333;
 }
 
@@ -17,3 +17,4 @@
     background-color: #990000;
     color: #fff;
 }
+
