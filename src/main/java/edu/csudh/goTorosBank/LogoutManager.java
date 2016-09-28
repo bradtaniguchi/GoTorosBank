@@ -22,19 +22,21 @@ public class LogoutManager extends HttpServlet {
         response.setContentType("application/json");
 
         /*get the cookies from the user's browser*/
-        Cookie[] cookies = request.getCookies();
+        /*Cookie[] cookies = request.getCookies();
         if(cookies != null) {
             for (Cookie c : cookies) {
                 if(c.getName().equals("userName")) {
-                    c.setMaxAge(0); /*set the age to instantly disappear*/
+                    c.setMaxAge(0);
                     c.setValue(null);
-                    response.addCookie(c); /*return the modified cookie*/
+                    response.addCookie(c);
                     break;
                 }
-            }
-
+            }*/
+        HttpSession userSession = request.getSession(false);
+        if(userSession != null) {
+            userSession.invalidate(); //remove user session, and all objects
             response.getWriter().write("{\"successfulLogout\":\"true\"}");
-        } else { //there are no cookies
+        } else { //there is no session!
             response.getWriter().write("{\"successfulLogout\":\"false\"}");
         }
     }
