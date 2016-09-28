@@ -11,7 +11,7 @@ $(document).ready(function() {
         var name = $('#userName').val();
         var pass = $('#userPass').val();
         $.ajax({
-            //type: 'POST' //change this in the backend
+            type: 'POST',
             url:'LoginManager',
             data: {
                 userName: name,

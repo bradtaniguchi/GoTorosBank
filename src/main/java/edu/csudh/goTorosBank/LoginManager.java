@@ -26,7 +26,7 @@ public class LoginManager extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        getServletContext().log("Service() called");
+        getServletContext().log("doPost() called");
         /*TODO: change this code, to do some actual legit checking...*/
         if(request.getParameter("userName").equals(userName) &&
                 request.getParameter("password").equals(password)) {
