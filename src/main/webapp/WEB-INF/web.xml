@@ -22,5 +22,14 @@
         <servlet-name>LogoutManager</servlet-name>
         <url-pattern>/LogoutManager</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DepositManager</servlet-name>
+        <servlet-class>edu.csudh.goTorosBank.DepositManager</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DepositManager</servlet-name>
+        <url-pattern>/util/DepositManager</url-pattern>
+    </servlet-mapping>
 </web-app>
 
