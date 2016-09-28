@@ -11,12 +11,12 @@ $(document).ready(function() {
         $("mainActivity").load(pageString);
     }
     /*Ghetto way to enable the rest of the buttons..*/
-    function reEnable() {
-        $("#ProfilePage").enable();
-        $("#Deposit").enable();
-        $("#Withdraw").enable();
-        $("#Transfer").enable();
-        $("#PayBills").enable();
+    function unEnable() {
+        $("#ProfilePage").removeClass('active');
+        $("#Deposit").removeClass('active');
+        $("#Withdraw").removeClass('active');
+        $("#Transfer").removeClass('active');
+        $("#PayBills").removeClass('active');
     }
 
     /*jquery Listeners, and how to disable the buttons dynamically
@@ -24,16 +24,22 @@ $(document).ready(function() {
     */
    $("#ProfilePage").on('click', function() {
        showPage("profilePage");
-       reEnable(); //seriously how I am going to do this!
-   }).disable();
+       unEnable();
+       $(this).addClass('active');
+       $("#mainActivity").load('jsp/AccountOverview.jsp');
+   });
 
     $("#Deposit").on('click', function() {
         showPage("deposit");
-        reEnable(); //seriously how I am going to do this!
-    }).disable();
+        unEnable();
+        $(this).addClass('active');
+        $("#mainActivity").load('jsp/deposit.jsp');
+    });
 
-    $("Withdraw").on('click', function() {
+    $("#Withdraw").on('click', function() {
         showPage("withdraw");
-        reEnable(); //seriously how I am going to do this!
-    }).disable();
+        unEnable();
+        $(this).addClass('active');
+        $("#mainActivity").load('jsp/withdraw.jsp');
+    });
 });
