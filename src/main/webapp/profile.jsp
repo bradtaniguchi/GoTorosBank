@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="panel panel-default shadowOnly">
-                            <div class="panel-heading" id="headerColor"><h4>User Tools</h4></div>
+                            <div class="panel-heading" style="background-color: #990000;color:#fff"><h4>User Tools</h4></div>
                             <div class="panel-body">
                                 <jsp:include page="jsp/UserTools.jsp"/>
                             </div>
@@ -30,7 +30,7 @@
                     <div class="col-md-8" id="mainActivity">
                         <!--allow this to be dynamically loaded-->
                         <div class="panel panel-default shadowOnly">
-                            <div class="panel-heading" id="headerColor"><h4>Account Overview</h4></div>
+                            <div class="panel-heading" style="background-color: #990000;color:#fff"><h4>Account Overview</h4></div>
                             <div class="panel-body">
                                 <jsp:include page="jsp/AccountOverview.jsp"/>
                             </div>
