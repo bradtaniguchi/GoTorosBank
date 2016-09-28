@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>ProfileTest</title>
+        <title>GoTorosBank Profile</title>
         <link rel="shortcut icon" href="favicon.png"/>
     </head>
     <body id="backgroundColor">
@@ -27,11 +27,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8" id="mainActivity">
+                    <div class="col-md-8">
                         <!--allow this to be dynamically loaded-->
                         <div class="panel panel-default shadowOnly">
                             <div class="panel-heading" style="background-color: #990000;color:#fff"><h4>Account Overview</h4></div>
-                            <div class="panel-body">
+                            <div class="panel-body" id="mainActivity">
                                 <jsp:include page="jsp/AccountOverview.jsp"/>
                             </div>
                         </div>
