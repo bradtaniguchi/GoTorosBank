@@ -10,6 +10,9 @@ target/
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
 
+#iml files
+*.iml
+
 # Sensitive or high-churn files:
 .idea/dataSources.ids
 .idea/dataSources.xml
