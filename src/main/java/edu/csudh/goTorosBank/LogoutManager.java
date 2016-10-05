@@ -3,6 +3,7 @@ package edu.csudh.goTorosBank;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
+import org.json.simple.JSONObject;
 
 /**
  * Logout Manager - removes the user's credentials from the browser, thus removing access until login again.
@@ -35,9 +36,13 @@ public class LogoutManager extends HttpServlet {
         HttpSession userSession = request.getSession(false);
         if(userSession != null) {
             userSession.invalidate(); //remove user session, and all objects
-            response.getWriter().write("{\"successfulLogout\":\"true\"}");
+            JSONObject responseJson = new JSONObject();
+            responseJson.put("successfulLogout", "true"); // I get a warning here, disregard..
+            response.getWriter().write(responseJson.toJSONString());
         } else { //there is no session!
-            response.getWriter().write("{\"successfulLogout\":\"false\"}");
+            JSONObject responseJson = new JSONObject();
+            responseJson.put("successfulLogout", "false"); // I get a warning here, disregard..
+            response.getWriter().write(responseJson.toJSONString());
         }
     }
     @Override
