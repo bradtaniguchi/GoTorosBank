@@ -6,4 +6,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-To be added...
+<h1>Bank Account Information</h1>
+<div>
+    <label>Accounts:</label>
+    Dynamically generate the account structures here....
+</div>
+<div>
+    <label>Overall Worth:</label>
+    Dynamically generate the overall worth from all the accounts combined.
+</div>
