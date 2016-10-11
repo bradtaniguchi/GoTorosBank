@@ -22,17 +22,6 @@ public class LogoutManager extends HttpServlet {
         getServletContext().log("doPost() called");
         response.setContentType("application/json");
 
-        /*get the cookies from the user's browser*/
-        /*Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for (Cookie c : cookies) {
-                if(c.getName().equals("userName")) {
-                    c.setMaxAge(0);
-                    c.setValue(null);
-                    response.addCookie(c);
-                    break;
-                }
-            }*/
         HttpSession userSession = request.getSession(false);
         if(userSession != null) {
             userSession.invalidate(); //remove user session, and all objects
