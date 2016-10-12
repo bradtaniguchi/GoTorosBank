@@ -6,15 +6,16 @@ The server is hosted at CSUDH locally.
 ### Project Team   
 [Jesus Cortez][1]  
 [Josue Flores][4]  
-Daniel Hernandez  
+[Daniel Hernandez][7]  
 [Crosby Lanham][2]  
-[Rudy Leiva][5]
-DaMond Smith  
-[Bradley Taniguchi][3]
+[Rudy Leiva][5]  
+[DaMond Smith][6]  
+[Bradley Taniguchi][3]  
 
 [1]:https://github.com/jeuscortez
 [2]:https://github.com/crosby0320
 [3]:https://github.com/bradtaniguchi
 [4]:https://github.com/jflores253
 [5]:https://github.com/rudyleiva93
-
+[6]:https://github.com/Synthetic99
+[7]:https://github.com/Daniel-Hernandez-1
