@@ -9,11 +9,12 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <h1>Bank Account Information</h1>
 <div>
-    <h3><c:out value="${sessionScope.userName}"/></h3> <!--EL, or expression language-->
-    <label>Accounts:</label>
-    Dynamically generate the account structures here....
+    <h3>Welcome: <c:out value="${sessionScope.userName}"/></h3> <!--EL, or expression language-->
+    <label><h3>Accounts:</h3></label>
+    <p>Dynamically generate the account structures here....</p>
 </div>
 <div>
-    <label>Overall Worth:</label>
-    Dynamically generate the overall worth from all the accounts combined.
+    <label><h3>Overall Worth:</h3></label>
+    <p>Dynamically generate the overall worth from all the accounts combined.</p>
 </div>
+<script type="text/javascript" src="js/accountOverviewManager.js"></script>
