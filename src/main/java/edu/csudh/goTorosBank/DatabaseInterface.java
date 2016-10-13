@@ -1,19 +1,28 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package edu.csudh.goTorosBank;
 
-import javax.sql.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.IOException;
+import org.json.simple.JSONObject;
+import java.sql.*;
 
+/**
+ *
+ * @author Rudy
+ */
 public class DatabaseInterface {
-    /*
-    * This code will give you access to the database
-    * I found that the Resource folder will be moved during deployment,
-    * the database will then appear in the following director:
-    * ROOT/WEB-INF/classes/GoTorosBank.db
-    * This can be accessed with the lines below.
-    *   -Brad
-            Connection c = null;
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite::resource:GoTorosBank.db" );
-     */
+    public DatabaseInterface() throws Exception { //specify Exception
+        Connection c = null;
+        //Statement stmt = null; // use this later
 
-
+        Class.forName("org.sqlite.JDBC");
+        c = DriverManager.getConnection("jdbc:sqlite::resource:GoTorosBank.db"); //this will get the file in resources
+        /*do other stuff here*/
+    }
 }
+
