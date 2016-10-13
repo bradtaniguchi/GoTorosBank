@@ -1,6 +1,6 @@
 /**
  * Created by brad on 9/19/16.
- * This file holds the dynmaic loader that is used to change "views"
+ * This file holds the dynamic loader that is used to change "views"
  * on the Account Activity page.
  */
 
@@ -8,7 +8,7 @@ $(document).ready(function() {
     console.log("Dynamic loader ready");
     function showPage(pageString) {
         console.log("Changing mainActivity to: " + pageString);
-        $("mainActivity").load(pageString);
+        $("#mainActivity").load(pageString);
     }
     /*Ghetto way to enable the rest of the buttons..*/
     function unEnable() {
@@ -22,24 +22,30 @@ $(document).ready(function() {
     /*jquery Listeners, and how to disable the buttons dynamically
     * http://stackoverflow.com/questions/17327668/best-way-to-disable-button-in-twitters-bootstrap
     */
-   $("#ProfilePage").on('click', function() {
-       showPage("profilePage");
-       unEnable();
-       $(this).addClass('active');
-       $("#mainActivity").load('jsp/AccountOverview.jsp');
-   });
-
+    $("#ProfilePage").on('click', function() {
+        showPage("jsp/withdraw.jsp");
+        unEnable();
+        $(this).addClass('active');
+    });
     $("#Deposit").on('click', function() {
-        showPage("deposit");
+        showPage("jsp/deposit.jsp");
         unEnable();
         $(this).addClass('active');
-        $("#mainActivity").load('jsp/deposit.jsp');
     });
-
     $("#Withdraw").on('click', function() {
-        showPage("withdraw");
+        showPage("jsp/withdraw.jsp");
         unEnable();
         $(this).addClass('active');
-        $("#mainActivity").load('jsp/withdraw.jsp');
     });
+    $("#Transfer").on('click', function() {
+        showPage("jsp/transfer.jsp");
+        unEnable();
+        $(this).addClass('active');
+    });
+    $("#PayBills").on('click', function() {
+        showPage("jsp/payBills.jsp");
+        unEnable();
+        $(this).addClass('active');
+    });
+    console.log("loaded");
 });
