@@ -16,7 +16,8 @@ public class Transaction {
      * @param transactionAmount the amount this transaction is for (positive or negative float)
      * @param transactionDescription if there is one, a transaction description.
      */
-    public Transaction(Account account, float transactionAmount, String transactionDescription) {
+    public Transaction(Account account, float transactionAmount,
+                       String transactionDescription) {
         this.transactionDescription = transactionDescription;
         this.transactionAmount = transactionAmount;
         this.account = account;
