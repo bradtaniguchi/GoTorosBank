@@ -39,19 +39,47 @@
             <version>1.2</version>
         </dependency>
     </dependencies>
-    <build>
-        <finalName>goTorosIndexServer</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <url>http://localhost:8080/manager/text</url>
-                    <server>LocalServer</server>
-                    <path>/ROOT</path>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <profiles>
+        <!--
+        Intellj is pretty easy to use multiple profiles.
+        for netbeans users, here is some help, that hopefully works:
+        http://lambda-et-al.eu/netbeans-and-maven-profiles/
+         -->
+        <profile>
+            <id>dev</id> <!--settings to deploy to local environment-->
+            <build>
+                <finalName>goTorosIndexServer</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.2</version>
+                        <configuration>
+                            <url>http://localhost:8080/manager/text</url>
+                            <server>LocalServer</server>
+                            <path>/ROOT</path>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>live</id>
+            <build>
+                <finalName>goTorosIndexServer</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.2</version>
+                        <configuration>
+                            <url>http://10.17.1.6:80/manager/text</url>
+                            <server>IMSServer</server>
+                            <path>/ROOT</path>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
