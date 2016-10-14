@@ -75,5 +75,30 @@ public class DatabaseInterface {
     //private getAccounts(int userID) - Rudy
     //private getTransactions(int accountNumber) - Daniel
     //private getBills(int accountNumber) - Jesus
+
+    public User getUser(String username) throws SQLException, ClassNotFoundException {
+        Connection c = null;
+        Statement stmt = null;
+        Class.forName("org.sqlite.JDBC");
+        c = DriverManager.getConnection("sdbc:sqlite::resource:GoTorosBank.db");
+
+        stmt = c.createStatement();
+
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM USERS;");
+        while (resultSet.next()) {
+            String userName = resultSet.getString("USERNAME");
+            if (resultSet.getString("USERNAME").equals(username)) { //if the username is equal to the give, we have our user
+
+                User user = new User(resultSet.getInt("UID"),
+                                    userName, resultSet.getString("FIRST_NAME"),
+                                    resultSet.getString("LAST_NAME"), null); //brad finish
+
+            }
+
+        }
+        resultSet.close();
+        stmt.close();
+        c.close();
+    }
 }
 
