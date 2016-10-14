@@ -19,14 +19,6 @@ public class DatabaseInterface {
     public DatabaseInterface() {
     }
 
-    // this is the tester for the main class
-    /*
-     public static void main(String[] args) throws SQLException, ClassNotFoundException{
-     System.out.println(validate("toro","password"));
-     }
-     */
-
-
     /**
      * checks all users in the database and makes sure that the user name and
      * password is inside the database
@@ -50,7 +42,7 @@ public class DatabaseInterface {
         Statement statement = c.createStatement();
         statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM USER");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS");
 
         while (resultSet.next()) {
             // iterate & read the result set
@@ -197,7 +189,6 @@ public class DatabaseInterface {
         /*there was no user!*/
         return null;
     }
-
     private void getBills(int accountNumber) throws ClassNotFoundException, SQLException {
         ArrayList<Bill> Bills = new ArrayList();
         Class.forName("org.sqlite.JDBC");
