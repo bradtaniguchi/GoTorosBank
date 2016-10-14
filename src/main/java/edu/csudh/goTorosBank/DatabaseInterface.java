@@ -51,12 +51,15 @@ public class DatabaseInterface {
         Statement statement = c.createStatement();
         statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-        ResultSet resultSet = statement.executeQuery("SELECT * from USERS");
+
+
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM ");
 
         while (resultSet.next()) {
             // iterate & read the result set
             String usname = resultSet.getString("USERNAME");
             String uspass = resultSet.getString("PASSWD");
+
 
             if(username.contentEquals(usname) && userpassword.contentEquals(uspass)){
                 c.close();
@@ -67,38 +70,26 @@ public class DatabaseInterface {
         return false;
     }
 
-    public void transfer(int accountIDFrom, int accountIDTo) throws SQLException,ClassNotFoundException{
-        Connection c = null;
-        Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
-        /*do other stuff here*/
+    /**
+     * just uses the withdraw and deposit finction to make a transaction
+     *
+     * @param accountIDFrom the id that the money is comming from
+     * @param accountIDTo the id for the account that the money is comming from
+     * @param amount the amount of money that will be passed
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public void transfer(int accountIDFrom, int accountIDTo,int amount) throws SQLException,ClassNotFoundException{
 
+        withdaw(accountIDFrom,amount);
+        deposit(accountIDTo,amount);
 
-
-        Statement statement = c.createStatement();
-        statement.setQueryTimeout(30); // set timeout to 30 sec.
-
-        ArrayList<Transaction> tansFrom = getTransactioins(accountIDFrom);
-        ArrayList<Transaction> tansTo = getTransactioins(accountIDFrom);
-
-
-
-        while (resultSet.next()) {
-            // iterate & read the result set
-            String usname = resultSet.getString("USERNAME");
-            String uspass = resultSet.getString("PASSWD");
-
-            if(username.contentEquals(usname) && userpassword.contentEquals(uspass)){
-                c.close();
-                return true;
-            }
-        }
     }
     // Functions to make:
     //public validateUser(String user, String pass) - Crosby
     //public getUser(String username) - brad
     //  public payBill(int billID) -
-    //  public transfer(int accountIDFrom, int accountIDTo) -
+    //  public transfer(int accountIDFrom, int accountIDTo,int amount) - Crosby
     //  public withdraw(int accountID, float amount) -
     //  public deposit(int accountID, float amount) -
     //private getAccounts(int userID) - Rudy
