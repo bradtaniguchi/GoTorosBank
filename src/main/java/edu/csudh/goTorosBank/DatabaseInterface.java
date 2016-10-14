@@ -10,6 +10,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import org.json.simple.JSONObject;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -64,6 +65,34 @@ public class DatabaseInterface {
         }
         c.close();
         return false;
+    }
+
+    public void transfer(int accountIDFrom, int accountIDTo) throws SQLException,ClassNotFoundException{
+        Connection c = null;
+        Class.forName("org.sqlite.JDBC");
+        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
+        /*do other stuff here*/
+
+
+
+        Statement statement = c.createStatement();
+        statement.setQueryTimeout(30); // set timeout to 30 sec.
+
+        ArrayList<Transaction> tansFrom = getTransactioins(accountIDFrom);
+        ArrayList<Transaction> tansTo = getTransactioins(accountIDFrom);
+
+
+
+        while (resultSet.next()) {
+            // iterate & read the result set
+            String usname = resultSet.getString("USERNAME");
+            String uspass = resultSet.getString("PASSWD");
+
+            if(username.contentEquals(usname) && userpassword.contentEquals(uspass)){
+                c.close();
+                return true;
+            }
+        }
     }
     // Functions to make:
     //public validateUser(String user, String pass) - Crosby
