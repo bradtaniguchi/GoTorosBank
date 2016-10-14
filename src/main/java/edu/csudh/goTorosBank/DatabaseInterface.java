@@ -92,13 +92,15 @@ public class DatabaseInterface {
                 User user = new User(resultSet.getInt("UID"),
                                     userName, resultSet.getString("FIRST_NAME"),
                                     resultSet.getString("LAST_NAME"), null); //brad finish
+                resultSet.close();
+                stmt.close();
+                c.close();
 
+                return user;
             }
-
         }
-        resultSet.close();
-        stmt.close();
-        c.close();
+        /*there was no user!*/
+        return null;
     }
 }
 
