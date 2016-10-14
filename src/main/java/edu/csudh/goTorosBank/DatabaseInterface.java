@@ -42,7 +42,6 @@ public class DatabaseInterface {
             throws ClassNotFoundException, SQLException{
 
         Connection c = null;
-        //Statement stmt = null; // use this later
 
         Class.forName("org.sqlite.JDBC");
         c = DriverManager.getConnection(connectionLink); //this will get the file in resources
@@ -68,6 +67,15 @@ public class DatabaseInterface {
         c.close();
         return false;
     }
-
+    // Functions to make:
+    //public validateUser(String user, String pass) - Crosby
+    //public getUser(String username) - brad
+    //  public payBill(int billID) -
+    //  public transfer(int accountIDFrom, int accountIDTo) -
+    //  public withdraw(int accountID, float amount) -
+    //  public deposit(int accountID, float amount) -
+    //private getAccounts(int userID) - Rudy
+    //private getTransactions(int accountNumber) - Daniel
+    //private getBills(int accountNumber) - Jesus
 }
 
