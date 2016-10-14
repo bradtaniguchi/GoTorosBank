@@ -7,13 +7,13 @@ public class Bill {
     int bId;
     String bill_name;
     String bill_descaription;
-    String bill_amount;
+    double bill_amount;
     String bill_due_date;
     String bill_status;
     int uID;
     int account_number;
 
-    public Bill(int bId, String bill_name, String bill_descaription, String bill_amount,
+    public Bill(int bId, String bill_name, String bill_descaription, double bill_amount,
                 String bill_due_date, String bill_status, int uID, int account_number) {
         this.bId = bId;
         this.bill_name = bill_name;
