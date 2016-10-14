@@ -16,17 +16,18 @@ public class Transaction {
      * @param transactionAmount the amount this transaction is for (positive or negative float)
      * @param transactionDescription if there is one, a transaction description.
      */
-    public Transaction(Account account, float transactionAmount, String transactionDescription) {
+    public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDescription) {
         this.transactionDescription = transactionDescription;
         this.transactionAmount = transactionAmount;
+        this.transactionNumber = transactionNumber;
         this.account = account;
     }
 
     /**
      * Secondary Constructor, if the transaction has no given transactionDescription
      */
-    public Transaction(Account account, float transactionAmount) {
-        this(account, transactionAmount, ""); /*call the other constructor*/
+    public Transaction(Account account, int transactionNumber, float transactionAmount) {
+        this(account, transactionNumber, transactionAmount, ""); /*call the other constructor*/
     }
 
     /*Getters, no setters as things are set in stone after initialization*/
