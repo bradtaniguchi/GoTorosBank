@@ -52,8 +52,6 @@ public class DatabaseInterface {
 
         ResultSet resultSet = statement.executeQuery("SELECT * from USERS");
 
-        System.out.println("Here are the users");
-
         while (resultSet.next()) {
             // iterate & read the result set
             String usname = resultSet.getString("USERNAME");
