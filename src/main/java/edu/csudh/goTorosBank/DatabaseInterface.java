@@ -5,10 +5,6 @@
  */
 package edu.csudh.goTorosBank;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.IOException;
-import org.json.simple.JSONObject;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -25,22 +21,23 @@ public class DatabaseInterface {
 
     // this is the tester for the main class
     /*
-    public static void main(String[] args) throws SQLException, ClassNotFoundException{
-        System.out.println(validate("toro","password"));
-    }
-    */
-
+     public static void main(String[] args) throws SQLException, ClassNotFoundException{
+     System.out.println(validate("toro","password"));
+     }
+     */
     /**
-     *  checks all users in the database and makes sure that the user name and password
-     *  is inside the database
+     * checks all users in the database and makes sure that the user name and
+     * password is inside the database
+     *
      * @param username the users name
      * @param userpassword the users password
-     * @return true if users is inside the data base false if the user is not in the data base
+     * @return true if users is inside the data base false if the user is not in
+     * the data base
      * @throws ClassNotFoundException checks if file is inside
      * @throws SQLException checks for sql exceptions
      */
     public boolean validate(String username, String userpassword)
-            throws ClassNotFoundException, SQLException{
+            throws ClassNotFoundException, SQLException {
 
         Connection c = null;
 
@@ -59,7 +56,6 @@ public class DatabaseInterface {
             // iterate & read the result set
             String usname = resultSet.getString("USERNAME");
             String uspass = resultSet.getString("PASSWD");
-
 
             if(username.contentEquals(usname) && userpassword.contentEquals(uspass)){
                 c.close();
@@ -80,11 +76,10 @@ public class DatabaseInterface {
      * @throws ClassNotFoundException
      */
     public void transfer(int accountIDFrom, int accountIDTo,int amount) throws SQLException,ClassNotFoundException{
-
         withdaw(accountIDFrom,amount);
         deposit(accountIDTo,amount);
-
     }
+
     // Functions to make:
     //public validateUser(String user, String pass) - Crosby
     //public getUser(String username) - brad
@@ -110,8 +105,8 @@ public class DatabaseInterface {
             if (resultSet.getString("USERNAME").equals(username)) { //if the username is equal to the give, we have our user
 
                 User user = new User(resultSet.getInt("UID"),
-                                    userName, resultSet.getString("FIRST_NAME"),
-                                    resultSet.getString("LAST_NAME"), null); //brad finish
+                        userName, resultSet.getString("FIRST_NAME"),
+                        resultSet.getString("LAST_NAME"), null); //brad finish
                 resultSet.close();
                 stmt.close();
                 c.close();
@@ -122,5 +117,45 @@ public class DatabaseInterface {
         /*there was no user!*/
         return null;
     }
-}
 
+    private void getBills(int accountNumber) throws ClassNotFoundException, SQLException {
+        ArrayList<Bill> Bills = new ArrayList();
+        Class.forName("org.sqlite.JDBC");
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite::resource:GoTorosBank.db"); //this will get the file in resources
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM BILLS");
+            while (resultSet.next()) {
+
+                int BillsID = resultSet.getInt("BID");
+                String Bill_Name = resultSet.getString("BILL_NAME");
+                String Bill_Description = resultSet.getString("BILL_DESCRIPTION");
+                double Bill_Amount = resultSet.getDouble("BILL_AMOUNT");
+                String Bill_Due_Date = resultSet.getString("BILL_DUE_DATE");
+                String Bill_Status = resultSet.getString("BILL_STATUS");
+                int Uid = resultSet.getInt("UID");
+                int Account_Number = resultSet.getInt("ACCOUNT_NUMBER");
+
+                Bill bill = new Bill(BillsID, Bill_Name, Bill_Description, Bill_Amount, Bill_Due_Date, Bill_Status, Uid, Account_Number);
+                Bills.add(bill);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                resultSet.close();
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+}
