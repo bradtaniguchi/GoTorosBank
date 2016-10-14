@@ -50,9 +50,7 @@ public class DatabaseInterface {
         Statement statement = c.createStatement();
         statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-
-
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM ");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM USER");
 
         while (resultSet.next()) {
             // iterate & read the result set
@@ -78,15 +76,85 @@ public class DatabaseInterface {
      * @throws ClassNotFoundException
      */
 
-    public void transfer(int accountIDFrom, int accountIDTo,double amount) throws SQLException,ClassNotFoundException{
-        withdraw(accountIDFrom,amount);
-        deposit(accountIDTo,amount);
+    public void transfer(int accountIDFrom, int accountIDTo,double amount)
+            throws SQLException,ClassNotFoundException{
+        withdraw(accountIDFrom,amount,"Tansfer withdraw to account number: "+accountIDTo);
+        deposit(accountIDTo,amount,"Tansfer deposit from account number: "+accountIDFrom);
     }
 
-    public void withdraw(int accountIDFrom,double amount){
-        
+    /**
+     * enter information and the withdrawl will be mad all you have to do is enter account
+     * ID amount and desctiption
+     *
+     * @param accountIDFrom ID of the account that is being withdrew from
+     * @param amount amount of money being transfered
+     * @param description description of transfer
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public void withdraw(int accountIDFrom,double amount, String description)
+            throws SQLException,ClassNotFoundException{
+        int accountbalance;
+        Connection c = null;
+
+        Class.forName("org.sqlite.JDBC");
+        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
+        /*do other stuff here*/
+
+        Statement statement = c.createStatement();
+        statement.setQueryTimeout(30); // set timeout to 30 sec.
+        ResultSet resultSet;
+
+        //get custumers account balance
+        resultSet = statement.executeQuery(
+                "SELECT ACCOUNT_BALANCE " +
+                "FROM ACCOUNTS " +
+                "WHERE ACCOUNT_NUMBER="+accountIDFrom+";");
+
+        accountbalance = resultSet.getInt("ACCOUNT_BALANCE");
+
+        //subtract ammount from balance
+        accountbalance-=amount;
+
+        //used to change the balance in the database
+        statement.executeUpdate(
+                "UPDATE ACCOUNTS"+
+                "SET ACCOUNT_BALANCE="+ accountbalance +
+                "WHERE ACCOUNT_NUMBER="+accountIDFrom+";");
+
+        c.close();
+        //now add a transfer row for the transaction
+
     }
-    public void deposit(int accountID, double amount){
+
+    /**
+     *  enter the information below and it will automaticly change account balance
+     *  update the account and a transaction will be made
+     * @param accountID account ID
+     * @param amount amount to be deposited
+     * @param description description
+     */
+    public void deposit(int accountID, double amount, String description){
+
+    }
+
+    //needs to be adjusted
+    public void addTransaction(String tansaction, double balance,int uId)
+            throws SQLException,ClassNotFoundException{
+        Connection c = null;
+
+        Class.forName("org.sqlite.JDBC");
+        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
+        /*do other stuff here*/
+
+        Statement statement = c.createStatement();
+        statement.setQueryTimeout(30); // set timeout to 30 sec.
+
+        //still needs work i will work on it a little later sorry for the delay
+        statement.executeUpdate(
+                "INSERT INTO " );
+
+        c.close();
 
     }
 
@@ -95,11 +163,13 @@ public class DatabaseInterface {
     //public getUser(String username) - brad
     //  public payBill(int billID) -
     //  public transfer(int accountIDFrom, int accountIDTo,int amount) - Crosby
-    //  public withdraw(int accountID, float amount) - Crosby
-    //  public deposit(int accountID, float amount) - Crosby
+    //  public withdraw(int accountID, float amount, String Description) - Crosby
+    //  public deposit(int accountID, float amount, String Descriptioin) - Crosby
     //private getAccounts(int userID) - Rudy
     //private getTransactions(int accountNumber) - Daniel
     //private getBills(int accountNumber) - Jesus
+    //private addTransaction(int accountNumber,String Description, double transactionAmount,
+    //                       String date) - Crosby
 
     public User getUser(String username) throws SQLException, ClassNotFoundException {
         Connection c = null;
