@@ -25,6 +25,8 @@ public class DatabaseInterface {
      System.out.println(validate("toro","password"));
      }
      */
+
+
     /**
      * checks all users in the database and makes sure that the user name and
      * password is inside the database
@@ -75,9 +77,17 @@ public class DatabaseInterface {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public void transfer(int accountIDFrom, int accountIDTo,int amount) throws SQLException,ClassNotFoundException{
-        withdaw(accountIDFrom,amount);
+
+    public void transfer(int accountIDFrom, int accountIDTo,double amount) throws SQLException,ClassNotFoundException{
+        withdraw(accountIDFrom,amount);
         deposit(accountIDTo,amount);
+    }
+
+    public void withdraw(int accountIDFrom,double amount){
+        
+    }
+    public void deposit(int accountID, double amount){
+
     }
 
     // Functions to make:
@@ -85,8 +95,8 @@ public class DatabaseInterface {
     //public getUser(String username) - brad
     //  public payBill(int billID) -
     //  public transfer(int accountIDFrom, int accountIDTo,int amount) - Crosby
-    //  public withdraw(int accountID, float amount) -
-    //  public deposit(int accountID, float amount) -
+    //  public withdraw(int accountID, float amount) - Crosby
+    //  public deposit(int accountID, float amount) - Crosby
     //private getAccounts(int userID) - Rudy
     //private getTransactions(int accountNumber) - Daniel
     //private getBills(int accountNumber) - Jesus
