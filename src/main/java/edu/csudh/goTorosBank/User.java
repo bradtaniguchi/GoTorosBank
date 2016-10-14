@@ -49,4 +49,6 @@ public class User {
     public String getUserLastname() {
         return userLastname;
     }
+
+    public ArrayList<Account> getUserAccounts() { return accounts; }
 }
