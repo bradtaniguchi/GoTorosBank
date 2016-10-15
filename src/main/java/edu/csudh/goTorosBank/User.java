@@ -53,7 +53,7 @@ public class User {
      * Appends a list of existing Accounts to the user
      * @param accounts an ArrayList of accounts you want to add to the User class
      */
-    public void addAccount(ArrayList<Account> accounts) {
+    public void addAccounts(ArrayList<Account> accounts) {
         this.accounts.addAll(accounts);
     }
     /**
