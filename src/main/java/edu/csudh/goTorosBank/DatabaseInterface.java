@@ -31,7 +31,7 @@ public class DatabaseInterface {
         this.connectionLink =  "jdbc:sqlite::resource:GoTorosBank.db";
     }
     public DatabaseInterface(String connectionLink) {
-        this.connectionLink
+        this.connectionLink = connectionLink;
     }
 
     /**
@@ -307,11 +307,12 @@ public class DatabaseInterface {
      * This function will take the account number for an account, then it will look inside of the ACCOUNT table
      * for the first instance of the accountNumber.
      *
-     * @param accountNumber the account number for the account inside of the ACCOUNT table, a unique ID.
+     * @param account the account number for the account inside of the ACCOUNT table, a unique ID.
      * @throws ClassNotFoundException this will be caught by the servlet class
      * @throws SQLException this will be caught by the servlet class
+     * TODO: Updated with changes to Accounts holding a list of Bills due.
      */
-    private void getBills(int accountNumber) throws ClassNotFoundException, SQLException {
+    private ArrayList<Bill> getBills(Account account) throws ClassNotFoundException, SQLException {
         ArrayList<Bill> Bills = new ArrayList<Bill>();
         Class.forName("org.sqlite.JDBC");
         Connection connection = null;
@@ -339,5 +340,7 @@ public class DatabaseInterface {
         resultSet.close();
         statement.close();
         connection.close();
+
+        return null; //TODO: Update this
     }
 }
