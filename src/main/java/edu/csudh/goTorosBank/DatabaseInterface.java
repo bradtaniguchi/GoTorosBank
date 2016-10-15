@@ -5,8 +5,13 @@
  */
 package edu.csudh.goTorosBank;
 
+import com.sun.org.apache.bcel.internal.generic.SWAP;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -76,7 +81,7 @@ public class DatabaseInterface {
 
     /**
      * enter information and the withdrawl will be mad all you have to do is enter account
-     * ID amount and desctiption
+     * ID amount and description
      *
      * @param accountIDFrom ID of the account that is being withdrew from
      * @param amount amount of money being transfered
@@ -115,8 +120,9 @@ public class DatabaseInterface {
                 "WHERE ACCOUNT_NUMBER="+accountIDFrom+";");
 
         c.close();
-        //now add a transfer row for the transaction
 
+        //now add a transfer row for the transaction
+        addTransaction(accountIDFrom,description,amount);
     }
 
     /**
@@ -126,12 +132,50 @@ public class DatabaseInterface {
      * @param amount amount to be deposited
      * @param description description
      */
-    public void deposit(int accountID, double amount, String description){
+    public void deposit(int accountID, double amount, String description)throws SQLException, ClassNotFoundException{
+        int accountbalance;
+        Connection c = null;
 
+        Class.forName("org.sqlite.JDBC");
+        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
+        /*do other stuff here*/
+
+        Statement statement = c.createStatement();
+        statement.setQueryTimeout(30); // set timeout to 30 sec.
+        ResultSet resultSet;
+
+        //get custumers account balance
+        resultSet = statement.executeQuery(
+                "SELECT ACCOUNT_BALANCE " +
+                        "FROM ACCOUNTS " +
+                        "WHERE ACCOUNT_NUMBER="+accountID+";");
+
+        accountbalance = resultSet.getInt("ACCOUNT_BALANCE");
+
+        //add ammount from balance
+        accountbalance+=amount;
+
+        //used to change the balance in the database
+        statement.executeUpdate(
+                "UPDATE ACCOUNTS"+
+                        "SET ACCOUNT_BALANCE="+ accountbalance +
+                        "WHERE ACCOUNT_NUMBER="+accountID+";");
+
+        c.close();
+
+        //now add a transfer row for the transaction
+        addTransaction(accountID,description,amount);
     }
 
-    //needs to be adjusted
-    public void addTransaction(String tansaction, double balance,int uId)
+    /**
+     * this will add a transaction to the transaction database
+     * @param accountNumber account number the transaction was made
+     * @param transactionDescription the description on the transaction
+     * @param amount amount that was going to go in the transaction
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public void addTransaction(int accountNumber, String transactionDescription, double amount)
             throws SQLException,ClassNotFoundException{
         Connection c = null;
 
@@ -142,9 +186,31 @@ public class DatabaseInterface {
         Statement statement = c.createStatement();
         statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-        //still needs work i will work on it a little later sorry for the delay
-        statement.executeUpdate(
-                "INSERT INTO " );
+        //get the largest transaction number and add 1 to it
+        ResultSet resultSet = statement.executeQuery("" +
+                "SELECT MAX(TRANSACTION_NUMBER) as MAX" +
+                "FROM TRANSACTIONS" +
+                "WHERE ACCOUNT_NUMBER="+accountNumber+");");
+
+        //used to save the number
+        int newTransactionNumber = 0;
+
+        while (resultSet.next()) {
+            newTransactionNumber = resultSet.getInt("MAX")+1;
+        }
+
+        //used to get the real date for transaction time
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        String dateAndTime = dateFormat.format(cal.getTime());
+
+        //will add the new transaction to the database
+        statement.executeUpdate("INSERT INTO TRANSACTIONS VALUES ("+
+                        newTransactionNumber+","+
+                        transactionDescription+","+
+                        amount+","+
+                        dateAndTime+","+
+                        accountNumber+");");
 
         c.close();
 
