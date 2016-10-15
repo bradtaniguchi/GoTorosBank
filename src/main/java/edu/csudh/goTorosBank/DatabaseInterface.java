@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 
 /**
  *
- * @author Rudy
+ * @authors Rudy, Daniel, Bradley, Crosby, Jesus
  */
 public class DatabaseInterface {
 
@@ -61,6 +61,34 @@ public class DatabaseInterface {
         }
         c.close();
         return false;
+    }
+    
+    private void getAccounts(int userID) throws SQLException, ClassNotFoundException{
+        Connection c = null;
+        Statement stmt = null;
+        ResultSet resultSet = null;
+        
+        Class.forName("org.sqlite.JDBC");
+        c = DriverManager.getConnection(connectionLink);
+       
+        stmt = c.createStatement();
+        resultSet = stmt.executeQuery("SELECT * ACCOUNTS");
+        
+        while (resultSet.next()){
+            int id = resultSet.getInt("UID");
+            
+           if(userID == id){
+            int accountNumber = resultSet.getInt("ACCOUNT_NUMBER");
+            String accountType = resultSet.getString("ACCOUNT_TYPE");
+            int accountBalance = resultSet.getInt("ACCOUNT_BALANCE"); 
+            
+            Account account = new Account(accountNumber, accountBalance, id, accountType);
+            }
+        }
+        
+            resultSet.close();
+            stmt.close();
+            c.close();
     }
 
     /**
