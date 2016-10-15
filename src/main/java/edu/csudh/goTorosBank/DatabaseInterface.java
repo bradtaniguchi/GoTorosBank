@@ -90,8 +90,8 @@ public class DatabaseInterface {
         c = DriverManager.getConnection(connectionLink);
        
         stmt = c.createStatement();
-        resultSet = stmt.executeQuery("SELECT * ACCOUNTS");
-        
+        resultSet = stmt.executeQuery("SELECT * ACCOUNTS, USER"
+                                    + "WHERE ACCOUNTS.UID = USER.UID;");
         while (resultSet.next()){
             int id = resultSet.getInt("UID");
             if(parentUser.getId() == id) {
