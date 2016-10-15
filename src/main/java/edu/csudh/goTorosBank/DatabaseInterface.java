@@ -72,17 +72,19 @@ public class DatabaseInterface {
         c = DriverManager.getConnection(connectionLink);
        
         stmt = c.createStatement();
-        resultSet = stmt.executeQuery("SELECT * ACCOUNTS");
+       resultSet = stmt.executeQuery("SELECT * ACCOUNTS, USER"
+                                    + "WHERE ACCOUNTS.UID = USER.UID;");
         
         while (resultSet.next()){
             int id = resultSet.getInt("UID");
             
            if(userID == id){
+            String username = resultSet.getString("USERNAME");   
             int accountNumber = resultSet.getInt("ACCOUNT_NUMBER");
             String accountType = resultSet.getString("ACCOUNT_TYPE");
             int accountBalance = resultSet.getInt("ACCOUNT_BALANCE"); 
             
-            Account account = new Account(accountNumber, accountBalance, id, accountType);
+            Account account = new Account(accountNumber, accountBalance, getUser(username), accountType);
             }
         }
         
