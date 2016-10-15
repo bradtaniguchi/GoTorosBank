@@ -1,11 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.csudh.goTorosBank;
-
-import com.sun.org.apache.bcel.internal.generic.SWAP;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,15 +6,32 @@ import java.util.Calendar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+// Functions to make:
+//public validateUser(String user, String pass) - Crosby [NEEDS TESTING]
+//public getUser(String username) - brad [NEEDS TESTING]
+//  public payBill(int billID) -
+//  public transfer(int accountIDFrom, int accountIDTo,int amount) - Crosby [NEEDS TESTING]
+//  public withdraw(int accountID, float amount, String Description) - Crosby [NEEDS TESTING]
+//  public deposit(int accountID, float amount, String Descriptioin) - Crosby [NEEDS TESTING]
+//private getAccounts(int userID) - Rudy [NEEDS TESTING]
+//private getTransactions(int accountNumber) - Daniel [TODO: Function doesn't exist. ]
+//private getBills(int accountNumber) - Jesus [TODO: See Rudy's, the function doesn't return a Bill Object]
+//private addTransaction(int accountNumber,String Description, double transactionAmount,
+//                       String date) - Crosby
+
 /**
  *
  * @authors Rudy, Daniel, Bradley, Crosby, Jesus
  */
 public class DatabaseInterface {
 
-    private String connectionLink = "jdbc:sqlite::resource:GoTorosBank.db";
+    private String connectionLink;
 
     public DatabaseInterface() {
+        this.connectionLink =  "jdbc:sqlite::resource:GoTorosBank.db";
+    }
+    public DatabaseInterface(String connectionLink) {
+        this.connectionLink
     }
 
     /**
@@ -62,11 +72,19 @@ public class DatabaseInterface {
         c.close();
         return false;
     }
-    
-    private void getAccounts(int userID) throws SQLException, ClassNotFoundException{
+
+    /**
+     * This function finds all accounts tied to a User. It takes a User class, and get it's ID.
+     * Then it checks the database for accounts tied to that ID
+     * @param parentUser A User object that is used to get the ID.
+     * @throws SQLException this will be caught by the servlet class
+     * @throws ClassNotFoundException this will be caught by the servlet class
+     */
+    private ArrayList<Account> getAccounts(User parentUser) throws SQLException, ClassNotFoundException{
         Connection c = null;
         Statement stmt = null;
         ResultSet resultSet = null;
+        ArrayList<Account> accounts = new ArrayList<Account>();
         
         Class.forName("org.sqlite.JDBC");
         c = DriverManager.getConnection(connectionLink);
@@ -76,19 +94,19 @@ public class DatabaseInterface {
         
         while (resultSet.next()){
             int id = resultSet.getInt("UID");
-            
-           if(userID == id){
-            int accountNumber = resultSet.getInt("ACCOUNT_NUMBER");
-            String accountType = resultSet.getString("ACCOUNT_TYPE");
-            int accountBalance = resultSet.getInt("ACCOUNT_BALANCE"); 
-            
-            Account account = new Account(accountNumber, accountBalance, id, accountType);
+            if(parentUser.getId() == id) {
+                int accountNumber = resultSet.getInt("ACCOUNT_NUMBER");
+                String accountType = resultSet.getString("ACCOUNT_TYPE");
+                int accountBalance = resultSet.getInt("ACCOUNT_BALANCE");
+                Account account = new Account(accountNumber, accountBalance, parentUser, accountType);
+
+                accounts.add(account);
             }
         }
-        
-            resultSet.close();
-            stmt.close();
-            c.close();
+        resultSet.close();
+        stmt.close();
+        c.close();
+        return accounts;
     }
 
     /**
@@ -97,10 +115,9 @@ public class DatabaseInterface {
      * @param accountIDFrom the id that the money is comming from
      * @param accountIDTo the id for the account that the money is comming from
      * @param amount the amount of money that will be passed
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @throws SQLException this will be caught by the servlet class
+     * @throws ClassNotFoundException this will be caught by the servlet class
      */
-
     public void transfer(int accountIDFrom, int accountIDTo,double amount)
             throws SQLException,ClassNotFoundException{
         withdraw(accountIDFrom,amount,"Tansfer withdraw to account number: "+accountIDTo);
@@ -114,11 +131,11 @@ public class DatabaseInterface {
      * @param accountIDFrom ID of the account that is being withdrew from
      * @param amount amount of money being transfered
      * @param description description of transfer
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @throws SQLException this will be caught by the servlet class
+     * @throws ClassNotFoundException this will be caught by the servlet class
      */
     public void withdraw(int accountIDFrom,double amount, String description)
-            throws SQLException,ClassNotFoundException{
+            throws SQLException,ClassNotFoundException {
         int accountbalance;
         Connection c = null;
 
@@ -155,19 +172,21 @@ public class DatabaseInterface {
 
     /**
      *  enter the information below and it will automaticly change account balance
-     *  update the account and a transaction will be made
-     * @param accountID account ID
+     *  update the account and a transaction will be made.
+     *
+     * @param accountNumber account ID
      * @param amount amount to be deposited
      * @param description description
+     * @throws SQLException this will be caught by the servlet class
+     * @throws ClassNotFoundException this will be caught by the servlet class
      */
-    public void deposit(int accountID, double amount, String description)throws SQLException, ClassNotFoundException{
+    public void deposit(int accountNumber, double amount, String description)throws SQLException, ClassNotFoundException{
         int accountbalance;
         Connection c = null;
 
         Class.forName("org.sqlite.JDBC");
         c = DriverManager.getConnection(connectionLink); //this will get the file in resources
-        /*do other stuff here*/
-
+        
         Statement statement = c.createStatement();
         statement.setQueryTimeout(30); // set timeout to 30 sec.
         ResultSet resultSet;
@@ -176,7 +195,7 @@ public class DatabaseInterface {
         resultSet = statement.executeQuery(
                 "SELECT ACCOUNT_BALANCE " +
                         "FROM ACCOUNTS " +
-                        "WHERE ACCOUNT_NUMBER="+accountID+";");
+                        "WHERE ACCOUNT_NUMBER="+accountNumber+";");
 
         accountbalance = resultSet.getInt("ACCOUNT_BALANCE");
 
@@ -187,12 +206,12 @@ public class DatabaseInterface {
         statement.executeUpdate(
                 "UPDATE ACCOUNTS"+
                         "SET ACCOUNT_BALANCE="+ accountbalance +
-                        "WHERE ACCOUNT_NUMBER="+accountID+";");
+                        "WHERE ACCOUNT_NUMBER="+accountNumber+";");
 
         c.close();
 
         //now add a transfer row for the transaction
-        addTransaction(accountID,description,amount);
+        addTransaction(accountNumber,description,amount);
     }
 
     /**
@@ -200,8 +219,8 @@ public class DatabaseInterface {
      * @param accountNumber account number the transaction was made
      * @param transactionDescription the description on the transaction
      * @param amount amount that was going to go in the transaction
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @throws SQLException this will be caught by the servlet class
+     * @throws ClassNotFoundException this will be caught by the servlet class
      */
     public void addTransaction(int accountNumber, String transactionDescription, double amount)
             throws SQLException,ClassNotFoundException{
@@ -244,19 +263,16 @@ public class DatabaseInterface {
 
     }
 
-    // Functions to make:
-    //public validateUser(String user, String pass) - Crosby
-    //public getUser(String username) - brad
-    //  public payBill(int billID) -
-    //  public transfer(int accountIDFrom, int accountIDTo,int amount) - Crosby
-    //  public withdraw(int accountID, float amount, String Description) - Crosby
-    //  public deposit(int accountID, float amount, String Descriptioin) - Crosby
-    //private getAccounts(int userID) - Rudy
-    //private getTransactions(int accountNumber) - Daniel
-    //private getBills(int accountNumber) - Jesus
-    //private addTransaction(int accountNumber,String Description, double transactionAmount,
-    //                       String date) - Crosby
-
+    /**
+     * This function will take a username string, which it will look for in the database, and return a
+     * User object, with a list of Accounts tied to that user.
+     * If the user name isn't found, the function will return a null value.
+     *
+     * @param username the username of the user, ie "toro", a unique ID
+     * @return User object, or null value
+     * @throws SQLException this will be caught by the servlet class
+     * @throws ClassNotFoundException this will be caught by the servlet class
+     */
     public User getUser(String username) throws SQLException, ClassNotFoundException {
         Connection c = null;
         Statement stmt = null;
@@ -272,7 +288,10 @@ public class DatabaseInterface {
 
                 User user = new User(resultSet.getInt("UID"),
                         userName, resultSet.getString("FIRST_NAME"),
-                        resultSet.getString("LAST_NAME"), null); //brad finish
+                        resultSet.getString("LAST_NAME"), null);
+
+                user.addAccounts(getAccounts(user)); //call the private getAccounts function
+
                 resultSet.close();
                 stmt.close();
                 c.close();
@@ -283,44 +302,42 @@ public class DatabaseInterface {
         /*there was no user!*/
         return null;
     }
+
+    /**
+     * This function will take the account number for an account, then it will look inside of the ACCOUNT table
+     * for the first instance of the accountNumber.
+     *
+     * @param accountNumber the account number for the account inside of the ACCOUNT table, a unique ID.
+     * @throws ClassNotFoundException this will be caught by the servlet class
+     * @throws SQLException this will be caught by the servlet class
+     */
     private void getBills(int accountNumber) throws ClassNotFoundException, SQLException {
-        ArrayList<Bill> Bills = new ArrayList();
+        ArrayList<Bill> Bills = new ArrayList<Bill>();
         Class.forName("org.sqlite.JDBC");
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
 
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite::resource:GoTorosBank.db"); //this will get the file in resources
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM BILLS");
-            while (resultSet.next()) {
+        //try { // we don't need this as the exceptions will be caught outside of the function
+        connection = DriverManager.getConnection(connectionLink); //this will get the file in resources
+        statement = connection.createStatement();
+        resultSet = statement.executeQuery("SELECT * FROM BILLS");
+        while (resultSet.next()) {
 
-                int BillsID = resultSet.getInt("BID");
-                String Bill_Name = resultSet.getString("BILL_NAME");
-                String Bill_Description = resultSet.getString("BILL_DESCRIPTION");
-                double Bill_Amount = resultSet.getDouble("BILL_AMOUNT");
-                String Bill_Due_Date = resultSet.getString("BILL_DUE_DATE");
-                String Bill_Status = resultSet.getString("BILL_STATUS");
-                int Uid = resultSet.getInt("UID");
-                int Account_Number = resultSet.getInt("ACCOUNT_NUMBER");
+            int BillsID = resultSet.getInt("BID");
+            String Bill_Name = resultSet.getString("BILL_NAME");
+            String Bill_Description = resultSet.getString("BILL_DESCRIPTION");
+            double Bill_Amount = resultSet.getDouble("BILL_AMOUNT");
+            String Bill_Due_Date = resultSet.getString("BILL_DUE_DATE");
+            String Bill_Status = resultSet.getString("BILL_STATUS");
+            int Uid = resultSet.getInt("UID");
+            int Account_Number = resultSet.getInt("ACCOUNT_NUMBER");
 
-                Bill bill = new Bill(BillsID, Bill_Name, Bill_Description, Bill_Amount, Bill_Due_Date, Bill_Status, Uid, Account_Number);
-                Bills.add(bill);
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                resultSet.close();
-                statement.close();
-                connection.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Bill bill = new Bill(BillsID, Bill_Name, Bill_Description, Bill_Amount, Bill_Due_Date, Bill_Status, Uid, Account_Number);
+            Bills.add(bill);
         }
-
+        resultSet.close();
+        statement.close();
+        connection.close();
     }
 }
