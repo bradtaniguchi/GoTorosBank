@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 //private getTransactions(int accountNumber) - Daniel [TODO: Function doesn't exist. ]
 //private getBills(int accountNumber) - Jesus [TODO: See Rudy's, the function doesn't return a Bill Object]
 //private addTransaction(int accountNumber,String Description, double transactionAmount,
-//                       String date) - Crosby
+//                       String date) - Crosby [NEEDS TESTING]
 
 /**
  *
@@ -110,13 +110,12 @@ public class DatabaseInterface {
     }
 
     /**
-     * just uses the withdraw and deposit finction to make a transaction
-     *
-     * @param accountIDFrom the id that the money is comming from
-     * @param accountIDTo the id for the account that the money is comming from
-     * @param amount the amount of money that will be passed
-     * @throws SQLException this will be caught by the servlet class
-     * @throws ClassNotFoundException this will be caught by the servlet class
+     * enter the account number and the account number you want to send it to 
+     * and the amount and everything is done
+     * 
+     * @accountIDFrom the account number that you are sending it from
+     * @accountIDTo the account number you are sending it to 
+     * @amount the amount of money being sent
      */
     public void transfer(int accountIDFrom, int accountIDTo,double amount)
             throws SQLException,ClassNotFoundException{
