@@ -29,5 +29,14 @@
         <servlet-name>DepositManager</servlet-name>
         <url-pattern>/util/DepositManager</url-pattern>
     </servlet-mapping>
+    <!--remove this mapping later, once unit tests are ready to go-->
+    <servlet>
+        <servlet-name>developmentHelper</servlet-name>
+        <servlet-class>edu.csudh.goTorosBank.developmentHelper</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>developmentHelper</servlet-name>
+        <url-pattern>/dh</url-pattern>
+    </servlet-mapping>
 </web-app>
 
