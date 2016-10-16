@@ -9,15 +9,14 @@ import java.text.SimpleDateFormat;
 // Functions to make:
 //public validateUser(String user, String pass) - Crosby [NEEDS TESTING]
 //public getUser(String username) - brad [NEEDS TESTING]
-//  public payBill(int billID) -
+//  public payBill(int billID) - Crosby [NEEDS TESTING]
 //  public transfer(int accountIDFrom, int accountIDTo,int amount) - Crosby [NEEDS TESTING]
 //  public withdraw(int accountID, float amount, String Description) - Crosby [NEEDS TESTING]
 //  public deposit(int accountID, float amount, String Descriptioin) - Crosby [NEEDS TESTING]
 //private getAccounts(int userID) - Rudy [NEEDS TESTING]
 //private getTransactions(int accountNumber) - Daniel [TODO: Function doesn't exist. ]
 //private getBills(int accountNumber) - Jesus [TODO: See Rudy's, the function doesn't return a Bill Object]
-//private addTransaction(int accountNumber,String Description, double transactionAmount,
-//                       String date) - Crosby [NEEDS TESTING]
+//private addTransaction(int accountNumber,String Description, double transactionAmount, String date)-Crosby [NEEDS TESTING]
 
 /**
  *
