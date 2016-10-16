@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 // Functions to make:
 //public validateUser(String user, String pass) - Crosby [NEEDS TESTING]
 //public getUser(String username) - brad [NEEDS TESTING]
-//  public payBill(int billID) - Crosby [NEEDS TESTING]
+//  public payBill(int billID) -
 //  public transfer(int accountIDFrom, int accountIDTo,int amount) - Crosby [NEEDS TESTING]
 //  public withdraw(int accountID, float amount, String Description) - Crosby [NEEDS TESTING]
 //  public deposit(int accountID, float amount, String Descriptioin) - Crosby [NEEDS TESTING]
