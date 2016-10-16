@@ -109,7 +109,7 @@ public class DatabaseInterface {
         return accounts;
     }
 
-    private ArrayList<Transaction> getTransactions(int AccountNumber) throws SQLException, ClassNotFoundException
+   private ArrayList<Transaction> getTransactions(Account AccountNumber) throws SQLException, ClassNotFoundException
     {
         Connection dbConnection;
         Statement sqlQuery;
@@ -131,16 +131,21 @@ public class DatabaseInterface {
 
         while(result.next())
         {
-            tNumber = result.getInt("TRANSACTION_NUMBER");
+            aNumber = result.getInt("ACCOUNT_NUMBER");
+            if(AccountNumber.getAccountNumber() == aNumber){
+                
+              tNumber = result.getInt("TRANSACTION_NUMBER");
             tDescription = result.getString("TRANSACTION_DESCRIPTION");
             tAmount = result.getFloat("TRANSACTION_AMOUNT");
             tDate = result.getString("TRANSACTION_DATE");
-            aNumber = result.getInt("ACCOUNT_NUMBER");
 
             // TODO: Fix yo constructor, not compatible to my specifications. - Daniel
-            Transaction transaction = new Transaction(tNumber, tDescription, tAmount, tDate, aNumber);
+            // Fixed -Rudy
+            Transaction transaction = new Transaction(AccountNumber, tNumber, tAmount, tDescription);
 
-            transactions.add(transaction);
+            transactions.add(transaction);  
+            }
+            
         }
 
         result.close();
