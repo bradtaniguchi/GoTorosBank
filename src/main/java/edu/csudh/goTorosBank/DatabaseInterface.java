@@ -109,6 +109,47 @@ public class DatabaseInterface {
         return accounts;
     }
 
+    private ArrayList<Transaction> getTransactions(int AccountNumber) throws SQLException, ClassNotFoundException
+    {
+        Connection dbConnection;
+        Statement sqlQuery;
+        ResultSet result = null;
+
+        int tNumber;
+        String tDescription;
+        float tAmount;
+        String tDate;
+        int aNumber;
+
+        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+
+        Class.forName("org.sqlite.JDBC");
+        dbConnection = DriverManager.getConnection(connectionLink);
+
+        sqlQuery = dbConnection.createStatement();
+        result = sqlQuery.executeQuery("SELECT * FROM TRANSACTIONS WHERE ACCOUNT_NUMBER = " + AccountNumber + ";");
+
+        while(result.next())
+        {
+            tNumber = result.getInt("TRANSACTION_NUMBER");
+            tDescription = result.getString("TRANSACTION_DESCRIPTION");
+            tAmount = result.getFloat("TRANSACTION_AMOUNT");
+            tDate = result.getString("TRANSACTION_DATE");
+            aNumber = result.getInt("ACCOUNT_NUMBER");
+
+            // TODO: Fix yo constructor, not compatible to my specifications. - Daniel
+            Transaction transaction = new Transaction(tNumber, tDescription, tAmount, tDate, aNumber);
+
+            transactions.add(transaction);
+        }
+
+        result.close();
+        sqlQuery.close();
+        dbConnection.close();
+
+        return transactions;
+    }
+
     /**
      * enter the account number and the account number you want to send it to 
      * and the amount and everything is done
