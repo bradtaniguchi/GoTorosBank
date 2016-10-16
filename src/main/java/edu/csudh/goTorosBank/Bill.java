@@ -25,5 +25,35 @@ public class Bill {
         this.account_number = account_number;
     }
 
-
+    public int getBillID(){
+        return bId;
+    }
+    
+    public String getBillName(){
+    return bill_name;
+    }
+    
+    public String getBillDescaription(){
+        return bill_descaription;
+    }
+    
+    public double getBillAmmount(){
+        return bill_amount;
+    }
+    
+    public String getBillDueDate(){
+        return bill_due_date;
+    }
+    
+    public String getBillStatus(){
+        return bill_status;
+    }
+    
+    public int getUID(){
+    return uID;
+    }
+    
+    public int AccountNumer(){
+        return account_number;
+    }
 }
