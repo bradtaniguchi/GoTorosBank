@@ -5,56 +5,54 @@ package edu.csudh.goTorosBank;
  *
  */
 public class Bill {
-    private int bId;
-    private String bill_name;
-    private String bill_description;
-    private double bill_amount;
-    private String bill_due_date;
-    private String bill_status;
-    private int uID;
-    private int account_number;
+    private int billID;
+    private String billName;
+    private String billDescription;
+    private double billAmount;
+    private String billDueDate; //CHANGE THIS TO A FORMATTED DATE
+    private String billStatus; //remove this later, replace with enum
+    /*Change below to enums*/
+    //private enum billStatus { PAID, UNPAID, PENDING }; //the 3 different possibilities
+    //private int uID;
+    private Account account;
 
-    public Bill(int bId, String bill_name, String bill_description, double bill_amount,
-                String bill_due_date, String bill_status, int uID, int account_number) {
-        this.bId = bId;
-        this.bill_name = bill_name;
-        this.bill_description = bill_description;
-        this.bill_amount = bill_amount;
-        this.bill_due_date = bill_due_date;
-        this.bill_status = bill_status;
-        this.uID = uID;
-        this.account_number = account_number;
+    public Bill(int billID, String billName, String billDescription, double billAmount,
+                String billDueDate, String billStatus, Account account) {
+        this.billID = billID;
+        this.billName = billName;
+        this.billDescription = billDescription;
+        this.billAmount = billAmount;
+        this.billDueDate = billDueDate;
+        this.billStatus = billStatus;
+        //this.uID = uID;
+        this.account= account;
     }
 
     public int getBillID(){
-        return bId;
+        return billID;
     }
     
     public String getBillName(){
-    return bill_name;
+    return billName;
     }
     
     public String getBillDescaription(){
-        return bill_description;
+        return billDescription;
     }
     
     public double getBillAmmount(){
-        return bill_amount;
+        return billAmount;
     }
     
     public String getBillDueDate(){
-        return bill_due_date;
+        return billDueDate;
     }
     
     public String getBillStatus(){
-        return bill_status;
+        return billStatus;
     }
-    
-    public int getUID(){
-    return uID;
-    }
-    
-    public int AccountNumer(){
-        return account_number;
+
+    public Account AccountNumer(){
+        return account;
     }
 }
