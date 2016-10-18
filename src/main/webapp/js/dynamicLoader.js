@@ -23,7 +23,7 @@ $(document).ready(function() {
     * http://stackoverflow.com/questions/17327668/best-way-to-disable-button-in-twitters-bootstrap
     */
     $("#ProfilePage").on('click', function() {
-        showPage("jsp/withdraw.jsp");
+        showPage("jsp/AccountOverview.jsp");
         unEnable();
         $(this).addClass('active');
     });
