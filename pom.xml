@@ -49,6 +49,11 @@
             <id>dev</id> <!--settings to deploy to local environment-->
             <build>
                 <finalName>goTorosIndexServer</finalName>
+                <testResources> <!--unsure about if this will work, might be useful in future-->
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                </testResources>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
