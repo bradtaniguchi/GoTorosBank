@@ -378,7 +378,7 @@ public class DatabaseInterface {
             int Uid = resultSet.getInt("UID");
             int Account_Number = resultSet.getInt("ACCOUNT_NUMBER");
 
-            Bill bill = new Bill(BillsID, Bill_Name, Bill_Description, Bill_Amount, Bill_Due_Date, Bill_Status, Uid, Account_Number);
+            Bill bill = new Bill(BillsID, Bill_Name, Bill_Description, Bill_Amount, Bill_Due_Date, Bill_Status, account);
             Bills.add(bill);
         }
         resultSet.close();
