@@ -37,12 +37,14 @@ public class TestUser extends TestCase{
         assertEquals("Blow", genericUser.getUserLastname());
     }
 
-    /* TODO: Fix this once we can check if Accounts, Users are equal
+    /* TODO: Fix this once we can check if Accounts, Users are equal*/
     public void testGetAccounts() {
         assertEquals(null, nullUser.getUserAccounts());
         ArrayList<Account> testAccounts = new ArrayList<Account>();
         Account testAccount = new Account(1, 1000, genericUser, null);
         testAccounts.add(testAccount);
-        assertEquals(testAccounts, genericUser.getUserAccounts());
-    }*/
+        assertEquals(1, genericUser.getUserAccounts().size());
+        assertEquals(null, nullUser.getUserAccounts());
+        /*add one where we test the account itself*/
+    }
 }

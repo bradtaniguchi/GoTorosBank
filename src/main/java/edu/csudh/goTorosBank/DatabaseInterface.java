@@ -335,20 +335,20 @@ public class DatabaseInterface {
         Connection c = null;
         Statement stmt = null;
         Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection("sdbc:sqlite::resource:GoTorosBank.db");
+        c = DriverManager.getConnection(connectionLink);
 
         stmt = c.createStatement();
 
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM USERS;");
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM USERS");
         while (resultSet.next()) {
-            String userName = resultSet.getString("USERNAME");
-            if (resultSet.getString("USERNAME").equals(username)) { //if the username is equal to the give, we have our user
+            String databaseUserName = resultSet.getString("USERNAME");
+            if (username.contentEquals(databaseUserName)) { //if the username is equal to the give, we have our user
 
                 User user = new User(resultSet.getInt("UID"),
-                        userName, resultSet.getString("FIRST_NAME"),
+                        databaseUserName, resultSet.getString("FIRST_NAME"),
                         resultSet.getString("LAST_NAME"), null);
 
-                user.addAccounts(getAccounts(user)); //call the private getAccounts function
+                //user.addAccounts(getAccounts(user)); //call the private getAccounts function
 
                 resultSet.close();
                 stmt.close();
