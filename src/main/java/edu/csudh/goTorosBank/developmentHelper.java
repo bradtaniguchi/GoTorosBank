@@ -20,14 +20,14 @@ public class developmentHelper extends HttpServlet {
         super.init(config);
         getServletContext().log("Init() called");
     }
-
+/*
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         getServletContext().log("[developmentHelper] doGet() called");
 
         response.setContentType("text/html"); //this response will be directly placed onto the page!
-        /*Validate User test*/
+        //Validate User test
         DatabaseInterface myInterface = new DatabaseInterface();
         try {
             html = "<h2>Testing myInterface.validate</h2>:\n<p>Results</p>:";
@@ -41,6 +41,8 @@ public class developmentHelper extends HttpServlet {
         }
         response.getWriter().write(html);
     }
+*/
+
     @Override
     public void destroy() {
         getServletContext().log("destroy() called");
