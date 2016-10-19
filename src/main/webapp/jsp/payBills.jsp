@@ -23,7 +23,7 @@
     
     <div class="form-gourp">
         <label for="bankAccountFrom">Select bank account to make payment from:</label>
-        <select class="form-control" id="bankAccountFrom"><!--???-->
+        <select class="form-control" id="accountToPayFrom"><!--???-->
             <option>1</option>
             <option>2</option>
         </select>
@@ -32,7 +32,7 @@
     <div class="form-group" style="margin: 10px 50px">
         <div class="col-xs-6">
             <label for="ammont">Amount:</label>
-            <input type="text" class="form-control" id="amount"><!--??-->
+            <input type="text" class="form-control" id="paymentAmount"><!--??-->
         </div>
     </div>
     
