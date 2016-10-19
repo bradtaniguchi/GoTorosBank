@@ -11,7 +11,7 @@
 <form class="form-horizontal">
     <div class="form-gorup">
         <div class="col-xs-6">
-            <label for="Bill">Select bill to pay:<label/>
+            <label for="billToPay">Select bill to pay:<label/>
             <select class="form-control" id="billToPay">
                 <option>1</option>
                 <option>2</option>
@@ -22,7 +22,7 @@
     </div>
     
     <div class="form-gourp">
-        <label for="bankAccountFrom">Select bank account to make payment from:</label>
+        <label for="accountToPayFrom">Select bank account to make payment from:</label>
         <select class="form-control" id="accountToPayFrom"><!--???-->
             <option>1</option>
             <option>2</option>
