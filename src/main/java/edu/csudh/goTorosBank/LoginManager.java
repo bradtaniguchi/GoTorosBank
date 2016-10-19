@@ -29,16 +29,42 @@ public class LoginManager extends HttpServlet {
         throws ServletException, IOException {
         getServletContext().log("doPost() called");
         /*TODO: change this code, to do some actual legit checking...*/
+
+        if (new DatabaseInterface().validate(
+                request.getParameter("userName"),
+                request.getParameter("password"))
+                )
+        {
+            response.setContentType("application/json");
+            //Cookie cookie = new Cookie("userName", userName);
+            //cookie.setMaxAge(30*60); //expires in 30 minutes
+            //response.addCookie(cookie);
+            HttpSession userSession = request.getSession();
+            userSession.setAttribute("userName", request.getParameter("userName"));
+            //set other attributes here
+            JSONObject returnJson = new JSONObject();
+            returnJson.put("successfulLogin", "true"); // I get a warning here, disregard..
+            returnJson.put("message", "Valid Login");
+            response.getWriter().write(returnJson.toJSONString());
+        } else {
+            response.setContentType("application/json");
+            JSONObject returnJson = new JSONObject();
+            returnJson.put("successfulLogin", "false");
+            returnJson.put("message", "Invalid Login fahhhhhhhhg");
+            response.getWriter().write(returnJson.toJSONString());
+        }
+    }
+/*
         if(request.getParameter("userName").equals(userName) &&
                 request.getParameter("password").equals(password)) {
 
             response.setContentType("application/json");
-            /*Cookie cookie = new Cookie("userName", userName);
-            cookie.setMaxAge(30*60); //expires in 30 minutes
-            response.addCookie(cookie);*/
+            ///*Cookie cookie = new Cookie("userName", userName);
+            //cookie.setMaxAge(30*60); //expires in 30 minutes
+            //response.addCookie(cookie);
             HttpSession userSession = request.getSession();
             userSession.setAttribute("userName", userName);
-            /*set other attributes here*/
+            //set other attributes here
             JSONObject returnJson = new JSONObject();
             returnJson.put("successfulLogin", "true"); // I get a warning here, disregard..
             returnJson.put("message", "Valid Login");
@@ -52,9 +78,9 @@ public class LoginManager extends HttpServlet {
             response.getWriter().write(returnJson.toJSONString());
         }
     }
-
+*/
     @Override
-    public void destroy() {
+    public void destroy(){
         getServletContext().log("destroy() called");
     }
 }

@@ -44,31 +44,45 @@ public class DatabaseInterface {
      * @throws ClassNotFoundException checks if file is inside
      * @throws SQLException checks for sql exceptions
      */
-    public boolean validate(String username, String userpassword)
-            throws ClassNotFoundException, SQLException {
-
+    public boolean validate(String username, String userpassword){
         Connection c = null;
+        try {
 
-        Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection(connectionLink); //this will get the file in resources
         /*do other stuff here*/
 
-        Statement statement = c.createStatement();
-        statement.setQueryTimeout(30); // set timeout to 30 sec.
+            Statement statement = c.createStatement();
+            statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS");
 
-        while (resultSet.next()) {
-            // iterate & read the result set
-            String usname = resultSet.getString("USERNAME");
-            String uspass = resultSet.getString("PASSWD");
+            while (resultSet.next()) {
+                // iterate & read the result set
+                String usname = resultSet.getString("USERNAME");
+                String uspass = resultSet.getString("PASSWD");
 
-            if(username.contentEquals(usname) && userpassword.contentEquals(uspass)){
+                if (username.contentEquals(usname) && userpassword.contentEquals(uspass)) {
+                    c.close();
+                    return true;
+                }
+            }
+            c.close();
+        }catch(SQLException s){
+            System.out.println("sql problem");
+            try {
                 c.close();
-                return true;
+            }catch (SQLException sql2){
+                System.out.println("sql problem in closing");
+            }
+        }catch (ClassNotFoundException cnf){
+            System.out.println("class not found problem");
+            try{
+            c.close();
+            }catch (SQLException sql2){
+                System.out.println("sql problem in closing");
             }
         }
-        c.close();
         return false;
     }
 
@@ -79,7 +93,7 @@ public class DatabaseInterface {
      * @throws SQLException this will be caught by the servlet class
      * @throws ClassNotFoundException this will be caught by the servlet class
      */
-    private ArrayList<Account> getAccounts(User parentUser) throws SQLException, ClassNotFoundException{
+    public ArrayList<Account> getAccounts(User parentUser) throws SQLException, ClassNotFoundException{
         Connection c = null;
         Statement stmt = null;
         ResultSet resultSet = null;
