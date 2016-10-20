@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class TestDatabaseInterface extends TestCase {
     private DatabaseInterface database;
-
+    private User toro = new User(1, "toro", "toros", "toros");  //this is a user in the database
     @Override
     protected void setUp() {
         database = new DatabaseInterface("jdbc:sqlite::resource:testGoTorosBank.db"); //use test database
@@ -37,6 +37,14 @@ public class TestDatabaseInterface extends TestCase {
             assertNotNull(acc.getAccountBalance());
             assertNotNull(acc.getAccountNumber());
         }
+    }
 
+    public void testGetAccount() throws Exception {
+        assertNotNull(database.getAccounts(toro)); //gets all the accounts for this user in the database
+        Account checkAccount = database.getAccounts(toro).remove(0); //removes first item
+        /*Change these to actual test cases in the future*/
+        assertEquals("checking", checkAccount.getAccountType()); //expected database value
+        assertEquals(100, checkAccount.getAccountBalance()); //expected database value
+        
     }
 }
