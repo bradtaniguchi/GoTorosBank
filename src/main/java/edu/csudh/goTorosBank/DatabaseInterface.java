@@ -44,7 +44,7 @@ public class DatabaseInterface {
      * @throws ClassNotFoundException checks if file is inside
      * @throws SQLException checks for sql exceptions
      */
-    public boolean validate(String username, String userpassword){
+    public boolean validate(String username, String userpassword) {
         Connection c = null;
         try {
 
@@ -66,7 +66,9 @@ public class DatabaseInterface {
                     c.close();
                     return true;
                 }
-            }
+            }/*remove these try catch blocks, change it to throw it*/
+            resultSet.close();
+            statement.close();
             c.close();
         }catch(SQLException s){
             System.out.println("sql problem");
