@@ -117,8 +117,8 @@ public class DatabaseInterface {
                 int accountBalance = resultSet.getInt("ACCOUNT_BALANCE");
                 Account account = new Account(accountNumber, accountBalance, parentUser, accountType);
                 /*TODO: These need to be tested!*/
-                //account.addTransactions(getTransactions(account)); //get the transactions for this Account
-                //account.addBills(getBills(account)); //get the bills for this account
+                account.addTransactions(getTransactions(account)); //get the transactions for this Account
+                account.addBills(getBills(account)); //get the bills for this account
                 accounts.add(account);
             }
         }
@@ -128,7 +128,7 @@ public class DatabaseInterface {
         return accounts;
     }
 
-    public ArrayList<Transaction> getTransactions(Account AccountNumber) throws SQLException, ClassNotFoundException
+    public ArrayList<Transaction> getTransactions(Account account) throws SQLException, ClassNotFoundException
     {
         Connection dbConnection;
         Statement sqlQuery;
@@ -146,27 +146,26 @@ public class DatabaseInterface {
         dbConnection = DriverManager.getConnection(connectionLink);
 
         sqlQuery = dbConnection.createStatement();
-        result = sqlQuery.executeQuery("SELECT * FROM TRANSACTIONS WHERE ACCOUNT_NUMBER = " + AccountNumber + ";");
+        result = sqlQuery.executeQuery("SELECT * FROM TRANSACTIONS WHERE ACCOUNT_NUMBER = " +
+                account.getAccountNumber() + ";");
 
         while(result.next())
         {
             aNumber = result.getInt("ACCOUNT_NUMBER");
-            if(AccountNumber.getAccountNumber() == aNumber){
-                
-              tNumber = result.getInt("TRANSACTION_NUMBER");
-            tDescription = result.getString("TRANSACTION_DESCRIPTION");
-            tAmount = result.getFloat("TRANSACTION_AMOUNT");
-            tDate = result.getString("TRANSACTION_DATE");
+            if(account.getAccountNumber() == aNumber) {
 
-            // TODO: Fix yo constructor, not compatible to my specifications. - Daniel
-            // Fixed -Rudy
-            Transaction transaction = new Transaction(AccountNumber, tNumber, tAmount, tDescription);
+                tNumber = result.getInt("TRANSACTION_NUMBER");
+                tDescription = result.getString("TRANSACTION_DESCRIPTION");
+                tAmount = result.getFloat("TRANSACTION_AMOUNT");
+                tDate = result.getString("TRANSACTION_DATE");
 
-            transactions.add(transaction);  
+                // TODO: Fix yo constructor, not compatible to my specifications. - Daniel
+                // Fixed -Rudy
+                Transaction transaction = new Transaction(account, tNumber, tAmount, tDescription);
+
+                transactions.add(transaction);
             }
-            
         }
-
         result.close();
         sqlQuery.close();
         dbConnection.close();
@@ -378,13 +377,12 @@ public class DatabaseInterface {
      * TODO: Updated with changes to Accounts holding a list of Bills due.
      */
     public ArrayList<Bill> getBills(Account account) throws ClassNotFoundException, SQLException {
-        ArrayList<Bill> Bills = new ArrayList<Bill>();
+        ArrayList<Bill> bills = new ArrayList<Bill>();
         Class.forName("org.sqlite.JDBC");
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
 
-        //try { // we don't need this as the exceptions will be caught outside of the function
         connection = DriverManager.getConnection(connectionLink); //this will get the file in resources
         statement = connection.createStatement();
         resultSet = statement.executeQuery("SELECT * FROM BILLS");
@@ -400,12 +398,12 @@ public class DatabaseInterface {
             int Account_Number = resultSet.getInt("ACCOUNT_NUMBER");
 
             Bill bill = new Bill(BillsID, Bill_Name, Bill_Description, Bill_Amount, Bill_Due_Date, Bill_Status, account);
-            Bills.add(bill);
+            bills.add(bill);
         }
         resultSet.close();
         statement.close();
         connection.close();
 
-        return null; //TODO: Update this
+        return bills;
     }
 }
