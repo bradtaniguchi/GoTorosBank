@@ -27,7 +27,11 @@ public class User {
         this.userAccountName = userAccountName;
         this.userFirstName = userFirstName;
         this.userLastname = userLastname;
-        this.accounts = ac;
+        if(ac == null) {
+            this.accounts = new ArrayList<Account>();
+        } else {
+            this.accounts = ac;
+        }
     }
 
     /**

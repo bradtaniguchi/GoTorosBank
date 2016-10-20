@@ -24,8 +24,16 @@ public class Account{
         this.accountType = accountType;
         this.accountBalance = accountBalance;
         this.user = user;
-        this.transactions = transactions;
-        this.bills = bills;
+        if(transactions == null ) {
+            this.transactions = new ArrayList<Transaction>();
+        } else {
+            this.transactions = transactions;
+        }
+        if(transactions == null ) {
+            this.bills = new ArrayList<Bill>();
+        } else {
+            this.bills = bills;
+        }
     }
     public Account(int accountNumber, int accountBalance, User user, String accountType,
                    ArrayList<Transaction> transactions) {
