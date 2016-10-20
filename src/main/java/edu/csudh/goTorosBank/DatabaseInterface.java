@@ -27,7 +27,7 @@ public class DatabaseInterface {
     private String connectionLink;
 
     public DatabaseInterface() {
-        this.connectionLink =  "jdbc:sqlite::resource:GoTorosBank.db";
+        this.connectionLink = "jdbc:sqlite::resource:GoTorosBank.db";
     }
     public DatabaseInterface(String connectionLink) {
         this.connectionLink = connectionLink;
@@ -103,8 +103,10 @@ public class DatabaseInterface {
         c = DriverManager.getConnection(connectionLink);
        
         stmt = c.createStatement();
-        resultSet = stmt.executeQuery("SELECT * ACCOUNTS, USER"
+        /*resultSet = stmt.executeQuery("SELECT * ACCOUNTS, USER"
                                     + "WHERE ACCOUNTS.UID = USER.UID;");
+                                    */
+        resultSet = stmt.executeQuery("SELECT * FROM ACCOUNTS");
         while (resultSet.next()){
             int id = resultSet.getInt("UID");
             if(parentUser.getId() == id) {
@@ -112,7 +114,9 @@ public class DatabaseInterface {
                 String accountType = resultSet.getString("ACCOUNT_TYPE");
                 int accountBalance = resultSet.getInt("ACCOUNT_BALANCE");
                 Account account = new Account(accountNumber, accountBalance, parentUser, accountType);
-
+                /*TODO: These need to be tested!*/
+                //account.addTransactions(getTransactions(account)); //get the transactions for this Account
+                //account.addBills(getBills(account)); //get the bills for this account
                 accounts.add(account);
             }
         }
@@ -122,7 +126,7 @@ public class DatabaseInterface {
         return accounts;
     }
 
-   private ArrayList<Transaction> getTransactions(Account AccountNumber) throws SQLException, ClassNotFoundException
+    public ArrayList<Transaction> getTransactions(Account AccountNumber) throws SQLException, ClassNotFoundException
     {
         Connection dbConnection;
         Statement sqlQuery;
@@ -338,17 +342,18 @@ public class DatabaseInterface {
         c = DriverManager.getConnection(connectionLink);
 
         stmt = c.createStatement();
+        stmt.setQueryTimeout(30); // set timeout to 30 sec.
 
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM USERS");
         while (resultSet.next()) {
             String databaseUserName = resultSet.getString("USERNAME");
-            if (username.contentEquals(databaseUserName)) { //if the username is equal to the give, we have our user
+            if (username.contentEquals(databaseUserName)) { //if the username is equal to the given, we have our user
 
                 User user = new User(resultSet.getInt("UID"),
                         databaseUserName, resultSet.getString("FIRST_NAME"),
                         resultSet.getString("LAST_NAME"), null);
 
-                //user.addAccounts(getAccounts(user)); //call the private getAccounts function
+                user.addAccounts(getAccounts(user)); //call the private getAccounts function
 
                 resultSet.close();
                 stmt.close();
@@ -370,7 +375,7 @@ public class DatabaseInterface {
      * @throws SQLException this will be caught by the servlet class
      * TODO: Updated with changes to Accounts holding a list of Bills due.
      */
-    private ArrayList<Bill> getBills(Account account) throws ClassNotFoundException, SQLException {
+    public ArrayList<Bill> getBills(Account account) throws ClassNotFoundException, SQLException {
         ArrayList<Bill> Bills = new ArrayList<Bill>();
         Class.forName("org.sqlite.JDBC");
         Connection connection = null;

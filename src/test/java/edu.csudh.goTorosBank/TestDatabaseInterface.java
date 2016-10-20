@@ -10,23 +10,22 @@ import java.util.ArrayList;
  */
 public class TestDatabaseInterface extends TestCase {
     private DatabaseInterface database;
-    private String testDatabasePath;
-    private String toroUser;
-    private String toroPassword;
 
     @Override
     protected void setUp() {
-        toroUser = "toro";
-        toroPassword = "password";
-        testDatabasePath = "jdbc:sqlite::resource:testGoTorosBank.db"; //utilize the TEST database
-        database = new DatabaseInterface(testDatabasePath);
+        database = new DatabaseInterface("jdbc:sqlite::resource:testGoTorosBank.db"); //use test database
     }
 
-    public void testGetUser() throws Exception{
+    public void testValidate() throws Exception {
+        assertEquals(true, database.validate("toro", "password")); //user exists and password is right
+        assertEquals(false, database.validate("toro", "NOTTHEPASSWOD")); //user exists, but password is wrong
+        assertEquals(false, database.validate("blowJoe", "blah")); //this user doesn't exit at all
+    }
+
+    public void testGetUser() throws Exception {
         assertNotNull(database.getUser("toro"));
         assertNotNull(database.getUser("toro2"));
-        assertNotNull(database.getUser("crosby"));
-        assertNotNull(database.getUser("brad"));
-    }
 
+        /*Check if user is returned correctly with another test case checking accounts*/
+    }
 }
