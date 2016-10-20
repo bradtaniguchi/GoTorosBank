@@ -43,7 +43,7 @@ public class AccountOverview extends HttpServlet {
             user = database.getUser(username);
             json.put("successfulQuery", "true");
             json.put("message", "username: " + username);
-            json.put("accounts", user.getUserAccountName()); //returns how many accounts
+            json.put("accounts", user.getUserAccounts().size()); //returns how many accounts
 
         } catch(ClassNotFoundException e) {
             json.put("successfulQuery", "false");
