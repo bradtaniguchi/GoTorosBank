@@ -351,9 +351,9 @@ public class DatabaseInterface {
 
                 User user = new User(resultSet.getInt("UID"),
                         databaseUserName, resultSet.getString("FIRST_NAME"),
-                        resultSet.getString("LAST_NAME"), null);
-
-                user.addAccounts(getAccounts(user)); //call the private getAccounts function
+                        resultSet.getString("LAST_NAME"));
+                ArrayList<Account> accounts = getAccounts(user);
+                user.addAccounts(accounts); //call the private getAccounts function
 
                 resultSet.close();
                 stmt.close();

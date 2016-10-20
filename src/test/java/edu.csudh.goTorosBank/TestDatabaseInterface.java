@@ -27,5 +27,16 @@ public class TestDatabaseInterface extends TestCase {
         assertNotNull(database.getUser("toro2"));
 
         /*Check if user is returned correctly with another test case checking accounts*/
+        User user = database.getUser("toro");//this user should have two accounts
+        assertEquals(2, user.getUserAccounts().size()); //get the number of User accounts
+        for (Account acc : user.getUserAccounts()) {
+            assertEquals(user, acc.getUser()); //see if pointer is same
+
+            /*these just see if values exist, need to change these to legit tests*/
+            assertNotNull(acc.getAccountType());
+            assertNotNull(acc.getAccountBalance());
+            assertNotNull(acc.getAccountNumber());
+        }
+
     }
 }
