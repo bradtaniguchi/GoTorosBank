@@ -1,5 +1,8 @@
 package edu.csudh.goTorosBank;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+
 /**
  * Created by brad on 10/12/16.
  * Based Off Database Model 10/12/16
@@ -22,7 +25,14 @@ public class Transaction {
         this.transactionNumber = transactionNumber;
         this.account = account;
     }
-
+    @SuppressWarnings("unchecked")
+    public JSONObject toJSON() {
+        JSONObject transaction = new JSONObject();
+        transaction.put("transactionNumber", this.transactionNumber);
+        transaction.put("transactionAmount", this.transactionAmount);
+        transaction.put("transactionDescription", this.transactionDescription);
+        return transaction;
+    }
     /**
      * Secondary Constructor, if the transaction has no given transactionDescription
      */

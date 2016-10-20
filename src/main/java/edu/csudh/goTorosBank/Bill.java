@@ -1,5 +1,7 @@
 package edu.csudh.goTorosBank;
 
+import org.json.simple.JSONObject;
+
 /**
  * Created by crosby on 10/13/16.
  *
@@ -28,6 +30,16 @@ public class Bill {
         this.account= account;
     }
 
+    @SuppressWarnings("unchecked")
+    public JSONObject toJSON() {
+        JSONObject bill = new JSONObject();
+        bill.put("billID", this.billID);
+        bill.put("billName", this.billName);
+        bill.put("billAmount", this.billAmount);
+        bill.put("billStatus", this.billStatus);
+        bill.put("billDueDate", this.billDueDate); //this needs to be a date!
+        return bill;
+    }
     public int getBillID(){
         return billID;
     }

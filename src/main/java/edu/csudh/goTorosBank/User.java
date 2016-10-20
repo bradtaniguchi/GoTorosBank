@@ -1,6 +1,8 @@
 package edu.csudh.goTorosBank;
 
 import java.util.ArrayList;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 
 /**
  * User - an account object. This class represents a User's finances.
@@ -53,6 +55,25 @@ public class User {
         this.accounts.add(ac);
     }
 
+    /**
+     * Transfers the current object to a JSON format
+     * @return user object in JSONObject format.
+     */
+    @SuppressWarnings("unchecked")
+    public JSONObject toJSON() {
+        JSONObject user = new JSONObject();
+        JSONArray jsonAccounts = new JSONArray();
+        user.put("id", this.id);
+        user.put("userAccountName", this.userAccountName);
+        user.put("userFirstName", this.userFirstName);
+        user.put("userLastName", this.userLastname);
+        /*setup the accounts for the user*/
+        for (Account acc : accounts) {
+            //jsonAccounts.add(acc.toJSON()); //finish this once function added to classes
+        }
+        user.put("accounts", jsonAccounts);
+        return user;
+    }
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;

@@ -1,5 +1,8 @@
 package edu.csudh.goTorosBank;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -42,7 +45,26 @@ public class Account{
     public Account(int accountNumber, int accountBalance, User user, String accountType) {
         this(accountNumber, accountBalance, user, accountType, null, null);
     }
+    @SuppressWarnings("unchecked")
+    public JSONObject toJSON() {
+        JSONObject account = new JSONObject();
+        JSONArray jsonTransactions = new JSONArray();
+        JSONArray jsonBills = new JSONArray();
+        account.put("accountBalance", this.accountBalance);
+        account.put("accountNumber", this.accountNumber);
+        account.put("accountType", this.accountType);
 
+        /*setup the accounts for the user*/
+        for (Transaction trans : transactions) {
+            jsonTransactions.add(trans.toJSON()); //finish this once function added to classes
+        }
+        for (Bill bill : bills) {
+            jsonBills.add(bill.toJSON());
+        }
+        account.put("transactions", jsonTransactions);
+        account.put("bills", jsonBills);
+        return account;
+    }
     /* setter methods */
     public void addTransaction(Transaction transaction) {
         this.transactions.add(transaction);

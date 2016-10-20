@@ -4,9 +4,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 
 /**
  * Created by brad on 10/19/16.
@@ -56,6 +55,15 @@ public class AccountOverview extends HttpServlet {
         response.getWriter().write(json.toJSONString());
     }
 
+    /**
+     * Gets the user's accounts and returns a json array filed with Account information
+     * @param user the user class that the accounts are tied to.
+     * @return JSON Array - an array of user account json objects
+     */
+    /*private JSONArray getUserAccounts(User user) {
+
+
+    }*/
     @Override
     public void destroy(){
         getServletContext().log("destroy() called");
