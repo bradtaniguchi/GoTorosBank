@@ -65,7 +65,7 @@ public class DatabaseInterface {
                     c.close();
                     return true;
                 }
-            }/*remove these try catch blocks, change it to throw it*/
+            }
             resultSet.close();
             statement.close();
             c.close();
