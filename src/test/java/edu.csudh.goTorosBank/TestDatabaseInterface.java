@@ -34,8 +34,40 @@ public class TestDatabaseInterface extends TestCase {
 
             /*these just see if values exist, need to change these to legit tests*/
             assertNotNull(acc.getAccountType());
+            assertTrue(acc.getAccountType().contentEquals("checking") ||
+                    acc.getAccountType().contentEquals("savings"));
+
             assertNotNull(acc.getAccountBalance());
+            assertEquals(100,acc.getAccountBalance());
+
             assertNotNull(acc.getAccountNumber());
+            assertTrue(acc.getAccountNumber() == 1 ||
+                    acc.getAccountNumber() == 2);
+
+            assertEquals(1,acc.getTransactions().size());
+
+            for(Transaction x:acc.getTransactions()){
+                assertEquals((float) 100.0,x.getTransactionAmount());
+                assertTrue(x.getTransactionNumber() == 1||
+                        x.getTransactionNumber() == 2);
+                assertEquals("ADDED MONEY",x.getTransactionDescription());
+                assertEquals("now",x.getDate());
+
+            }
+
+            assertNotNull(acc.getBills());
+            assertTrue(acc.getBills().size() == 1 || acc.getBills().size() == 0);
+            if(acc.getBills().size() != 0) {
+                for (Bill x : acc.getBills()) {
+                    assertEquals(4, x.getBillID());
+                    assertEquals("Eddison", x.getBillName());
+                    assertEquals("your gass bill", x.getBillDescaription());
+                    assertEquals(100.0, x.getBillAmmount());
+                    assertEquals("now", x.getBillDueDate());
+                    assertEquals("done", x.getBillStatus());
+                    /*get user id not found*/
+                }
+            }
         }
     }
 }
