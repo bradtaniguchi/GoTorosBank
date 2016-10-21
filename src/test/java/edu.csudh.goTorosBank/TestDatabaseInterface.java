@@ -38,13 +38,4 @@ public class TestDatabaseInterface extends TestCase {
             assertNotNull(acc.getAccountNumber());
         }
     }
-
-    public void testGetAccount() throws Exception {
-        assertNotNull(database.getAccounts(toro)); //gets all the accounts for this user in the database
-        Account checkAccount = database.getAccounts(toro).remove(0); //removes first item
-        /*Change these to actual test cases in the future*/
-        assertEquals("checking", checkAccount.getAccountType()); //expected database value
-        assertEquals(100, checkAccount.getAccountBalance()); //expected database value
-        
-    }
 }

@@ -79,7 +79,7 @@ public class DatabaseInterface {
      * @throws SQLException this will be caught by the servlet class
      * @throws ClassNotFoundException this will be caught by the servlet class
      */
-    public ArrayList<Account> getAccounts(User parentUser) throws SQLException, ClassNotFoundException{
+    private ArrayList<Account> getAccounts(User parentUser) throws SQLException, ClassNotFoundException{
         Connection c = null;
         Statement stmt = null;
         ResultSet resultSet = null;
@@ -112,7 +112,7 @@ public class DatabaseInterface {
         return accounts;
     }
 
-    public ArrayList<Transaction> getTransactions(Account account) throws SQLException, ClassNotFoundException
+    private ArrayList<Transaction> getTransactions(Account account) throws SQLException, ClassNotFoundException
     {
         Connection dbConnection;
         Statement sqlQuery;
@@ -360,7 +360,7 @@ public class DatabaseInterface {
      * @throws SQLException this will be caught by the servlet class
      * TODO: Updated with changes to Accounts holding a list of Bills due.
      */
-    public ArrayList<Bill> getBills(Account account) throws ClassNotFoundException, SQLException {
+    private ArrayList<Bill> getBills(Account account) throws ClassNotFoundException, SQLException {
         ArrayList<Bill> bills = new ArrayList<Bill>();
         Class.forName("org.sqlite.JDBC");
         Connection connection = null;
