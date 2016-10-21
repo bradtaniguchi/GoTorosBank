@@ -387,7 +387,6 @@ public class DatabaseInterface {
         resultSet.close();
         statement.close();
         connection.close();
-
         return bills;
     }
 }
