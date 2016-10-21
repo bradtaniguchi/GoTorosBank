@@ -33,8 +33,8 @@ public class TestUser extends TestCase{
         assertEquals("Joe", genericUser.getUserFirstName());
     }
     public void testLastName() {
-        assertEquals("Last", nullUser.getUserLastname());
-        assertEquals("Blow", genericUser.getUserLastname());
+        assertEquals("Last", nullUser.getUserLastName());
+        assertEquals("Blow", genericUser.getUserLastName());
     }
 
     /* TODO: Fix this once we can check if Accounts, Users are equal*/
