@@ -30,31 +30,31 @@ public class LoginManager extends HttpServlet {
         getServletContext().log("doPost() called");
         /*TODO: change this code, to do some actual legit checking...*/
         JSONObject returnJson = new JSONObject();
+        response.setContentType("application/json");
         try {
             if (new DatabaseInterface().validate(
                     request.getParameter("userName"),
                     request.getParameter("password"))
                     ) {
-                response.setContentType("application/json");
                 HttpSession userSession = request.getSession();
                 userSession.setAttribute("userName", request.getParameter("userName"));
                 //set other attributes here
-                returnJson.put("successfulLogin", "true"); // I get a warning here, disregard..
+                returnJson.put("successfulLogin", true); // I get a warning here, disregard..
                 returnJson.put("message", "Valid Login");
-                response.getWriter().write(returnJson.toJSONString());
             } else {
-                response.setContentType("application/json");
-                returnJson.put("successfulLogin", "false");
+                returnJson.put("successfulLogin", false);
                 returnJson.put("message", "Invalid Login");
-                response.getWriter().write(returnJson.toJSONString());
             }
         } catch (SQLException s) {
+            returnJson.put("successfulLogin", false);
             returnJson.put("errormessage","Sorry we have a SQLException");
             returnJson.put("errormessage2",s);
         } catch (ClassNotFoundException cl) {
+            returnJson.put("successfulLogin", false);
             returnJson.put("errormessage","Sorry we have a ClassNotFoundProblem");
             returnJson.put("errormessage2",cl);
         }
+        response.getWriter().write(returnJson.toJSONString());
     }
 
     @Override

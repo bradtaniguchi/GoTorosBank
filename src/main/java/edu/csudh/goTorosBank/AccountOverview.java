@@ -24,7 +24,6 @@ public class AccountOverview extends HttpServlet {
     @SuppressWarnings("unchecked") //need this to suppress warnings for our json.put
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int amount; //amount of users
         String username;
         User user;
         DatabaseInterface database = new DatabaseInterface();
@@ -40,8 +39,11 @@ public class AccountOverview extends HttpServlet {
         response.setContentType("application/json");
         try {
             user = database.getUser(username);
-            json.put("successfulQuery", "true");
-            json.put("message", "username: " + username);
+            json.put("successfulQuery", true);
+            //json.put("message", "username: " + username);
+            /*get the user*/
+            user = database.getUser(username);
+            json.put("userAccounts", user.toJSON());
             json.put("accounts", user.getUserAccounts().size()); //returns how many accounts
 
         } catch(ClassNotFoundException e) {
@@ -54,16 +56,6 @@ public class AccountOverview extends HttpServlet {
         }
         response.getWriter().write(json.toJSONString());
     }
-
-    /**
-     * Gets the user's accounts and returns a json array filed with Account information
-     * @param user the user class that the accounts are tied to.
-     * @return JSON Array - an array of user account json objects
-     */
-    /*private JSONArray getUserAccounts(User user) {
-
-
-    }*/
     @Override
     public void destroy(){
         getServletContext().log("destroy() called");
