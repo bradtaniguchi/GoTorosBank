@@ -61,18 +61,19 @@ public class User {
      */
     @SuppressWarnings("unchecked")
     public JSONObject toJSON() {
-        JSONObject user = new JSONObject();
+        JSONObject jsonUser = new JSONObject();
         JSONArray jsonAccounts = new JSONArray();
-        user.put("id", this.id);
-        user.put("userAccountName", this.userAccountName);
-        user.put("userFirstName", this.userFirstName);
-        user.put("userLastName", this.userLastName);
+
+        jsonUser.put("id", this.id);
+        jsonUser.put("userAccountName", this.userAccountName);
+        jsonUser.put("userFirstName", this.userFirstName);
+        jsonUser.put("userLastName", this.userLastName);
         /*setup the accounts for the user*/
         for (Account acc : accounts) {
             jsonAccounts.add(acc.toJSON()); //add an account to our accounts jsonArray
         }
-        user.put("accounts", jsonAccounts);
-        return user;
+        jsonUser.put("accounts", jsonAccounts);
+        return jsonUser;
     }
     @Override
     public boolean equals(Object obj) {
