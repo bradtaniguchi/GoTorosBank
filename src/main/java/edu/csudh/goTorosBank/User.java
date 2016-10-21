@@ -11,7 +11,7 @@ public class User {
     private int id;
     private String userAccountName;
     private String userFirstName;
-    private String userLastname;
+    private String userLastName;
     private ArrayList<Account> accounts;
 
     /**
@@ -20,15 +20,15 @@ public class User {
      * @param id the id associated with the user
      * @param userAccountName the user name for the account
      * @param userFirstName the first name of the user
-     * @param userLastname last name of the user
+     * @param userLastName last name of the user
      * @param ac ArrayList of accounts
      */
     public User(int id, String userAccountName, String userFirstName,
-                String userLastname, ArrayList<Account> ac) {
+                String userLastName, ArrayList<Account> ac) {
         this.id = id;
         this.userAccountName = userAccountName;
         this.userFirstName = userFirstName;
-        this.userLastname = userLastname;
+        this.userLastName = userLastName;
         if(ac == null) {
             this.accounts = new ArrayList<Account>();
         } else {
@@ -41,11 +41,11 @@ public class User {
      * @param id the id associated with the user
      * @param userAccountName the user name of the account
      * @param userFirstName the first name of the user
-     * @param userLastname last name of the user
+     * @param userLastName last name of the user
      */
     public User(int id, String userAccountName, String userFirstName,
-                String userLastname) {
-        this(id, userAccountName, userFirstName, userLastname, null);
+                String userLastName) {
+        this(id, userAccountName, userFirstName, userLastName, null);
     }
     /**
      * Adds an Account to the User
@@ -66,7 +66,7 @@ public class User {
         user.put("id", this.id);
         user.put("userAccountName", this.userAccountName);
         user.put("userFirstName", this.userFirstName);
-        user.put("userLastName", this.userLastname);
+        user.put("userLastName", this.userLastName);
         /*setup the accounts for the user*/
         for (Account acc : accounts) {
             //jsonAccounts.add(acc.toJSON()); //finish this once function added to classes
@@ -119,8 +119,8 @@ public class User {
      * getter for the user's last name
      * @return returns user's last name
      */
-    public String getUserLastname() {
-        return userLastname;
+    public String getUserLastName() {
+        return userLastName;
     }
 
     /**
