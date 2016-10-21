@@ -44,9 +44,8 @@ public class DatabaseInterface {
      * @throws ClassNotFoundException checks if file is inside
      * @throws SQLException checks for sql exceptions
      */
-    public boolean validate(String username, String userpassword) {
+    public boolean validate(String username, String userpassword)throws SQLException,ClassNotFoundException{
         Connection c = null;
-        try {
 
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection(connectionLink); //this will get the file in resources
@@ -70,21 +69,6 @@ public class DatabaseInterface {
             resultSet.close();
             statement.close();
             c.close();
-        }catch(SQLException s){
-            System.out.println("sql problem");
-            try {
-                c.close();
-            }catch (SQLException sql2){
-                System.out.println("sql problem in closing");
-            }
-        }catch (ClassNotFoundException cnf){
-            System.out.println("class not found problem");
-            try{
-            c.close();
-            }catch (SQLException sql2){
-                System.out.println("sql problem in closing");
-            }
-        }
         return false;
     }
 
