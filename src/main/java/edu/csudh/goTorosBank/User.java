@@ -69,7 +69,7 @@ public class User {
         user.put("userLastName", this.userLastName);
         /*setup the accounts for the user*/
         for (Account acc : accounts) {
-            //jsonAccounts.add(acc.toJSON()); //finish this once function added to classes
+            jsonAccounts.add(acc.toJSON()); //add an account to our accounts jsonArray
         }
         user.put("accounts", jsonAccounts);
         return user;
