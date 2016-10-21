@@ -161,7 +161,7 @@ public class DatabaseInterface {
 
                 // TODO: Fix yo constructor, not compatible to my specifications. - Daniel
                 // Fixed -Rudy
-                Transaction transaction = new Transaction(account, tNumber, tAmount, tDescription);
+                Transaction transaction = new Transaction(account, tNumber, tAmount, tDate, tDescription);
 
                 transactions.add(transaction);
             }
