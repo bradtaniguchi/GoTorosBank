@@ -46,4 +46,26 @@ public class TestUser extends TestCase{
         assertEquals(1, genericUser.getUserAccounts().size());
         /*add one where we test the account itself*/
     }
+    
+    public void testToJSON(){
+        Map mapUser = new HashMap();
+        JSONArray jsonAccounts = new JSONArray();
+        mapUser.put("id", 100);
+        mapUser.put("userAccountName", "toro@gmail.com");
+        mapUser.put("userFisrtName","Toro");
+        mapUser.put("accounts", jsonAccounts);
+        mapUser.put("userLastName", "Last");
+        
+        for(Object keyObj : mapUser.keySet()){
+            String key = keyObj.toString();
+            System.out.println(key + " - " + mapUser.get(key));
+        }
+        
+        System.out.println(mapUser.toString());
+        //System.out.println(nullUser.toJSON().toString());
+        //assertTrue(user.toString().equals(nullUser.toJSON().toString()));
+        
+        
+        
+}
 }
