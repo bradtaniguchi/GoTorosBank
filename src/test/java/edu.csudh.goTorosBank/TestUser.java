@@ -2,6 +2,10 @@ package edu.csudh.goTorosBank;
 
 import junit.framework.TestCase;
 import java.util.ArrayList;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import java.util.HashMap;
+
 /**
  * Created by Bradley Taniguchi
  */
@@ -46,9 +50,9 @@ public class TestUser extends TestCase{
         assertEquals(1, genericUser.getUserAccounts().size());
         /*add one where we test the account itself*/
     }
-    
+    @SuppressWarnings("unchecked")
     public void testToJSON(){
-        Map mapUser = new HashMap();
+        HashMap mapUser = new HashMap();
         JSONArray jsonAccounts = new JSONArray();
         mapUser.put("id", 100);
         mapUser.put("userAccountName", "toro@gmail.com");
