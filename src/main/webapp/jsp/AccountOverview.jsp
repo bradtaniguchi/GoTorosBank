@@ -12,10 +12,6 @@
     <h3>Welcome: <c:out value="${sessionScope.userName}"/></h3> <!--EL, or expression language-->
     <label><h3>Accounts:</h3></label>
     <p id="numberOfAccounts">Number of Accounts:  0</p>
-    <p>Dynamically generate the account structures here....</p>
 </div>
-<div>
-    <label><h3>Overall Worth:</h3></label>
-    <p>Dynamically generate the overall worth from all the accounts combined.</p>
-</div>
+<div id="accounts"></div>
 <script type="text/javascript" src="js/accountOverviewManager.js"></script>
