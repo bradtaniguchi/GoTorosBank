@@ -11,6 +11,7 @@
         <meta charset="utf-8">
         <title>GoTorosBank Profile</title>
         <link rel="shortcut icon" href="favicon.png"/>
+        <link rel="stylesheet" type="text/css" href="css/tablefix.css">
     </head>
     <body id="backgroundColor">
         <div class="container">
