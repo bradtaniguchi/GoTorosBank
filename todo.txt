@@ -8,3 +8,6 @@ Todo list 10/24/16
 5. Start researching how to implementing a servlet that accepts files (to update a "check")
 6. Start researching how to implement a servlet that returns a file to download(to print a check)
 7. Impliment front-end Withdraw/Deposit once above steps are done
+
+minor changes:
+1. Change the Date string, to a Date Object.
