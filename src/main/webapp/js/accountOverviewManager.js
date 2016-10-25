@@ -33,25 +33,21 @@ $(document).ready(function() {
      * @param User - an Account JSON object
      */
     function makeAccounts(User) {
-        var snippet; //the base html that makes up the html code in the end
-        var html; //the full html to return
+        var html = ""; //the full html to return
         $.ajax({
             type: 'GET',
             dataType: 'html',
             url: '/html/accountSnippet.html',
             success: function (file_html) {
-                snippet = file_html;
                 /*Add the HTML */
                 for (var account in User["accounts"]) {
-                    html += snippet; //add the html for the account
+                    html += file_html; //add the html for the account
                 }
                 $("#accounts").append(html);
             },
             error: function() {
-                snippet = 'ERROR!';
                 console.log("ERROR!");
-                html = snippet;
-                $("#accounts").append(html);
+                //$("#accounts").append(html);
             }
         });
     }
