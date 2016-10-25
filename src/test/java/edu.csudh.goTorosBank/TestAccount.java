@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * @author Jesus Cortez
  */
-public class TestingUserAccounts extends TestCase {
+public class TestAccount extends TestCase {
 
     protected User Dummy;
     protected User Yoda;
@@ -35,21 +35,6 @@ public class TestingUserAccounts extends TestCase {
         //Yoda has one account: LightSabers
         SampleTransaction = new Transaction(TheYodaAccount, 1, 120.00f, "May 18 2010", "Food");
         TheYodaAccount.addTransaction(SampleTransaction);
-    }
-
-    public void testId() {
-        assertEquals(100, Dummy.getId());
-        assertEquals(1, Yoda.getId());
-    }
-
-    public void testFirstName() {
-        assertEquals("Jeus", Dummy.getUserFirstName());
-        assertEquals("Yoda", Yoda.getUserFirstName());
-    }
-
-    public void testLastName() {
-        assertEquals("Cortez", Dummy.getUserLastName());
-        assertEquals("YoMama", Yoda.getUserLastName());
     }
 
     public void testAccounts() {
