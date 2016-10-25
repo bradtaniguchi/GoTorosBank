@@ -44,11 +44,40 @@ $(document).ready(function() {
                     html += file_html; //add the html for the account
                 }
                 $("#accounts").append(html);
+                /*update Accounts*/
+                updateAccounts(User);
             },
             error: function() {
                 console.log("ERROR!");
                 //$("#accounts").append(html);
             }
+        });
+    }
+
+    /**
+     * Accepts an account object, that gets read and
+     * @param User - user object to run through
+     */
+    function updateAccounts(User) {
+        var html = ""; //this is to append to transactions later
+        $(".accountType").each(function(index){ /*get accountTypes*/
+            $(this).html(User["accounts"][index]["accountType"]); //set the html for select item
+        });
+        $(".balance").each(function(index){ /*get balance of account*/
+            $(this).html(User["accounts"][index]["accountBalance"])
+        });
+        $(".transaction").each(function(index){
+            /*for each account, we need to go through the transactions*/
+            var html="<tr>"; //start the transaction entry
+            var transactions = User["accounts"][index]["transactions"];
+            //for (var i in transactions){
+            $.each(transactions ,function(index){
+               html += '<td>' + transactions[index]["transactionDate"] + '</td>';
+               html += '<td>' + transactions[index]["transactionAmount"] + '</td>';
+               html += '<td>' + transactions[index]["transactionDescription"] + '</td>';
+            });
+            html += "</tr>"; //end the transaction entry
+            $(this).html(html); //now add the html to the page
         });
     }
     getAccountNumber(); //call function
