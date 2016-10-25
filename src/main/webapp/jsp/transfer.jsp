@@ -11,20 +11,16 @@
 <div class="form-group">
     <label for="bankAccountFrom">Select Account to transfer <u>From</u>:</label>
     <select class="form-control" id="bankAccountFrom">
-        <option>1</option> <!--dynamically load accounts here-->
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
     </select>
 </div>
 <div class="form-group">
     <label for="bankAccountTo">Select Account to transfer <u>To</u>:</label>
     <select class="form-control" id="bankAccountTo">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
     </select>
+</div>
+<div class="form-group">
+    <label for="amount">Amount:</label>
+    <input type="text" class="form-control" id="amount"/>
 </div>
 <div class="form-group">
     <button type="button" id="transferSubmit" class="btn btn-default">Submit</button>
