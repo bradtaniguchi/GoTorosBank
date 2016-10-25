@@ -1,0 +1,10 @@
+Todo list 10/24/16
+
+1. Add testBill class, to test the Bill class
+2. Add testTransaction class, to test the transaction class (Brad is working on this)
+3. Finish implementing the test function for toJSON for ALL model classes
+4. Removed redundant code among the classes
+(these are key, but hard)
+5. Start researching how to implementing a servlet that accepts files (to update a "check")
+6. Start researching how to implement a servlet that returns a file to download(to print a check)
+7. Impliment front-end Withdraw/Deposit once above steps are done
