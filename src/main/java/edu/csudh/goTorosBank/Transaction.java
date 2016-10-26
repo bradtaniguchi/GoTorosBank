@@ -3,6 +3,8 @@ package edu.csudh.goTorosBank;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
+import java.util.Date;
+
 /**
  * Created by brad on 10/12/16.
  * Based Off Database Model 10/12/16
@@ -10,7 +12,7 @@ import org.json.simple.JSONArray;
 public class Transaction {
     private int transactionNumber;
     private String transactionDescription;
-    private String transactionDate;
+    private Date transactionDate;
     private float transactionAmount;
     private Account account;
 
@@ -21,7 +23,7 @@ public class Transaction {
      * @param transactionAmount the amount this transaction is for (positive or negative float)
      * @param transactionDescription if there is one, a transaction description.
      */
-    public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDate,
+    public Transaction(Account account, int transactionNumber, float transactionAmount, Date transactionDate,
             String transactionDescription) {
         this.transactionDescription = transactionDescription;
         this.transactionAmount = transactionAmount;
@@ -41,7 +43,7 @@ public class Transaction {
     /**
      * Secondary Constructor, if the transaction has no given transactionDescription
      */
-    public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDate) {
+    public Transaction(Account account, int transactionNumber, float transactionAmount, Date transactionDate) {
         this(account, transactionNumber, transactionAmount, transactionDate,""); /*call the other constructor*/
     }
 
@@ -55,7 +57,7 @@ public class Transaction {
     public float getTransactionAmount() {
         return transactionAmount;
     }
-    public String getDate() { return transactionDate; }
+    public Date getDate() { return transactionDate; }
     public Account getAccount(){
         return account;
     }

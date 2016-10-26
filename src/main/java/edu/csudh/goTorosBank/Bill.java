@@ -1,6 +1,7 @@
 package edu.csudh.goTorosBank;
 
 import org.json.simple.JSONObject;
+import java.util.Date;
 
 /**
  * Created by crosby on 10/13/16.
@@ -11,7 +12,7 @@ public class Bill {
     private String billName;
     private String billDescription;
     private double billAmount;
-    private String billDueDate; //CHANGE THIS TO A FORMATTED DATE
+    private Date billDueDate; //CHANGE THIS TO A FORMATTED DATE Done
     private String billStatus; //remove this later, replace with enum
     /*Change below to enums*/
     //private enum billStatus { PAID, UNPAID, PENDING }; //the 3 different possibilities
@@ -19,12 +20,12 @@ public class Bill {
     private Account account;
 
     public Bill(int billID, String billName, String billDescription, double billAmount,
-                String billDueDate, String billStatus, Account account) {
+                Date billDueDate, String billStatus, Account account) {
         this.billID = billID;
         this.billName = billName;
         this.billDescription = billDescription;
         this.billAmount = billAmount;
-        this.billDueDate = billDueDate;
+        this.billDueDate = new Date();//we need to ask the user for a due date
         this.billStatus = billStatus;
         //this.uID = uID;
         this.account= account;
@@ -56,7 +57,7 @@ public class Bill {
         return billAmount;
     }
     
-    public String getBillDueDate(){
+    public Date getBillDueDate(){
         return billDueDate;
     }
     
