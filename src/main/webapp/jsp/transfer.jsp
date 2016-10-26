@@ -26,4 +26,4 @@
     <button type="button" id="transferSubmit" class="btn btn-default">Submit</button>
 </div>
 <div id="statusDiv"></div> <!--return any errors, status statements here-->
-<script type="text/javascript" src="js/transferManager.js"></script>
+<!--<script type="text/javascript" src="js/transferManager.js"></script>-->
