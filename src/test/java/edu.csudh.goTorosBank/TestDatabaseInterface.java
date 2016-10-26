@@ -51,7 +51,7 @@ public class TestDatabaseInterface extends TestCase {
                 assertTrue(x.getTransactionNumber() == 1||
                         x.getTransactionNumber() == 2);
                 assertEquals("ADDED MONEY",x.getTransactionDescription());
-                assertEquals("now",x.getDate());
+                assertEquals("1999-12-30 12:00:00",x.getDate());
 
             }
 
