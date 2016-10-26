@@ -148,7 +148,10 @@ public class DatabaseInterface {
 
                 // TODO: Fix yo constructor, not compatible to my specifications. - Daniel
                 // Fixed -Rudy
-                Transaction transaction = new Transaction(account, tNumber, tAmount, tDescription);
+
+                SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+                Transaction transaction = new Transaction(account, tNumber, tAmount, tDescription,
+                        tDate);
 
                 transactions.add(transaction);
             }
