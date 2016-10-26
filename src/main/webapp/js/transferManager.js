@@ -34,6 +34,7 @@ $(document).ready(function(){
         var html = ""; //html to add to the page
         console.log("Accounts from user:" + User["accounts"]);
         var accounts = User["accounts"];
+        html += "<option>choose</option>"; //default nothing value
         $.each(accounts, function(index){
             /*add an option for each accountNumber and AccountType, */
             html += '<option>' + accounts[index]["accountNumber"] + ' ' +
@@ -51,7 +52,28 @@ $(document).ready(function(){
      */
     function transfer(idFrom, idTo, amount) {
         console.log("transfer called with values: " + idFrom + " " + idTo + " " + amount);
-        /*add transfer code here*/
+        /*first sanitize the amount input (1st level of defence)*/
+        //amount = $(amount).text();
+
+        /*check to see if values are the same, or if the input field is valid*/
+        if (idFrom == "choose" || idTo == "choose") {
+        alert("Choose both to and from accounts");
+        } else if(idFrom == idTo) {
+            alert("Invalid Transfer! The to and from accounts are the same!");
+        } else if(Number(amount) <= 0) {
+            alert("Invalid Input! The amount " + Number(amount) + " is not big enough!");
+            /*TODO: truncate the input amount, and transfer to our backend amount*/
+        } else { /*add any more cases here*/
+            console.log("Correct input, transfering...");
+            /*add transfer code here*/
+            /*TODO: Finish this ajax call once transferServlet is finished...*/
+            /*$.ajax({
+                type:'POST',
+                dataType:'JSON', //return type
+
+
+            });*/
+        }
     }
 
     /*add jquery listeners to the page here*/
