@@ -38,7 +38,12 @@ $(document).ready(function() {
         $(this).addClass('active');
     });
     $("#Transfer").on('click', function() {
+        console.log("Clicked transfer");
         showPage("jsp/transfer.jsp");
+        $.getScript("js/transferManager.js")//load the transferManager.js
+            .fail(function(jqxhr, settings, exception) {
+                alert("Failure to load javascript!\n" + jqxhr.responseText);
+            });
         unEnable();
         $(this).addClass('active');
     });

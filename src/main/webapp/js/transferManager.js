@@ -1,13 +1,11 @@
 /**
  * Created by brad on 10/12/16.
+ *
  */
-
-console.log("desperate test!");
 $(document).ready(function(){
     console.log("transferManager.js loaded");
     /*this function gets the User information*/
     function updateAccounts() {
-        console.log("Updating Accounts");
         $.ajax({
             type: 'POST',
             dataType: 'json',
@@ -34,12 +32,15 @@ $(document).ready(function(){
      */
     function makeAccounts(User) {
         var html = ""; //html to add to the page
-        var account = User["accounts"];
-        $.each(account, function(index){
+        console.log("Accounts from user:" + User["accounts"]);
+        var accounts = User["accounts"];
+        $.each(accounts, function(index){
             /*add an option for each accountNumber and AccountType, */
-            html += '<option>' + User["accounts"][index]["accountNumber"] + ' ' +
-                User["accounts"][index]["accountType"]+'</option>';
+            html += '<option>' + accounts[index]["accountNumber"] + ' ' +
+                accounts[index]["accountType"] + '</option>';
         });
+        $("#bankAccountFrom").html(html);
+        $("#bankAccountTo").html(html);
     }
 
     /**
@@ -55,12 +56,10 @@ $(document).ready(function(){
 
     /*add jquery listeners to the page here*/
     $('#transferSubmit').on('click', function() {
-        console.log("submited to transfer!");
         var idFrom = $('#bankAccountFrom').val();
         var idTo = $('#bankAccountTo').val();
         var amount = $('#amount').val();
         transfer(idFrom, idTo, amount);
     });
     updateAccounts(); //get any information for the user.
-    console.log("Finished loading transfer manager");
 });
