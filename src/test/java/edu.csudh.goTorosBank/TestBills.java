@@ -32,11 +32,11 @@ public class TestBills extends TestCase{
 
     }
     public void testBillName(){
-        assertTrue(bill.getBillName()=="Bill Name");
+        assertTrue(bill.getBillName().equals("Bill Name"));
 
     }
     public void testBillStatus(){
-        assertTrue(bill.getBillStatus()=="Late");
+        assertTrue(bill.getBillStatus().equals("Late"));
 
     }
     public void testBillDescription(){
