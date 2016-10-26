@@ -11,3 +11,6 @@ Todo list 10/24/16
 
 minor changes:
 1. Change the Date string, to a Date Object.
+2. figure out how to escape any SQL code via a private function in the databaseInterface
+    can be called sanitizeInput()
+3. Change ALL amount variables in transactions to ints. Make sure this is handle properly.
