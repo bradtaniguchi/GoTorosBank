@@ -25,7 +25,7 @@ public class Bill {
         this.billName = billName;
         this.billDescription = billDescription;
         this.billAmount = billAmount;
-        this.billDueDate = new Date();//we need to ask the user for a due date
+        this.billDueDate = billDueDate;//we need to ask the user for a due date
         this.billStatus = billStatus;
         //this.uID = uID;
         this.account= account;
