@@ -24,7 +24,7 @@ public class testTransaction extends TestCase {
         account = new Account(0, 100, user, "someType", transactions); //no bills, as we aren't testing that
         accounts = new ArrayList<Account>();
         accounts.add(account); /*now actually add */
-        transaction = new Transaction(account, 1, 100, d, "description"); //main thing we are testing
+        transaction = new Transaction(account, 1, 100, "description",d); //main thing we are testing
         user = new User(100, "joeblow@gmail.com",  "Joe", "Blow", accounts);
 
 

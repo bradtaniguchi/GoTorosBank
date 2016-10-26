@@ -3,6 +3,7 @@ package edu.csudh.goTorosBank;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -15,6 +16,7 @@ public class Transaction {
     private Date transactionDate;
     private float transactionAmount;
     private Account account;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
 
 
     /**
@@ -23,11 +25,17 @@ public class Transaction {
      * @param transactionAmount the amount this transaction is for (positive or negative float)
      * @param transactionDescription if there is one, a transaction description.
      */
-    public Transaction(Account account, int transactionNumber, float transactionAmount, Date transactionDate,
-            String transactionDescription) {
+    public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDescription) {
         this.transactionDescription = transactionDescription;
         this.transactionAmount = transactionAmount;
-        this.transactionDate = transactionDate;
+        this.transactionDate = new Date();
+        this.transactionNumber = transactionNumber;
+        this.account = account;
+    }
+    public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDescription,Date date){
+        this.transactionDescription = transactionDescription;
+        this.transactionAmount = transactionAmount;
+        this.transactionDate = date;
         this.transactionNumber = transactionNumber;
         this.account = account;
     }
@@ -43,17 +51,15 @@ public class Transaction {
     /**
      * Secondary Constructor, if the transaction has no given transactionDescription
      */
-    public Transaction(Account account, int transactionNumber, float transactionAmount, Date transactionDate) {
-        this(account, transactionNumber, transactionAmount, transactionDate,""); /*call the other constructor*/
+    public Transaction(Account account, int transactionNumber, float transactionAmount) {
+        this(account, transactionNumber, transactionAmount,""); /*call the other constructor*/
     }
 
     /*Getters, no setters as things are set in stone after initialization*/
     public int getTransactionNumber() {
         return transactionNumber;
     }
-    public String getTransactionDescription() {
-        return transactionDescription;
-    }
+    public String getTransactionDescription() { return transactionDescription;}
     public float getTransactionAmount() {
         return transactionAmount;
     }

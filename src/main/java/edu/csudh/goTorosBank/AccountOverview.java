@@ -4,6 +4,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
@@ -53,6 +55,8 @@ public class AccountOverview extends HttpServlet {
         } catch(SQLException e) {
             json.put("successfulQuery", "false");
             json.put("message", e.getMessage());
+        } catch (ParseException p){
+            
         }
         response.getWriter().write(json.toJSONString());
     }

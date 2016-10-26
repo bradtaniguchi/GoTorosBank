@@ -1,7 +1,10 @@
 package edu.csudh.goTorosBank;
 
 import junit.framework.TestCase;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -33,7 +36,9 @@ public class TestAccount extends TestCase {
         TheYodaAccount = new Account(100, 900000000, Yoda, "LightSabers");
         yodaAccounts.add(TheYodaAccount);
         //Yoda has one account: LightSabers
-        SampleTransaction = new Transaction(TheYodaAccount, 1, 120.00f, "May 18 2010", "Food");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+        Date d = new Date();
+        SampleTransaction = new Transaction(TheYodaAccount, 1, 120.00f, "Food");
         TheYodaAccount.addTransaction(SampleTransaction);
     }
 
