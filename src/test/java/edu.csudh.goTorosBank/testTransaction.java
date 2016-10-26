@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -15,7 +16,7 @@ public class testTransaction extends TestCase {
     private Transaction transaction; //this is what we are testing
     private ArrayList<Account> accounts;
     private ArrayList<Transaction> transactions;
-
+    private Date d = new Date(2016,4,5);
 
 
     @Override
@@ -23,7 +24,7 @@ public class testTransaction extends TestCase {
         account = new Account(0, 100, user, "someType", transactions); //no bills, as we aren't testing that
         accounts = new ArrayList<Account>();
         accounts.add(account); /*now actually add */
-        transaction = new Transaction(account, 1, 100, "NOW", "description"); //main thing we are testing
+        transaction = new Transaction(account, 1, 100, "description",d); //main thing we are testing
         user = new User(100, "joeblow@gmail.com",  "Joe", "Blow", accounts);
 
 
@@ -35,8 +36,7 @@ public class testTransaction extends TestCase {
     }
 
     public void testGetDate() {
-        String testDate = "NOW";
-        assertEquals(testDate, transaction.getDate());
+        assertEquals(d, transaction.getDate());
     }
 
     public void testGetTransactionAmount() {
@@ -58,7 +58,7 @@ public class testTransaction extends TestCase {
         HashMap testMap = new HashMap();
         testMap.put("transactionNumber", 1);
         testMap.put("transactionAmount", 100.0);
-        testMap.put("transactionDate", "NOW");
+        testMap.put("transactionDate", d);
         testMap.put("transactionDescription", "description");
 
         HashMap valuesToTest = (JSONObject) transaction.toJSON();

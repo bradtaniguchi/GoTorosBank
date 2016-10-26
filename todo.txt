@@ -1,6 +1,6 @@
 Todo list 10/24/16
 
-1. Add testBill class, to test the Bill class
+1. Add testBill class, to test the Bill class    (Crosby-Done)
 2. Add testTransaction class, to test the transaction class (Brad is working on this)
 3. Finish implementing the test function for toJSON for ALL model classes
 4. Removed redundant code among the classes

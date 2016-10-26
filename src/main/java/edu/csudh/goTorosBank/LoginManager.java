@@ -56,7 +56,6 @@ public class LoginManager extends HttpServlet {
         }
         response.getWriter().write(returnJson.toJSONString());
     }
-
     @Override
     public void destroy() {
         getServletContext().log("destroy() called");
