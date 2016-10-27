@@ -4,7 +4,12 @@ import junit.framework.TestCase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+<<<<<<< Updated upstream
 import java.util.Date;
+=======
+import java.util.HashMap;
+import org.json.simple.JSONObject;
+>>>>>>> Stashed changes
 
 /**
  *
@@ -82,5 +87,21 @@ public class TestAccount extends TestCase {
 
         //checks that the trasnaction is inside the list
         assertEquals(1, TheYodaAccount.getTransactions().size());
+    }
+
+    public void testToJSON() {
+        HashMap sampleMap = new HashMap();
+        sampleMap.put("accountNumber", 100);
+        sampleMap.put("accountBalance", 900000000);
+        sampleMap.put("user", Yoda);
+        sampleMap.put("accountType", "LightSabers");
+
+        HashMap testingValue = (JSONObject) TheYodaAccount.toJSON();
+
+        assertEquals(sampleMap.get("accountNumber"), testingValue.get("accountNumber"));
+        assertEquals(sampleMap.get("accountBalance"), testingValue.get("accountBalance"));
+        //assertEquals(sampleMap.get("user"), testingValue.get("user"));
+        assertEquals(sampleMap.get("accountType"), testingValue.get("accountType"));
+
     }
 }
