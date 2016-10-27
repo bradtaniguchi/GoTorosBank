@@ -4,12 +4,9 @@ import junit.framework.TestCase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-<<<<<<< Updated upstream
 import java.util.Date;
-=======
 import java.util.HashMap;
 import org.json.simple.JSONObject;
->>>>>>> Stashed changes
 
 /**
  *
