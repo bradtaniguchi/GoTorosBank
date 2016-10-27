@@ -22,6 +22,8 @@ $(document).ready(function(){
             },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);
+                console.log(status.responseText);
+                console.log(error.responseText);
             }
         });
     }
@@ -32,7 +34,7 @@ $(document).ready(function(){
      */
     function makeAccounts(User) {
         var html = ""; //html to add to the page
-        console.log("Accounts from user:" + User["accounts"]);
+        //console.log("Accounts from user:" + User["accounts"]);
         var accounts = User["accounts"];
         html += "<option>choose</option>"; //default nothing value
         $.each(accounts, function(index){
@@ -40,8 +42,8 @@ $(document).ready(function(){
             html += '<option>' + accounts[index]["accountNumber"] + ' ' +
                 accounts[index]["accountType"] + '</option>';
         });
-        $("#bankAccountFrom").html(html);
-        $("#bankAccountTo").html(html);
+        $("#bankAccountFrom").append(html);
+        $("#bankAccountTo").append(html);
     }
 
     /**
