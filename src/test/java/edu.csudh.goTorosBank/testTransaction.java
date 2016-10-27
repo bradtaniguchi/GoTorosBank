@@ -3,6 +3,7 @@ package edu.csudh.goTorosBank;
 import junit.framework.TestCase;
 import org.json.simple.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class testTransaction extends TestCase {
     private ArrayList<Account> accounts;
     private ArrayList<Transaction> transactions;
     private Date d = new Date(2016,4,5);
-
+    private SimpleDateFormat sdf;
 
     @Override
     protected void setUp() {
@@ -26,6 +27,7 @@ public class testTransaction extends TestCase {
         accounts.add(account); /*now actually add */
         transaction = new Transaction(account, 1, 100, "description",d); //main thing we are testing
         user = new User(100, "joeblow@gmail.com",  "Joe", "Blow", accounts);
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy;
 
 
     }
@@ -36,7 +38,7 @@ public class testTransaction extends TestCase {
     }
 
     public void testGetDate() {
-        assertEquals(d, transaction.getDate());
+        assertTrue(transaction.getDate().equals(sdf.format(d)));
     }
 
     public void testGetTransactionAmount() {
