@@ -14,3 +14,10 @@ minor changes:
 2. figure out how to escape any SQL code via a private function in the databaseInterface
     can be called sanitizeInput()
 3. Change ALL amount variables in transactions to ints. Make sure this is handle properly.
+
+
+Other changes nitpick:
+(I think doing these changes can break a lot of things if we aren't careful)
+1. Why are there two constructors for the Transaction class?
+2. Verify the Date Object is used to create dates for Bills/Transactions. But after that they are strings,
+    as it makes no sense to be able to change these aspects of the classes once created.
