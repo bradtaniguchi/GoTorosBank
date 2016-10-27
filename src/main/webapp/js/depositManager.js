@@ -7,7 +7,7 @@
 $(document).ready(function() {
     console.log("depositManager.js ready");
 
-    /*jqery Click listeners: */
+    /*jquery Click listeners: */
     $('#depositSubmit').on('click', function() {
         console.log("Submit Button clicked!");
         var amount = $('#amount').val();
@@ -24,7 +24,6 @@ $(document).ready(function() {
                 $('#returnDiv').text(response);
             },
             error: function(xhr, status, error) {
-                //var err = eval("(" + xhr.responseText + ")");
                 console.log(xhr.responseText);
                 console.log("Stats: " + status);
                 console.log("Error: " + error);
