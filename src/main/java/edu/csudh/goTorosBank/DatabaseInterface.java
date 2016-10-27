@@ -25,7 +25,7 @@ public class DatabaseInterface {
     /**
      * checks all users in the database and makes sure that the user name and
      * password is inside the database
-     *
+     *••••••
      * @param username the users name
      * @param userpassword the users password
      * @return true if users is inside the data base false if the user is not in
@@ -367,10 +367,6 @@ public class DatabaseInterface {
 
                 tDate = sdf.parse(result.getString("TRANSACTION_DATE"));
 
-                // TODO: Fix yo constructor, not compatible to my specifications. - Daniel
-                // Fixed -Rudy
-
-                SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
                 Transaction transaction = new Transaction(account, tNumber, tAmount, tDescription,
                         tDate);
 
