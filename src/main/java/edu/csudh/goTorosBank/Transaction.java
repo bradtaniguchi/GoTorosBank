@@ -46,7 +46,7 @@ public class Transaction {
         JSONObject transaction = new JSONObject();
         transaction.put("transactionNumber", this.transactionNumber);
         transaction.put("transactionAmount", this.transactionAmount);
-        transaction.put("transactionDate", this.transactionDate);
+        transaction.put("transactionDate", sdf.format(this.transactionDate));
         transaction.put("transactionDescription", this.transactionDescription);
         return transaction;
     }

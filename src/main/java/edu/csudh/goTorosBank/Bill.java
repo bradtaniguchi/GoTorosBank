@@ -42,7 +42,7 @@ public class Bill {
         bill.put("billName", this.billName);
         bill.put("billAmount", this.billAmount);
         bill.put("billStatus", this.billStatus);
-        bill.put("billDueDate", this.billDueDate); //this needs to be a date!
+        bill.put("billDueDate", sdf.format(this.billDueDate)); //this needs to be a date!
         return bill;
     }
     public int getBillID(){
