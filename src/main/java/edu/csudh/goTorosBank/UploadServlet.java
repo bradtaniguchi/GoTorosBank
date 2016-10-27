@@ -15,7 +15,7 @@ package edu.csudh.goTorosBank;
  *
  * @author Rudy
  */
-
+/*
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,3 +34,4 @@ public class UploadServlet extends HttpServlet {
   private File file;
   
 }
+*/
