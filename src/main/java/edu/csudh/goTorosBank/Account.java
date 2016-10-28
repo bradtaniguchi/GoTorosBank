@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Account for the user it holds all information for the user:
  * int accountNumber
  * String accountType
- * private int accountBalance;
+ * private float accountBalance;
  * private User user;
  * private ArrayList<Transaction> transactions;
  * private ArrayList<Bill> bills;
@@ -22,7 +22,7 @@ public class Account{
 
     private int accountNumber;
     private String accountType; 
-    private int accountBalance;
+    private float accountBalance;
     private User user;
     private ArrayList<Transaction> transactions;
     private ArrayList<Bill> bills;
@@ -36,7 +36,7 @@ public class Account{
      * @param transactions the Array list of transactions
      * @param bills the array list of bills
      */
-    public Account(int accountNumber, int accountBalance, User user, String accountType,
+    public Account(int accountNumber, float accountBalance, User user, String accountType,
                    ArrayList<Transaction> transactions, ArrayList<Bill> bills){
         this.accountNumber = accountNumber;
         this.accountType = accountType;
@@ -62,7 +62,7 @@ public class Account{
      * @param accountType the account type
      * @param transactions the Array list of transactions
      */
-    public Account(int accountNumber, int accountBalance, User user, String accountType,
+    public Account(int accountNumber, float accountBalance, User user, String accountType,
                    ArrayList<Transaction> transactions) {
         this(accountNumber, accountBalance, user, accountType, transactions, null);
     }
@@ -74,7 +74,7 @@ public class Account{
      * @param user the user associated with the account
      * @param accountType the account type
      */
-    public Account(int accountNumber, int accountBalance, User user, String accountType) {
+    public Account(int accountNumber, float accountBalance, User user, String accountType) {
         this(accountNumber, accountBalance, user, accountType, null, null);
     }
     @SuppressWarnings("unchecked")
@@ -151,7 +151,7 @@ public class Account{
      *
      * @return accountBalance of the account
      */
-    public int getAccountBalance(){
+    public float getAccountBalance(){
         return accountBalance;
     }
     //needs to get userID...Modification coming soon, its ok

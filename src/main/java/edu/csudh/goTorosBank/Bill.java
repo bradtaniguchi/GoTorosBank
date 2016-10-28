@@ -14,7 +14,7 @@ public class Bill {
     private int billID;
     private String billName;
     private String billDescription;
-    private double billAmount;
+    private float billAmount;
     private Date billDueDate; //CHANGE THIS TO A FORMATTED DATE Done
     private String billStatus; //remove this later, replace with enum
     private SimpleDateFormat sdf;
@@ -23,7 +23,7 @@ public class Bill {
     //private int uID;
     private Account account;
 
-    public Bill(int billID, String billName, String billDescription, double billAmount,
+    public Bill(int billID, String billName, String billDescription, float billAmount,
                 Date billDueDate, String billStatus, Account account) {
         this.billID = billID;
         this.billName = billName;
@@ -56,7 +56,7 @@ public class Bill {
     public String getBillDescaription(){
         return billDescription;
     }
-    public double getBillAmmount(){
+    public float getBillAmmount(){
         return billAmount;
     }
 

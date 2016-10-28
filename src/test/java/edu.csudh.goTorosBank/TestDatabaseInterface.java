@@ -40,7 +40,7 @@ public class TestDatabaseInterface extends TestCase {
                     acc.getAccountType().contentEquals("savings"));
 
             assertNotNull(acc.getAccountBalance());
-            assertEquals(100,acc.getAccountBalance());
+            assertEquals(100f,acc.getAccountBalance());
 
             assertNotNull(acc.getAccountNumber());
             assertTrue(acc.getAccountNumber() == 1 ||
@@ -66,7 +66,7 @@ public class TestDatabaseInterface extends TestCase {
                     assertEquals(4, x.getBillID());
                     assertEquals("Eddison", x.getBillName());
                     assertEquals("your gass bill", x.getBillDescaription());
-                    assertEquals(100.0, x.getBillAmmount());
+                    assertEquals(100.0f, x.getBillAmmount());
                     assertEquals("1999-12-30 12:00:00", x.getBillDueDate());
                     assertEquals("done", x.getBillStatus());
                     /*get user id not found*/

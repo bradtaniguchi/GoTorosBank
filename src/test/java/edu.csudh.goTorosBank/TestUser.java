@@ -18,7 +18,7 @@ public class TestUser extends TestCase{
     @Override
     protected void setUp() {
         nullUser = new User(100, "toro@gmail.com", "Toro", "Last", null);
-        basicAccount = new Account(1, 1000, genericUser, null); //account with no bills, or
+        basicAccount = new Account(1, 1000f, genericUser, null); //account with no bills, or
         accounts = new ArrayList<Account>();
         accounts.add(basicAccount);
         genericUser = new User(200, "joe@gmail.com", "Joe", "Blow", accounts);
@@ -45,7 +45,7 @@ public class TestUser extends TestCase{
     public void testGetAccounts() {
         assertNotNull(nullUser.getUserAccounts());
         ArrayList<Account> testAccounts = new ArrayList<Account>();
-        Account testAccount = new Account(1, 1000, genericUser, null);
+        Account testAccount = new Account(1, 1000f, genericUser, null);
         testAccounts.add(testAccount);
         assertEquals(1, genericUser.getUserAccounts().size());
         /*add one where we test the account itself*/
