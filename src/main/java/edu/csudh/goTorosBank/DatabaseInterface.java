@@ -71,12 +71,12 @@ public class DatabaseInterface {
      */
     public void transfer(int accountIDFrom, int accountIDTo,double amount)
             throws SQLException,ClassNotFoundException{
-        withdraw(accountIDFrom,amount,"Tansfer withdraw to account number: "+accountIDTo);
-        deposit(accountIDTo,amount,"Tansfer deposit from account number: "+accountIDFrom);
+        withdraw(accountIDFrom,amount,"Transfer withdraw to account number: "+accountIDTo);
+        deposit(accountIDTo,amount,"Transfer deposit from account number: "+accountIDFrom);
     }
 
     /**
-     * enter information and the withdrawl will be mad all you have to do is enter account
+     * enter information and the withdraw will be mad all you have to do is enter account
      * ID amount and description
      *
      * @param accountIDFrom ID of the account that is being withdrew from
