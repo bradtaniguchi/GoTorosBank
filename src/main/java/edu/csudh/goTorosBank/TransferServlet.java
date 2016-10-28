@@ -53,7 +53,7 @@ public class TransferServlet extends HttpServlet {
 
             int accountIDFrom = Integer.parseInt(request.getParameter("accountIDFrom"));
             int accountIDTo = Integer.parseInt(request.getParameter("accountIDTo"));
-            int amount = Integer.parseInt(request.getParameter("amount"));
+            float amount = Float.parseFloat(request.getParameter("amount"));
 
             /*Transfer the money...*/
             database.transfer(accountIDFrom, accountIDTo, amount);

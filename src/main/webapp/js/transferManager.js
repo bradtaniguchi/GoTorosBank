@@ -66,23 +66,45 @@ $(document).ready(function(){
             alert("Invalid Input! The amount " + Number(amount) + " is not big enough!");
             /*TODO: truncate the input amount, and transfer to our backend amount*/
         } else { /*add any more cases here*/
-            console.log("Correct input, transfering...");
+            console.log("Correct input, transferring...");
             /*add transfer code here*/
             /*TODO: Finish this ajax call once transferServlet is finished...*/
-            /*$.ajax({
+            $.ajax({
                 type:'POST',
                 dataType:'JSON', //return type
-
-
-            });*/
+                url: '/util/TransferServlet',
+                data: {
+                    "accountIDFrom" : idFrom,
+                    "accountIDTo" : idTo,
+                    "amount" : amount
+                },
+                success: function(response) {
+                    console.log("response successful");
+                    if(response["successfulTransaction"]) {
+                        console.log("Transaction Successful");
+                        alert("transaction successful!");
+                    } else {
+                        alert(response["message"]);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    console.log("Stats: " + status);
+                    console.log("Error: " + error);
+                }
+            });
+            console.log("Finished with ajax?");
         }
     }
 
     /*add jquery listeners to the page here*/
     $('#transferSubmit').on('click', function() {
-        var idFrom = $('#bankAccountFrom').val();
-        var idTo = $('#bankAccountTo').val();
-        var amount = $('#amount').val();
+        var idFrom = $('#bankAccountFrom').val().trim();
+        idFrom = idFrom.replace( /[^\d.]/g, '' );
+        var idTo = $('#bankAccountTo').val().trim();
+        idTo = idTo.replace( /[^\d.]/g, '' );
+        var amount = $('#amount').val().trim();
+        amount = amount.replace( /[^\d.]/g, '' );
         transfer(idFrom, idTo, amount);
     });
     updateAccounts(); //get any information for the user.
