@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by brad on 10/27/16.
@@ -39,11 +42,39 @@ public class TransferServlet extends HttpServlet {
         * 3. If they are both valid, verify if the amount is a valid transaction
         *   if not, then return bad state
         * 4. If it is a valid transaction, call the back-end transaction function.*/
+
+
+        HttpSession userSession = request.getSession();
+        String username = (String) userSession.getAttribute("userName"); //get the user name, and validate they exist
+
+        try {
+            DatabaseInterface database = new DatabaseInterface();
+            User myUser = database.getUser(username);
+
+            int accountIDFrom = Integer.parseInt(request.getParameter("accountIDFrom"));
+            int accountIDTo = Integer.parseInt(request.getParameter("accountIDTo"));
+            int amount = Integer.parseInt(request.getParameter("amount"));
+
+            /*Transfer the money...*/
+            database.transfer(accountIDFrom, accountIDTo, amount);
+            returnJson.put("successfulTransaction", true);
+            returnJson.put("message", "Successfully transferred: " + amount + " From account: " + accountIDFrom +
+                " to account: " + accountIDTo);
+        } catch(SQLException e) {
+            returnJson.put("successfulTransaction", false);
+            returnJson.put("message", "SQLException: " + e.getMessage());
+        } catch(ClassNotFoundException e) {
+            returnJson.put("successfulTransaction", false);
+            returnJson.put("message", "ClassNotFoundException: " + e.getMessage());
+        } catch(ParseException e) {
+            returnJson.put("successfulTransaction", false);
+            returnJson.put("message", "ParseException: " + e.getMessage());
+        }
+        response.getWriter().write(returnJson.toJSONString());
     }
 
     @Override
     public void destroy() {
         getServletContext().log("destroy() called");
     }
-
 }
