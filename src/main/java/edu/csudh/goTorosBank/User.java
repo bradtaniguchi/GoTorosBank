@@ -75,6 +75,8 @@ public class User {
         jsonUser.put("accounts", jsonAccounts);
         return jsonUser;
     }
+
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;
