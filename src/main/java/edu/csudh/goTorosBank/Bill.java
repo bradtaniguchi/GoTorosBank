@@ -9,6 +9,7 @@ import java.util.Date;
  * Created by crosby on 10/13/16.
  *
  */
+
 public class Bill {
     private int billID;
     private String billName;

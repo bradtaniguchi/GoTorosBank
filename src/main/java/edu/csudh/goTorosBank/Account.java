@@ -7,11 +7,6 @@ import java.util.ArrayList;
 
 /**
  * User - an account object. This class represents a User's finances.
- * 
- * @author Jesus Cortez, Bradley Taniguchi
- */
-
-/**
  * Account for the user it holds all information for the user:
  * int accountNumber
  * String accountType
@@ -20,6 +15,8 @@ import java.util.ArrayList;
  * private ArrayList<Transaction> transactions;
  * private ArrayList<Bill> bills;
  *
+ * 
+ * @author Jesus Cortez, Bradley Taniguchi
  */
 public class Account{
 
@@ -151,7 +148,7 @@ public class Account{
     }
 
     /**
-     * 
+     *
      * @return accountBalance of the account
      */
     public int getAccountBalance(){
