@@ -38,7 +38,14 @@
         <servlet-name>AccountOverview</servlet-name>
         <url-pattern>/util/AccountOverview</url-pattern>
     </servlet-mapping>
-    
+    <servlet>
+        <servlet-name>TransferServlet</servlet-name>
+        <servlet-class>edu.csudh.goTorosBank.TransferServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TransferServlet</servlet-name>
+        <url-pattern>/util/TransferServlet</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>UploadServlet</servlet-name>
         <servlet-class>edu.csudh.goTorosBank.UploadServlet</servlet-class>
