@@ -69,7 +69,7 @@ public class DatabaseInterface {
      * @accountIDTo the account number you are sending it to 
      * @amount the amount of money being sent
      */
-    public void transfer(int accountIDFrom, int accountIDTo,double amount)
+    public void transfer(int accountIDFrom, int accountIDTo,float amount)
             throws SQLException,ClassNotFoundException{
         withdraw(accountIDFrom,amount,"Transfer withdraw to account number: "+accountIDTo);
         deposit(accountIDTo,amount,"Transfer deposit from account number: "+accountIDFrom);
@@ -85,9 +85,9 @@ public class DatabaseInterface {
      * @throws SQLException this will be caught by the servlet class
      * @throws ClassNotFoundException this will be caught by the servlet class
      */
-    public void withdraw(int accountIDFrom,double amount, String description)
+    public void withdraw(int accountIDFrom,float amount, String description)
             throws SQLException,ClassNotFoundException {
-        int accountbalance;
+        float accountbalance;
         Connection c = null;
 
         Class.forName("org.sqlite.JDBC");
@@ -131,8 +131,8 @@ public class DatabaseInterface {
      * @throws SQLException this will be caught by the servlet class
      * @throws ClassNotFoundException this will be caught by the servlet class
      */
-    public void deposit(int accountNumber, double amount, String description)throws SQLException, ClassNotFoundException{
-        int accountbalance;
+    public void deposit(int accountNumber, float amount, String description)throws SQLException, ClassNotFoundException{
+        float accountbalance;
         Connection c = null;
 
         Class.forName("org.sqlite.JDBC");
@@ -173,7 +173,7 @@ public class DatabaseInterface {
      * @throws SQLException this will be caught by the servlet class
      * @throws ClassNotFoundException this will be caught by the servlet class
      */
-    public void addTransaction(int accountNumber, String transactionDescription, double amount)
+    public void addTransaction(int accountNumber, String transactionDescription, float amount)
             throws SQLException,ClassNotFoundException{
         Connection c = null;
 
@@ -279,7 +279,7 @@ public class DatabaseInterface {
             int BillsID = resultSet.getInt("BID");
             String Bill_Name = resultSet.getString("BILL_NAME");
             String Bill_Description = resultSet.getString("BILL_DESCRIPTION");
-            double Bill_Amount = resultSet.getDouble("BILL_AMOUNT");
+            float Bill_Amount = resultSet.getFloat("BILL_AMOUNT");
             Date Bill_Due_Date = sdf.parse(resultSet.getString("BILL_DUE_DATE"));
             String Bill_Status = resultSet.getString("BILL_STATUS");
             int Uid = resultSet.getInt("UID");
@@ -320,7 +320,7 @@ public class DatabaseInterface {
             if(parentUser.getId() == id) {
                 int accountNumber = resultSet.getInt("ACCOUNT_NUMBER");
                 String accountType = resultSet.getString("ACCOUNT_TYPE");
-                int accountBalance = resultSet.getInt("ACCOUNT_BALANCE");
+                float accountBalance = resultSet.getFloat("ACCOUNT_BALANCE");
                 Account account = new Account(accountNumber, accountBalance, parentUser, accountType);
                 /*TODO: These need to be tested!*/
                 account.addTransactions(getTransactions(account)); //get the transactions for this Account
