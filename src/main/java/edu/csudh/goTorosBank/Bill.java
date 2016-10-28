@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Keeps track of all Billing informations
  * Created by crosby on 10/13/16.
  *
  */

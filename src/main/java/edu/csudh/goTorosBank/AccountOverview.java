@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
 /**
+ * Creates an overview of all the accounts for a user
  * Created by brad on 10/19/16.
  * This class returns all information for current logged in user
  */
