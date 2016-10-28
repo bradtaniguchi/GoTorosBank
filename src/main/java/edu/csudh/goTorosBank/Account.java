@@ -11,6 +11,16 @@ import java.util.ArrayList;
  * @author Jesus Cortez, Bradley Taniguchi
  */
 
+/**
+ * Account for the user it holds all information for the user:
+ * int accountNumber
+ * String accountType
+ * private int accountBalance;
+ * private User user;
+ * private ArrayList<Transaction> transactions;
+ * private ArrayList<Bill> bills;
+ *
+ */
 public class Account{
 
     private int accountNumber;
@@ -71,6 +81,9 @@ public class Account{
         this(accountNumber, accountBalance, user, accountType, null, null);
     }
     @SuppressWarnings("unchecked")
+    /**
+     * makes Objects to JSONObjects
+     */
     public JSONObject toJSON() {
         JSONObject account = new JSONObject();
         JSONArray jsonTransactions = new JSONArray();
@@ -91,29 +104,78 @@ public class Account{
         return account;
     }
     /* setter methods */
+
+    /**
+     * adds a Transaction Object to Account
+     * @param transaction the transaction that is getting added
+     */
     public void addTransaction(Transaction transaction) {
         this.transactions.add(transaction);
     }
+
+    /**
+     * Adds a list of transaction Object
+     * @param transactions ArrayList of transactions
+     */
     public void addTransactions(ArrayList<Transaction> transactions) {
         this.transactions.addAll(transactions);
     }
+
+    /**
+     * Adds a Bill object to the Account
+     * @param bill bill that will get added
+     */
     public void addBill(Bill bill) { this.bills.add(bill); }
+
+    /**
+     * adds an ArrayList of Bills to the account
+     * @param bills ArrayList of bills
+     */
     public void addBills(ArrayList<Bill> bills) { this.bills.addAll(bills);}
     /*  getter methods    */
-    
+
+    /**
+     *
+     * @return accountNumber
+     */
     public int getAccountNumber(){
         return accountNumber;
     }
+
+    /**
+     *
+     * @return accountType that the account is like a checking or Savings
+     */
     public String getAccountType(){
         return accountType;
     }
+
+    /**
+     * 
+     * @return accountBalance of the account
+     */
     public int getAccountBalance(){
         return accountBalance;
     }
     //needs to get userID...Modification coming soon, its ok
+
+    /**
+     *
+     * @return User class with the users information
+     */
     public User getUser(){
         return user;
     }
+
+    /**
+     *
+     * @return ArrayList of transactions
+     */
     public ArrayList<Transaction> getTransactions() {return transactions; }
+
+    /**
+     *
+     * @return ArrayList of bills from the account
+     */
     public ArrayList<Bill> getBills() {return bills; }
 }
