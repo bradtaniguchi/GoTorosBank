@@ -56,20 +56,15 @@ public class TestUser extends TestCase{
         JSONArray jsonAccounts = new JSONArray();
         mapUser.put("id", 100);
         mapUser.put("userAccountName", "toro@gmail.com");
-        mapUser.put("userFisrtName","Toro");
-        mapUser.put("accounts", jsonAccounts);
+        mapUser.put("userFirstName","Toro");
         mapUser.put("userLastName", "Last");
-        
-        for(Object keyObj : mapUser.keySet()){
-            String key = keyObj.toString();
-            System.out.println(key + " - " + mapUser.get(key));
-        }
-        
-        System.out.println(mapUser.toString());
-        //System.out.println(nullUser.toJSON().toString());
-        //assertTrue(user.toString().equals(nullUser.toJSON().toString()));
-        
-        
+        mapUser.put("accounts", jsonAccounts);
+         
+        HashMap userToTest = (JSONObject) nullUser.toJSON();
+        assertEquals(mapUser.get("id"), userToTest.get("id"));
+        assertEquals(mapUser.get("userAccountName"), userToTest.get("userAccountName"));
+        assertEquals(mapUser.get("userFirstName"), userToTest.get("userFirstName"));
+        assertEquals(mapUser.get("accounts"), userToTest.get("accounts"));
         
 }
 }

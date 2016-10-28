@@ -22,6 +22,16 @@ Deposit page
     </div>
     <div id="returnDiv"></div>
 </form>
+<!-- this is the final version-->
+<form class="form-horizontal">
+    <div class="form-group" style="margin:10px 50px">
+        <div class="col-xs-6">
+            <label class="btn btn-default btn-file">
+                Browse <input type="file" style="display: none;">
+            </label>
+        </div>
+    </div>
+</form>
 <!--test to see if we can add the javascript here!-->
 <script type="text/javascript" src="js/depositManager.js"></script>
 

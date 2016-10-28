@@ -3,6 +3,7 @@ package edu.csudh.goTorosBank;
 import junit.framework.TestCase;
 import org.json.simple.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class testTransaction extends TestCase {
     private ArrayList<Account> accounts;
     private ArrayList<Transaction> transactions;
     private Date d = new Date(2016,4,5);
-
+    private SimpleDateFormat sdf;
 
     @Override
     protected void setUp() {
@@ -26,6 +27,7 @@ public class testTransaction extends TestCase {
         accounts.add(account); /*now actually add */
         transaction = new Transaction(account, 1, 100, "description",d); //main thing we are testing
         user = new User(100, "joeblow@gmail.com",  "Joe", "Blow", accounts);
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy;
 
 
     }
@@ -42,7 +44,7 @@ public class testTransaction extends TestCase {
      * tests the get Date function
      */
     public void testGetDate() {
-        assertEquals(d, transaction.getDate());
+        assertTrue(transaction.getDate().equals(sdf.format(d)));
     }
 
     /**
@@ -67,7 +69,7 @@ public class testTransaction extends TestCase {
         HashMap testMap = new HashMap();
         testMap.put("transactionNumber", 1);
         testMap.put("transactionAmount", 100.0);
-        testMap.put("transactionDate", d);
+        testMap.put("transactionDate", sdf.format(d));
         testMap.put("transactionDescription", "description");
 
         HashMap valuesToTest = (JSONObject) transaction.toJSON();
@@ -77,6 +79,5 @@ public class testTransaction extends TestCase {
         assertEquals(testMap.get("transactionAmount").toString(), valuesToTest.get("transactionAmount").toString());
         assertEquals(testMap.get("transactionDate"), valuesToTest.get("transactionDate"));
         assertEquals(testMap.get("transactionDescription"), valuesToTest.get("transactionDescription"));
-
     }
 }

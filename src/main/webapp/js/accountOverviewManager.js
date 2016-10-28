@@ -22,7 +22,11 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                console.log(xhr.responseText);
+                console.log("ERROR with gettingAccountData! See Below for statements");
+                console.log("XHR: "+xhr.responseText);
+                console.log("Status: "+status.responseText);
+                console.log("Error: " + error.responseText);
+
             }
         });
     }
@@ -47,9 +51,11 @@ $(document).ready(function() {
                 /*update Accounts*/
                 updateAccounts(User);
             },
-            error: function() {
+            error: function(xhr, status, error) {
                 console.log("ERROR!");
-                //$("#accounts").append(html);
+                console.log("XHR: " + xhr.responseText);
+                console.log("Status: "+status.responseText);
+                console.log("Error: " + error.responseText);
             }
         });
     }

@@ -20,10 +20,10 @@
 </div>
 <div class="form-group">
     <label for="amount">Amount:</label>
-    <input type="text" class="form-control" id="amount"/>
+    <input type="number" class="form-control" id="amount"/>
 </div>
 <div class="form-group">
     <button type="button" id="transferSubmit" class="btn btn-default">Submit</button>
 </div>
 <div id="statusDiv"></div> <!--return any errors, status statements here-->
-<!--<script type="text/javascript" src="js/transferManager.js"></script>-->
+<script type="text/javascript" src="js/transferManager.js"></script>

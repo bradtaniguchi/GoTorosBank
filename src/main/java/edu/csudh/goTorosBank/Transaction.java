@@ -16,7 +16,7 @@ public class Transaction {
     private Date transactionDate;
     private float transactionAmount;
     private Account account;
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+    private SimpleDateFormat sdf;
 
 
     /**
@@ -31,21 +31,23 @@ public class Transaction {
         this.transactionDate = new Date();
         this.transactionNumber = transactionNumber;
         this.account = account;
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
     }
 
-    public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDescription,Date date){
+    public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDescription, Date date){
         this.transactionDescription = transactionDescription;
         this.transactionAmount = transactionAmount;
         this.transactionDate = date;
         this.transactionNumber = transactionNumber;
         this.account = account;
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
     }
     @SuppressWarnings("unchecked")
     public JSONObject toJSON() {
         JSONObject transaction = new JSONObject();
         transaction.put("transactionNumber", this.transactionNumber);
         transaction.put("transactionAmount", this.transactionAmount);
-        transaction.put("transactionDate", this.transactionDate);
+        transaction.put("transactionDate", sdf.format(this.transactionDate));
         transaction.put("transactionDescription", this.transactionDescription);
         return transaction;
     }
@@ -67,7 +69,7 @@ public class Transaction {
     public float getTransactionAmount() {
         return transactionAmount;
     }
-    public Date getDate() { return transactionDate; }
+    public String getDate() { return sdf.format(transactionDate); }
     public Account getAccount(){
         return account;
     }

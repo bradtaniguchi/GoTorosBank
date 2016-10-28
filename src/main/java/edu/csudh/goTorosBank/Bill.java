@@ -1,6 +1,8 @@
 package edu.csudh.goTorosBank;
 
 import org.json.simple.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -14,6 +16,7 @@ public class Bill {
     private double billAmount;
     private Date billDueDate; //CHANGE THIS TO A FORMATTED DATE Done
     private String billStatus; //remove this later, replace with enum
+    private SimpleDateFormat sdf;
     /*Change below to enums*/
     //private enum billStatus { PAID, UNPAID, PENDING }; //the 3 different possibilities
     //private int uID;
@@ -29,6 +32,7 @@ public class Bill {
         this.billStatus = billStatus;
         //this.uID = uID;
         this.account= account;
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
     }
 
     @SuppressWarnings("unchecked")
@@ -38,7 +42,7 @@ public class Bill {
         bill.put("billName", this.billName);
         bill.put("billAmount", this.billAmount);
         bill.put("billStatus", this.billStatus);
-        bill.put("billDueDate", this.billDueDate); //this needs to be a date!
+        bill.put("billDueDate", sdf.format(this.billDueDate)); //this needs to be a date!
         return bill;
     }
     /* getters */
@@ -54,7 +58,11 @@ public class Bill {
     public double getBillAmmount(){
         return billAmount;
     }
-    public Date getBillDueDate(){ return billDueDate;}
+
+    public String getBillDueDate(){
+        /*return formatted string, instead of Date*/
+        return sdf.format(billDueDate);
+    }
     public String getBillStatus(){
         return billStatus;
     }

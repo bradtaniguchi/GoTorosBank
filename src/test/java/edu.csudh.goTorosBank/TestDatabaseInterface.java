@@ -48,14 +48,14 @@ public class TestDatabaseInterface extends TestCase {
 
             assertEquals(1,acc.getTransactions().size());
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+            //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
 
             for(Transaction x:acc.getTransactions()){
                 assertEquals((float) 100.0,x.getTransactionAmount());
                 assertTrue(x.getTransactionNumber() == 1||
                         x.getTransactionNumber() == 2);
                 assertEquals("ADDED MONEY",x.getTransactionDescription());
-                assertEquals("1999-12-30 12:00:00",sdf.format(x.getDate()));
+                assertEquals("1999-12-30 12:00:00",x.getDate());
             }
 
 
@@ -67,7 +67,7 @@ public class TestDatabaseInterface extends TestCase {
                     assertEquals("Eddison", x.getBillName());
                     assertEquals("your gass bill", x.getBillDescaription());
                     assertEquals(100.0, x.getBillAmmount());
-                    assertEquals("1999-12-30 12:00:00", sdf.format(x.getBillDueDate()));
+                    assertEquals("1999-12-30 12:00:00", x.getBillDueDate());
                     assertEquals("done", x.getBillStatus());
                     /*get user id not found*/
                 }
