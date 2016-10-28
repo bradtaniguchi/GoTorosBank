@@ -20,7 +20,7 @@ public class TestBills extends TestCase{
         assertTrue(bill.getBillID()== 1);
     }
     public void testAccount(){
-        assertTrue(bill.AccountNumer()== account);
+        assertTrue(bill.getAccount()== account);
 
     }
     public void testBillDueDate(){

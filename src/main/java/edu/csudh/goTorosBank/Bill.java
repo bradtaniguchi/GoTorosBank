@@ -41,31 +41,24 @@ public class Bill {
         bill.put("billDueDate", this.billDueDate); //this needs to be a date!
         return bill;
     }
+    /* getters */
     public int getBillID(){
         return billID;
     }
-    
     public String getBillName(){
     return billName;
     }
-    
     public String getBillDescaription(){
         return billDescription;
     }
-    
     public double getBillAmmount(){
         return billAmount;
     }
-    
-    public Date getBillDueDate(){
-        return billDueDate;
-    }
-    
+    public Date getBillDueDate(){ return billDueDate;}
     public String getBillStatus(){
         return billStatus;
     }
-
-    public Account AccountNumer(){
+    public Account getAccount(){
         return account;
     }
 }

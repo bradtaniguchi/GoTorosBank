@@ -30,15 +30,24 @@ public class testTransaction extends TestCase {
 
     }
 
+    /**
+     * test the get account function
+     */
     public void testGetAccount() {
         Account testAccount = transaction.getAccount();
         assertSame(testAccount, account);
     }
 
+    /**
+     * tests the get Date function
+     */
     public void testGetDate() {
         assertEquals(d, transaction.getDate());
     }
 
+    /**
+     * tests the get amount of the transaction
+     */
     public void testGetTransactionAmount() {
         float testAmount = 100;
         assertEquals(testAmount, transaction.getTransactionAmount());

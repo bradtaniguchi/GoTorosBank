@@ -20,7 +20,15 @@ public class Account{
     private ArrayList<Transaction> transactions;
     private ArrayList<Bill> bills;
 
-    /* Account Constructor */
+    /**
+     * account constructor with transaction and bills
+     * @param accountNumber account number for the account
+     * @param accountBalance account balance of the account
+     * @param user the user associated with the account
+     * @param accountType the account type
+     * @param transactions the Array list of transactions
+     * @param bills the array list of bills
+     */
     public Account(int accountNumber, int accountBalance, User user, String accountType,
                    ArrayList<Transaction> transactions, ArrayList<Bill> bills){
         this.accountNumber = accountNumber;
@@ -38,10 +46,27 @@ public class Account{
             this.bills = bills;
         }
     }
+
+    /**
+     * constructor for the account with transactions
+     * @param accountNumber account number for the account
+     * @param accountBalance account balance of the account
+     * @param user the user associated with the account
+     * @param accountType the account type
+     * @param transactions the Array list of transactions
+     */
     public Account(int accountNumber, int accountBalance, User user, String accountType,
                    ArrayList<Transaction> transactions) {
         this(accountNumber, accountBalance, user, accountType, transactions, null);
     }
+
+    /**
+     * constructor for account with no transaction or bills
+     * @param accountNumber account number for the account
+     * @param accountBalance account balance of the account
+     * @param user the user associated with the account
+     * @param accountType the account type
+     */
     public Account(int accountNumber, int accountBalance, User user, String accountType) {
         this(accountNumber, accountBalance, user, accountType, null, null);
     }
@@ -79,20 +104,16 @@ public class Account{
     public int getAccountNumber(){
         return accountNumber;
     }
-    
     public String getAccountType(){
         return accountType;
     }
-    
     public int getAccountBalance(){
         return accountBalance;
     }
-    
     //needs to get userID...Modification coming soon, its ok
     public User getUser(){
         return user;
     }
-
     public ArrayList<Transaction> getTransactions() {return transactions; }
     public ArrayList<Bill> getBills() {return bills; }
 }

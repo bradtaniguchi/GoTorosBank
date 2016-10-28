@@ -32,6 +32,7 @@ public class Transaction {
         this.transactionNumber = transactionNumber;
         this.account = account;
     }
+
     public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDescription,Date date){
         this.transactionDescription = transactionDescription;
         this.transactionAmount = transactionAmount;
@@ -48,14 +49,17 @@ public class Transaction {
         transaction.put("transactionDescription", this.transactionDescription);
         return transaction;
     }
+
     /**
-     * Secondary Constructor, if the transaction has no given transactionDescription
+     * Transaction Constructor
+     *
+     * @param account the account that will make the transaction
+     * @param transactionNumber the transaction number
+     * @param transactionAmount the amount of money that is being transacted
      */
     public Transaction(Account account, int transactionNumber, float transactionAmount) {
         this(account, transactionNumber, transactionAmount,""); /*call the other constructor*/
     }
-
-    /*Getters, no setters as things are set in stone after initialization*/
     public int getTransactionNumber() {
         return transactionNumber;
     }

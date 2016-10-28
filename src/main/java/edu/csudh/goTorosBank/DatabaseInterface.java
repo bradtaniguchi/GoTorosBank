@@ -26,7 +26,7 @@ import java.util.Date;
 public class DatabaseInterface {
 
     private String connectionLink;
-
+    /* constructors */
     public DatabaseInterface() {
         this.connectionLink = "jdbc:sqlite::resource:GoTorosBank.db";
     }
@@ -113,6 +113,14 @@ public class DatabaseInterface {
         return accounts;
     }
 
+    /**
+     * gets the Array list of transactions for the database for a spacific account
+     * @param account accoutn that we are getting the transactions for
+     * @return ArrayList<Transaction>
+     * @throws SQLException
+     * @throws ParseException
+     * @throws ClassNotFoundException
+     */
     private ArrayList<Transaction> getTransactions(Account account) throws SQLException, ParseException,ClassNotFoundException
     {
         Connection dbConnection;
