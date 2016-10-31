@@ -34,16 +34,20 @@ $(document).ready(function(){
      */
     function makeAccounts(User) {
         var html = ""; //html to add to the page
+        var bankAccountFrom = $("#bankAccountFrom");
+        var bankAccountTo = $("#bankAccountTo");
+        bankAccountFrom.html("<option>choose</option>");
+        bankAccountTo.html("<option>choose</option>");
+
         //console.log("Accounts from user:" + User["accounts"]);
         var accounts = User["accounts"];
-        html += "<option>choose</option>"; //default nothing value
         $.each(accounts, function(index){
             /*add an option for each accountNumber and AccountType, */
             html += '<option>' + accounts[index]["accountNumber"] + ' ' +
                 accounts[index]["accountType"] + '</option>';
         });
-        $("#bankAccountFrom").append(html);
-        $("#bankAccountTo").append(html);
+        bankAccountFrom.append(html);
+        bankAccountTo.append(html);
     }
 
     /**
