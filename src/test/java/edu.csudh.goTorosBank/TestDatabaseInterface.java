@@ -2,6 +2,7 @@ package edu.csudh.goTorosBank;
 
 import junit.framework.TestCase;
 
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -74,4 +75,50 @@ public class TestDatabaseInterface extends TestCase {
             }
         }
     }
+
+    public void testDeposit(){ /*TODO: This test is failing*/
+        int accountID = 1; //test using the 1st account
+        float amount = 50; //amount we are going to add
+        float endAmount = 150; //the amount we want at the end
+        try {
+            database.deposit(accountID, amount, "Test Deposit");
+        } catch(SQLException e){
+            fail("Database ERROR! " + e.getMessage());
+
+        } catch(ClassNotFoundException e) {
+            fail("Database ERROR! " + e.getMessage());
+        }
+
+        /*lets check the amount now, and un-do what we just did*/
+        try {
+            Connection c = null;
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+            Statement statement = c.createStatement();
+            //statement.setQueryTimeout(30); // set timeout to 30 sec.
+            ResultSet resultSet;
+
+            resultSet = statement.executeQuery(
+                    "SELECT ACCOUNT_BALANCE " +
+                    "FROM ACCOUNTS " +
+                    "WHERE ACCOUNT_NUMBER="+accountID+";");
+
+            assertEquals(endAmount, resultSet.getFloat("ACCOUNT_BALANCE"));
+
+            resultSet.close();
+            statement.close();
+            c.close();
+
+        } catch (ClassNotFoundException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        } catch (SQLException e ) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        }
+    }
+
+    //public void testWithdraw() {
+    //    int accountID = 1;
+    //    float amount = 50; /*The amount we are going to add*/
+    //    float endAmount = 50; /*The amount we want to end up with*/
+    //}
 }

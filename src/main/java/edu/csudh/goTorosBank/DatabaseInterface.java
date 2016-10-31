@@ -104,7 +104,7 @@ public class DatabaseInterface {
                 "FROM ACCOUNTS " +
                 "WHERE ACCOUNT_NUMBER="+accountIDFrom+";");
 
-        accountbalance = resultSet.getInt("ACCOUNT_BALANCE");
+        accountbalance = resultSet.getFloat("ACCOUNT_BALANCE");
 
         //subtract ammount from balance
         accountbalance-=amount;
@@ -115,6 +115,8 @@ public class DatabaseInterface {
                 "SET ACCOUNT_BALANCE="+ accountbalance +
                 "WHERE ACCOUNT_NUMBER="+accountIDFrom+";");
 
+        resultSet.close();
+        statement.close();
         c.close();
 
         //now add a transfer row for the transaction
@@ -148,17 +150,18 @@ public class DatabaseInterface {
                         "FROM ACCOUNTS " +
                         "WHERE ACCOUNT_NUMBER="+accountNumber+";");
 
-        accountbalance = resultSet.getInt("ACCOUNT_BALANCE");
+        accountbalance = resultSet.getFloat("ACCOUNT_BALANCE");
 
         //add ammount from balance
         accountbalance+=amount;
 
         //used to change the balance in the database
         statement.executeUpdate(
-                "UPDATE ACCOUNTS"+
-                        "SET ACCOUNT_BALANCE="+ accountbalance +
+                "UPDATE ACCOUNTS "+
+                        "SET ACCOUNT_BALANCE="+ accountbalance + " " +
                         "WHERE ACCOUNT_NUMBER="+accountNumber+";");
-
+        resultSet.close();
+        statement.close();
         c.close();
 
         //now add a transfer row for the transaction
@@ -185,10 +188,10 @@ public class DatabaseInterface {
         statement.setQueryTimeout(30); // set timeout to 30 sec.
 
         //get the largest transaction number and add 1 to it
-        ResultSet resultSet = statement.executeQuery("" +
-                "SELECT MAX(TRANSACTION_NUMBER) as MAX" +
-                "FROM TRANSACTIONS" +
-                "WHERE ACCOUNT_NUMBER="+accountNumber+");");
+        ResultSet resultSet = statement.executeQuery(
+                "SELECT MAX(TRANSACTION_NUMBER) as MAX " +
+                "FROM TRANSACTIONS " +
+                "WHERE ACCOUNT_NUMBER="+accountNumber+";");
 
         //used to save the number
         int newTransactionNumber = 0;
@@ -202,13 +205,15 @@ public class DatabaseInterface {
         String dateAndTime = sdf.format(new Date());
 
         //will add the new transaction to the database
-        statement.executeUpdate("INSERT INTO TRANSACTIONS VALUES ("+
-                        newTransactionNumber+","+
-                        transactionDescription+","+
-                        amount+","+
-                        dateAndTime+","+
+        statement.executeUpdate("INSERT INTO TRANSACTIONS VALUES ( "+
+                        newTransactionNumber+", '"+
+                        transactionDescription+"', "+
+                        amount+", '"+
+                        dateAndTime+"', "+
                         accountNumber+");");
 
+        resultSet.close();
+        statement.close();
         c.close();
 
     }
