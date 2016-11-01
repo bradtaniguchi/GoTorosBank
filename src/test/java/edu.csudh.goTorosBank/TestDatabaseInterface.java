@@ -143,6 +143,44 @@ public class TestDatabaseInterface extends TestCase {
 
     }
 
+    public void testWithdraw() {
+        int accountID = 1; //test using the 1st account
+        float amount = 30; //withdraw 30 dollars
+        float endAmount = 70; //the amount we want at the end
+
+        Connection c;
+        Statement statement;
+        ResultSet resultSet;
+        try {
+            database.withdraw(accountID, amount, "Test Withdraw");
+        } catch (SQLException e) {
+            fail("Database ERROR! " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            fail("Database ERROR! " + e.getMessage());
+        }
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+
+            statement = c.createStatement();
+
+            resultSet = statement.executeQuery(
+                    "SELECT ACCOUNT_BALANCE " +
+                    "FROM ACCOUNTS " +
+                    "WHERE ACCOUNT_NUMBER=" + accountID+";");
+
+            assertEquals(endAmount, resultSet.getFloat("ACCOUNT_BALANCE"));
+
+            resultSet.close();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        } catch(SQLException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        }
+    }
     @Override
     public void tearDown() {
         /*Undo our changes, set value back to 100*/
