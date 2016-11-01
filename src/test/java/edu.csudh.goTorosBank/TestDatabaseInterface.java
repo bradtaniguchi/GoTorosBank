@@ -17,6 +17,31 @@ public class TestDatabaseInterface extends TestCase {
     @Override
     protected void setUp() {
         database = new DatabaseInterface("jdbc:sqlite::resource:testGoTorosBank.db"); //use test database
+        try {
+            Connection c;
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+            Statement statement = c.createStatement();
+            float newAmount = 100;
+
+            //used to change the balance in the database
+            statement.executeUpdate(
+                    "UPDATE ACCOUNTS "+
+                    "SET ACCOUNT_BALANCE="+ newAmount + " " +
+                    "WHERE ACCOUNT_NUMBER="+ 1 +";");
+
+            /*Remove any extra transactions from the test database.*/
+            statement.executeUpdate(
+                    "DELETE from TRANSACTIONS " +
+                    "WHERE TRANSACTION_NUMBER > 2;");
+
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Setup Database ERROR! " + e.getMessage());
+        } catch (SQLException e ) {
+            fail("Setup Database ERROR! " + e.getMessage());
+        }
     }
 
     public void testValidate() throws Exception {
@@ -94,7 +119,7 @@ public class TestDatabaseInterface extends TestCase {
             Connection c = null;
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
-            c.setAutoCommit(true);
+
             Statement statement = c.createStatement();
             //statement.setQueryTimeout(30); // set timeout to 30 sec.
             ResultSet resultSet;
@@ -116,23 +141,24 @@ public class TestDatabaseInterface extends TestCase {
             fail("Verify Database ERROR! " + e.getMessage());
         }
 
+    }
+
+    @Override
+    public void tearDown() {
         /*Undo our changes, set value back to 100*/
         try {
-            Connection c = null;
+            Connection c;
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
-            c.setAutoCommit(true);
             Statement statement = c.createStatement();
-            ResultSet resultSet;
 
             float newAmount = 100;
 
             //used to change the balance in the database
             statement.executeUpdate(
                     "UPDATE ACCOUNTS "+
-                    "SET ACCOUNT_BALANCE="+ newAmount + " " +
-                    "WHERE ACCOUNT_NUMBER="+ 1 +";");
-
+                            "SET ACCOUNT_BALANCE="+ newAmount + " " +
+                            "WHERE ACCOUNT_NUMBER="+ 1 +";");
 
             statement.close();
             c.close();
@@ -147,16 +173,14 @@ public class TestDatabaseInterface extends TestCase {
             Connection c;
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
-            c.setAutoCommit(true);
             Statement statement = c.createStatement();
             ResultSet resultSet;
 
 
             /*Remove any extra test statements*/
             statement.executeUpdate(
-                            "DELETE from TRANSACTIONS " +
+                    "DELETE from TRANSACTIONS " +
                             "WHERE TRANSACTION_NUMBER > 2;");
-
 
             statement.close();
             c.close();
@@ -166,10 +190,4 @@ public class TestDatabaseInterface extends TestCase {
             fail("Cleanup Database ERROR! " + e.getMessage());
         }
     }
-
-    //public void testWithdraw() {
-    //    int accountID = 1;
-    //    float amount = 50; /*The amount we are going to add*/
-    //    float endAmount = 50; /*The amount we want to end up with*/
-    //}
 }

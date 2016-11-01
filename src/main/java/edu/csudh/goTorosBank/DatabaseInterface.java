@@ -97,7 +97,7 @@ public class DatabaseInterface {
         statement.setQueryTimeout(30); // set timeout to 30 sec.
         ResultSet resultSet;
 
-        //get custumers account balance
+        //get costumers account balance
         resultSet = statement.executeQuery(
                 "SELECT ACCOUNT_BALANCE " +
                 "FROM ACCOUNTS " +
@@ -105,7 +105,7 @@ public class DatabaseInterface {
 
         accountbalance = resultSet.getFloat("ACCOUNT_BALANCE");
 
-        //subtract ammount from balance
+        //subtract amount from balance
         accountbalance-=amount;
 
         //used to change the balance in the database
@@ -138,12 +138,12 @@ public class DatabaseInterface {
 
         Class.forName("org.sqlite.JDBC");
         c = DriverManager.getConnection(connectionLink); //this will get the file in resources
-        
+
         Statement statement = c.createStatement();
         statement.setQueryTimeout(30); // set timeout to 30 sec.
         ResultSet resultSet;
 
-        //get custumers account balance
+        //get customers account balance
         resultSet = statement.executeQuery(
                 "SELECT ACCOUNT_BALANCE " +
                         "FROM ACCOUNTS " +
@@ -151,7 +151,7 @@ public class DatabaseInterface {
 
         accountbalance = resultSet.getFloat("ACCOUNT_BALANCE");
 
-        //add ammount from balance
+        //add amount from balance
         accountbalance+=amount;
 
         //used to change the balance in the database
@@ -189,8 +189,8 @@ public class DatabaseInterface {
         //get the largest transaction number and add 1 to it
         ResultSet resultSet = statement.executeQuery(
                 "SELECT MAX(TRANSACTION_NUMBER) as MAX " +
-                "FROM TRANSACTIONS " +
-                "WHERE ACCOUNT_NUMBER="+accountNumber+";");
+                "FROM TRANSACTIONS;");
+                //"WHERE ACCOUNT_NUMBER="+accountNumber+";");
 
         //used to save the number
         int newTransactionNumber = 0;
