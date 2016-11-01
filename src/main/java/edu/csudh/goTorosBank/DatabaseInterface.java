@@ -36,28 +36,27 @@ public class DatabaseInterface {
     public boolean validate(String username, String userpassword)throws SQLException,ClassNotFoundException{
         Connection c = null;
 
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection(connectionLink); //this will get the file in resources
-        /*do other stuff here*/
+        Class.forName("org.sqlite.JDBC");
+        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
 
-            Statement statement = c.createStatement();
-            statement.setQueryTimeout(30); // set timeout to 30 sec.
+        Statement statement = c.createStatement();
+        statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS");
 
-            while (resultSet.next()) {
-                // iterate & read the result set
-                String usname = resultSet.getString("USERNAME");
-                String uspass = resultSet.getString("PASSWD");
+        while (resultSet.next()) {
+            // iterate & read the result set
+            String usname = resultSet.getString("USERNAME");
+            String uspass = resultSet.getString("PASSWD");
 
-                if (username.contentEquals(usname) && userpassword.contentEquals(uspass)) {
-                    c.close();
-                    return true;
-                }
+            if (username.contentEquals(usname) && userpassword.contentEquals(uspass)) {
+                c.close();
+                return true;
             }
-            resultSet.close();
-            statement.close();
-            c.close();
+        }
+        resultSet.close();
+        statement.close();
+        c.close();
         return false;
     }
 
@@ -178,7 +177,7 @@ public class DatabaseInterface {
      */
     public void addTransaction(int accountNumber, String transactionDescription, float amount)
             throws SQLException,ClassNotFoundException{
-        Connection c = null;
+        Connection c;
 
         Class.forName("org.sqlite.JDBC");
         c = DriverManager.getConnection(connectionLink); //this will get the file in resources
@@ -229,8 +228,8 @@ public class DatabaseInterface {
      * @throws ClassNotFoundException this will be caught by the servlet class
      */
     public User getUser(String username) throws ParseException, SQLException, ClassNotFoundException {
-        Connection c = null;
-        Statement stmt = null;
+        Connection c;
+        Statement stmt;
         Class.forName("org.sqlite.JDBC");
         c = DriverManager.getConnection(connectionLink);
 
@@ -271,9 +270,9 @@ public class DatabaseInterface {
     private ArrayList<Bill> getBills(Account account) throws ParseException, ClassNotFoundException, SQLException {
         ArrayList<Bill> bills = new ArrayList<Bill>();
         Class.forName("org.sqlite.JDBC");
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
+        Connection connection;
+        Statement statement;
+        ResultSet resultSet;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
 
         connection = DriverManager.getConnection(connectionLink); //this will get the file in resources
@@ -307,9 +306,9 @@ public class DatabaseInterface {
      * @throws ClassNotFoundException this will be caught by the servlet class
      */
     private ArrayList<Account> getAccounts(User parentUser) throws ParseException, SQLException, ClassNotFoundException{
-        Connection c = null;
-        Statement stmt = null;
-        ResultSet resultSet = null;
+        Connection c;
+        Statement stmt;
+        ResultSet resultSet;
         ArrayList<Account> accounts = new ArrayList<Account>();
         
         Class.forName("org.sqlite.JDBC");
@@ -343,7 +342,7 @@ public class DatabaseInterface {
     {
         Connection dbConnection;
         Statement sqlQuery;
-        ResultSet result = null;
+        ResultSet result;
 
         int tNumber;
         String tDescription;
