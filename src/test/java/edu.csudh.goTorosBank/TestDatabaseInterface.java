@@ -23,7 +23,7 @@ public class TestDatabaseInterface extends TestCase {
             c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
             Statement statement = c.createStatement();
             float newAmount = 100;
-
+            c.setAutoCommit(false);
             //used to change the balance in the database
             statement.executeUpdate(
                     "UPDATE ACCOUNTS "+
@@ -34,7 +34,7 @@ public class TestDatabaseInterface extends TestCase {
             statement.executeUpdate(
                     "DELETE from TRANSACTIONS " +
                     "WHERE TRANSACTION_NUMBER > 2;");
-
+            c.commit();
             statement.close();
             c.close();
         } catch (ClassNotFoundException e) {
@@ -153,13 +153,13 @@ public class TestDatabaseInterface extends TestCase {
             Statement statement = c.createStatement();
 
             float newAmount = 100;
-
+            c.setAutoCommit(false);
             //used to change the balance in the database
             statement.executeUpdate(
                     "UPDATE ACCOUNTS "+
                             "SET ACCOUNT_BALANCE="+ newAmount + " " +
                             "WHERE ACCOUNT_NUMBER="+ 1 +";");
-
+            c.commit();
             statement.close();
             c.close();
         } catch (ClassNotFoundException e) {
@@ -167,7 +167,7 @@ public class TestDatabaseInterface extends TestCase {
         } catch (SQLException e ) {
             fail("Verify Database ERROR! " + e.getMessage());
         }
-
+        /*COMBINE THESE TWO AT A LATER TIME*/
         /*Change the transaction amount*/
         try {
             Connection c;
@@ -176,12 +176,13 @@ public class TestDatabaseInterface extends TestCase {
             Statement statement = c.createStatement();
             ResultSet resultSet;
 
-
+            c.setAutoCommit(false);
             /*Remove any extra test statements*/
             statement.executeUpdate(
                     "DELETE from TRANSACTIONS " +
                             "WHERE TRANSACTION_NUMBER > 2;");
 
+            c.commit();
             statement.close();
             c.close();
         } catch (ClassNotFoundException e) {
