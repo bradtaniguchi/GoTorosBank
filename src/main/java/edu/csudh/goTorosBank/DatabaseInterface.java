@@ -110,8 +110,8 @@ public class DatabaseInterface {
 
         //used to change the balance in the database
         statement.executeUpdate(
-                "UPDATE ACCOUNTS"+
-                "SET ACCOUNT_BALANCE="+ accountbalance +
+                "UPDATE ACCOUNTS "+
+                "SET ACCOUNT_BALANCE="+ accountbalance + " " +
                 "WHERE ACCOUNT_NUMBER="+accountIDFrom+";");
 
         resultSet.close();
