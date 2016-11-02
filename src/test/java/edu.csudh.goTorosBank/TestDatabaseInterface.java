@@ -140,7 +140,6 @@ public class TestDatabaseInterface extends TestCase {
         } catch (SQLException e ) {
             fail("Verify Database ERROR! " + e.getMessage());
         }
-
     }
 
     public void testWithdraw() {
@@ -181,14 +180,76 @@ public class TestDatabaseInterface extends TestCase {
             fail("Verify Database ERROR! " + e.getMessage());
         }
     }
+    public void testTranfer(){
+        float endingTo = 120;
+        float endingFrom = 80;
+        int accountIDTo = 1;
+        int accountIDFrom = 2;
+
+        try {
+            database.transfer(1,2,20);
+        } catch (ClassNotFoundException e) {
+            fail("Transfer ERROR! " + e.getMessage());
+        } catch(SQLException e) {
+            fail("Transfer ERROR! " + e.getMessage());
+        }
+
+        Connection c;
+        Statement statement;
+        ResultSet resultSet;
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+
+            statement = c.createStatement();
+
+            resultSet = statement.executeQuery(
+                    "SELECT ACCOUNT_BALANCE " +
+                            "FROM ACCOUNTS " +
+                            "WHERE ACCOUNT_NUMBER=" + accountIDTo+";");
+
+            assertEquals(endingTo, resultSet.getFloat("ACCOUNT_BALANCE"));
+
+            resultSet.close();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        } catch(SQLException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        }
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+
+            statement = c.createStatement();
+
+            resultSet = statement.executeQuery(
+                    "SELECT ACCOUNT_BALANCE " +
+                            "FROM ACCOUNTS " +
+                            "WHERE ACCOUNT_NUMBER=" + accountIDFrom+";");
+
+            assertEquals(endingFrom, resultSet.getFloat("ACCOUNT_BALANCE"));
+
+            resultSet.close();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        } catch(SQLException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        }
+    }
     @Override
     public void tearDown() {
         /*Undo our changes, set value back to 100*/
+        Connection c = null;
+        Statement statement = null;
         try {
-            Connection c;
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
-            Statement statement = c.createStatement();
+            statement = c.createStatement();
 
             float newAmount = 100;
             c.setAutoCommit(false);
@@ -197,6 +258,28 @@ public class TestDatabaseInterface extends TestCase {
                     "UPDATE ACCOUNTS "+
                             "SET ACCOUNT_BALANCE="+ newAmount + " " +
                             "WHERE ACCOUNT_NUMBER="+ 1 +";");
+
+            c.commit();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        } catch (SQLException e ) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        }
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+            statement = c.createStatement();
+
+            float newAmount = 100;
+            c.setAutoCommit(false);
+            //used to change the balance in the database
+            statement.executeUpdate(
+                    "UPDATE ACCOUNTS "+
+                            "SET ACCOUNT_BALANCE="+ newAmount + " " +
+                            "WHERE ACCOUNT_NUMBER="+ 2 +";");
             c.commit();
             statement.close();
             c.close();
@@ -208,10 +291,9 @@ public class TestDatabaseInterface extends TestCase {
         /*COMBINE THESE TWO AT A LATER TIME*/
         /*Change the transaction amount*/
         try {
-            Connection c;
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
-            Statement statement = c.createStatement();
+            statement = c.createStatement();
             ResultSet resultSet;
 
             c.setAutoCommit(false);
