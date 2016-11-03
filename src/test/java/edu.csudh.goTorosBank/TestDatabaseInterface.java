@@ -180,7 +180,7 @@ public class TestDatabaseInterface extends TestCase {
             fail("Verify Database ERROR! " + e.getMessage());
         }
     }
-    public void testTranfer(){
+    /*public void testTransfer(){
         float endingTo = 120;
         float endingFrom = 80;
         int accountIDTo = 1;
@@ -215,9 +215,9 @@ public class TestDatabaseInterface extends TestCase {
             statement.close();
             c.close();
         } catch (ClassNotFoundException e) {
-            fail("Verify Database ERROR! " + e.getMessage());
+            fail("Verify Database 1 ERROR! " + e.getMessage());
         } catch(SQLException e) {
-            fail("Verify Database ERROR! " + e.getMessage());
+            fail("Verify Database 1 ERROR! " + e.getMessage());
         }
         try {
             Class.forName("org.sqlite.JDBC");
@@ -236,11 +236,11 @@ public class TestDatabaseInterface extends TestCase {
             statement.close();
             c.close();
         } catch (ClassNotFoundException e) {
-            fail("Verify Database ERROR! " + e.getMessage());
+            fail("Verify Database 2 ERROR! " + e.getMessage());
         } catch(SQLException e) {
-            fail("Verify Database ERROR! " + e.getMessage());
+            fail("Verify Database 2 ERROR! " + e.getMessage());
         }
-    }
+    }*/
     @Override
     public void tearDown() {
         /*Undo our changes, set value back to 100*/
@@ -263,9 +263,9 @@ public class TestDatabaseInterface extends TestCase {
             statement.close();
             c.close();
         } catch (ClassNotFoundException e) {
-            fail("Verify Database ERROR! " + e.getMessage());
+            fail("Teardown Database ERROR! (Account1) " + e.getMessage());
         } catch (SQLException e ) {
-            fail("Verify Database ERROR! " + e.getMessage());
+            fail("Teardown Database ERROR! (Account1) " + e.getMessage());
         }
 
         try {
@@ -284,9 +284,9 @@ public class TestDatabaseInterface extends TestCase {
             statement.close();
             c.close();
         } catch (ClassNotFoundException e) {
-            fail("Verify Database ERROR! " + e.getMessage());
+            fail("Teardown Database ERROR! (Account2) " + e.getMessage());
         } catch (SQLException e ) {
-            fail("Verify Database ERROR! " + e.getMessage());
+            fail("Teardown Database ERROR! (Account2) " + e.getMessage());
         }
         /*COMBINE THESE TWO AT A LATER TIME*/
         /*Change the transaction amount*/
@@ -294,7 +294,6 @@ public class TestDatabaseInterface extends TestCase {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
             statement = c.createStatement();
-            ResultSet resultSet;
 
             c.setAutoCommit(false);
             /*Remove any extra test statements*/
@@ -306,9 +305,9 @@ public class TestDatabaseInterface extends TestCase {
             statement.close();
             c.close();
         } catch (ClassNotFoundException e) {
-            fail("Cleanup Database ERROR! " + e.getMessage());
+            fail("Teardown Database ERROR! (Transactions) " + e.getMessage());
         } catch (SQLException e ) {
-            fail("Cleanup Database ERROR! " + e.getMessage());
+            fail("Teardown Database ERROR! (Transactions) " + e.getMessage());
         }
     }
 }
