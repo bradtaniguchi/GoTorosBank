@@ -131,4 +131,20 @@ public class User {
      * @return an arrayList of all the accounts tied to this user
      */
     public ArrayList<Account> getUserAccounts() { return accounts; }
+
+    /**
+     * getter for the user accounts, useful for getting an account if all you have is the ID.
+     * @param accountNumber the accountNumber inside of the database.
+     * @return the Account pointer for the Account with the same ID, or Null if the account doesn't exist.
+     */
+    public Account getUserAccount(int accountNumber) {
+        Account returnAccount = null; //if we don't find that account, give null.
+        for (Account account : accounts) {
+            if (account.getAccountNumber() == accountNumber) {
+                returnAccount = account;
+                break;
+            }
+        }
+        return returnAccount;
+    }
 }
