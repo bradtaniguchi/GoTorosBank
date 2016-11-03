@@ -224,6 +224,7 @@ public class DatabaseInterface {
                     amount + ", '" +
                     dateAndTime + "', " +
                     accountNumber + ");");
+            c.commit();
         } finally {
             if (resultSet != null) resultSet.close();
             if (c != null) c.close();
