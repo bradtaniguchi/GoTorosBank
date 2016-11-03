@@ -102,7 +102,8 @@ $(document).ready(function(){
     }
 
     /*add jquery listeners to the page here*/
-    $('#transferSubmit').on('click', function() {
+    $('#transferSubmit').off('click')  //remove any previous click handlers
+        .on('click', function() {
         var idFrom = $('#bankAccountFrom').val().trim();
         idFrom = idFrom.replace( /[^\d.]/g, '' );
         var idTo = $('#bankAccountTo').val().trim();

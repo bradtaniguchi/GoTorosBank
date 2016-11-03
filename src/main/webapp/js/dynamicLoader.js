@@ -6,6 +6,7 @@
 
 $(document).ready(function() {
     console.log("Dynamic loader ready");
+    var transferLoaded = 0;
     function showPage(pageString) {
         console.log("Changing mainActivity to: " + pageString);
         $("#mainActivity").load(pageString);
@@ -40,10 +41,14 @@ $(document).ready(function() {
     $("#Transfer").on('click', function() {
         console.log("Clicked transfer");
         showPage("jsp/transfer.jsp");
-        $.getScript("js/transferManager.js")//load the transferManager.js
-            .fail(function(jqxhr, settings, exception) {
+        if(!transferLoaded) { // protect against loading this file twice
+            $.getScript("js/transferManager.js", function () {
+                transferLoaded = 1; //file is loaded on the page already
+            })
+                .fail(function (jqxhr, settings, exception) {
                 alert("Failure to load javascript!\n" + jqxhr.responseText);
             });
+        }
         unEnable();
         $(this).addClass('active');
     });
