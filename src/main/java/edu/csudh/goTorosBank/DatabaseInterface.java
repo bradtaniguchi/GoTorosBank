@@ -25,38 +25,42 @@ public class DatabaseInterface {
     /**
      * checks all users in the database and makes sure that the user name and
      * password is inside the database
-     *••••••
+     *
      * @param username the users name
-     * @param userpassword the users password
-     * @return true if users is inside the data base false if the user is not in
+     * @param userPassword the users password
+     * @return Boolean, and true if users is inside the data base false if the user is not in
      * the data base
      * @throws ClassNotFoundException checks if file is inside
      * @throws SQLException checks for sql exceptions
      */
-    public boolean validate(String username, String userpassword)throws SQLException,ClassNotFoundException{
+    public boolean validate(String username, String userPassword)throws SQLException,ClassNotFoundException{
         Connection c = null;
+        Statement statement;
+        ResultSet resultSet = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection(connectionLink); //this will get the file in resources
 
-        Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
+            statement = c.createStatement();
+            statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-        Statement statement = c.createStatement();
-        statement.setQueryTimeout(30); // set timeout to 30 sec.
+            resultSet = statement.executeQuery("SELECT * FROM USERS");
 
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS");
+            while (resultSet.next()) {
+                // iterate & read the result set
+                String usname = resultSet.getString("USERNAME");
+                String uspass = resultSet.getString("PASSWD");
 
-        while (resultSet.next()) {
-            // iterate & read the result set
-            String usname = resultSet.getString("USERNAME");
-            String uspass = resultSet.getString("PASSWD");
-
-            if (username.contentEquals(usname) && userpassword.contentEquals(uspass)) {
-                c.close();
-                return true;
+                if (username.contentEquals(usname) && userPassword.contentEquals(uspass)) {
+                    c.close();
+                    return true;
+                }
             }
+        } finally {
+            if (resultSet != null) resultSet.close();
+            //if (resultSet != null) statement.close(); //we dont need to close this!
+            if (c != null) c.close();
         }
-        resultSet.close();
-        statement.close();
-        c.close();
         return false;
     }
 
@@ -64,9 +68,11 @@ public class DatabaseInterface {
      * enter the account number and the account number you want to send it to 
      * and the amount and everything is done
      * 
-     * @accountIDFrom the account number that you are sending it from
-     * @accountIDTo the account number you are sending it to 
-     * @amount the amount of money being sent
+     * @param accountIDFrom the account number that you are sending it from
+     * @param accountIDTo the account number you are sending it to
+     * @param amount the amount of money being sent
+     * @throws ClassNotFoundException checks if file is inside
+     * @throws SQLException checks for sql exceptions
      */
     public void transfer(int accountIDFrom, int accountIDTo,float amount)
             throws SQLException,ClassNotFoundException{
@@ -88,36 +94,38 @@ public class DatabaseInterface {
             throws SQLException,ClassNotFoundException {
         float accountbalance;
         Connection c = null;
+        Statement statement;
+        ResultSet resultSet = null;
 
-        Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
-        /*do other stuff here*/
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection(connectionLink); //this will get the file in resources
 
-        Statement statement = c.createStatement();
-        statement.setQueryTimeout(30); // set timeout to 30 sec.
-        ResultSet resultSet;
+            statement = c.createStatement();
+            statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-        //get costumers account balance
-        resultSet = statement.executeQuery(
-                "SELECT ACCOUNT_BALANCE " +
-                "FROM ACCOUNTS " +
-                "WHERE ACCOUNT_NUMBER="+accountIDFrom+";");
+            c.setAutoCommit(false); //lock
+            //get costumers account balance
+            resultSet = statement.executeQuery(
+                    "SELECT ACCOUNT_BALANCE " +
+                            "FROM ACCOUNTS " +
+                            "WHERE ACCOUNT_NUMBER=" + accountIDFrom + ";");
 
-        accountbalance = resultSet.getFloat("ACCOUNT_BALANCE");
+            accountbalance = resultSet.getFloat("ACCOUNT_BALANCE");
 
-        //subtract amount from balance
-        accountbalance-=amount;
+            //subtract amount from balance
+            accountbalance -= amount;
 
-        //used to change the balance in the database
-        statement.executeUpdate(
-                "UPDATE ACCOUNTS "+
-                "SET ACCOUNT_BALANCE="+ accountbalance + " " +
-                "WHERE ACCOUNT_NUMBER="+accountIDFrom+";");
-
-        resultSet.close();
-        statement.close();
-        c.close();
-
+            //used to change the balance in the database
+            statement.executeUpdate(
+                    "UPDATE ACCOUNTS " +
+                            "SET ACCOUNT_BALANCE=" + accountbalance + " " +
+                            "WHERE ACCOUNT_NUMBER=" + accountIDFrom + ";");
+            c.commit();
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (c != null) c.close();
+        }
         //now add a transfer row for the transaction
         addTransaction(accountIDFrom,description,amount);
     }
@@ -135,34 +143,37 @@ public class DatabaseInterface {
     public void deposit(int accountNumber, float amount, String description)throws SQLException, ClassNotFoundException{
         float accountbalance;
         Connection c = null;
+        Statement statement;
+        ResultSet resultSet = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection(connectionLink); //this will get the file in resources
 
-        Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
+            statement = c.createStatement();
+            statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-        Statement statement = c.createStatement();
-        statement.setQueryTimeout(30); // set timeout to 30 sec.
-        ResultSet resultSet;
+            c.setAutoCommit(false);
+            //get customers account balance
+            resultSet = statement.executeQuery(
+                    "SELECT ACCOUNT_BALANCE " +
+                            "FROM ACCOUNTS " +
+                            "WHERE ACCOUNT_NUMBER=" + accountNumber + ";");
 
-        //get customers account balance
-        resultSet = statement.executeQuery(
-                "SELECT ACCOUNT_BALANCE " +
-                        "FROM ACCOUNTS " +
-                        "WHERE ACCOUNT_NUMBER="+accountNumber+";");
+            accountbalance = resultSet.getFloat("ACCOUNT_BALANCE");
 
-        accountbalance = resultSet.getFloat("ACCOUNT_BALANCE");
+            //add amount from balance
+            accountbalance += amount;
 
-        //add amount from balance
-        accountbalance+=amount;
-
-        //used to change the balance in the database
-        statement.executeUpdate(
-                "UPDATE ACCOUNTS "+
-                        "SET ACCOUNT_BALANCE="+ accountbalance + " " +
-                        "WHERE ACCOUNT_NUMBER="+accountNumber+";");
-        resultSet.close();
-        statement.close();
-        c.close();
-
+            //used to change the balance in the database
+            statement.executeUpdate(
+                    "UPDATE ACCOUNTS " +
+                            "SET ACCOUNT_BALANCE=" + accountbalance + " " +
+                            "WHERE ACCOUNT_NUMBER=" + accountNumber + ";");
+            c.commit();
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (c != null) c.close();
+        }
         //now add a transfer row for the transaction
         addTransaction(accountNumber,description,amount);
     }
@@ -177,44 +188,46 @@ public class DatabaseInterface {
      */
     public void addTransaction(int accountNumber, String transactionDescription, float amount)
             throws SQLException,ClassNotFoundException{
-        Connection c;
-
-        Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection(connectionLink); //this will get the file in resources
+        Connection c = null;
+        Statement statement;
+        ResultSet resultSet = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection(connectionLink); //this will get the file in resources
         /*do other stuff here*/
 
-        Statement statement = c.createStatement();
-        statement.setQueryTimeout(30); // set timeout to 30 sec.
+            statement = c.createStatement();
+            statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-        //get the largest transaction number and add 1 to it
-        ResultSet resultSet = statement.executeQuery(
-                "SELECT MAX(TRANSACTION_NUMBER) as MAX " +
-                "FROM TRANSACTIONS;");
-                //"WHERE ACCOUNT_NUMBER="+accountNumber+";");
+            c.setAutoCommit(false);
+            //get the largest transaction number and add 1 to it
+            resultSet = statement.executeQuery(
+                    "SELECT MAX(TRANSACTION_NUMBER) as MAX " +
+                            "FROM TRANSACTIONS;");
+            //"WHERE ACCOUNT_NUMBER="+accountNumber+";");
 
-        //used to save the number
-        int newTransactionNumber = 0;
+            //used to save the number
+            int newTransactionNumber = 0;
 
-        while (resultSet.next()) {
-            newTransactionNumber = resultSet.getInt("MAX")+1;
+            while (resultSet.next()) {
+                newTransactionNumber = resultSet.getInt("MAX") + 1;
+            }
+
+            //used to get the real date for transaction time
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dateAndTime = sdf.format(new Date());
+
+            //will add the new transaction to the database
+            statement.executeUpdate("INSERT INTO TRANSACTIONS VALUES ( " +
+                    newTransactionNumber + ", '" +
+                    transactionDescription + "', " +
+                    amount + ", '" +
+                    dateAndTime + "', " +
+                    accountNumber + ");");
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (c != null) c.close();
         }
-
-        //used to get the real date for transaction time
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateAndTime = sdf.format(new Date());
-
-        //will add the new transaction to the database
-        statement.executeUpdate("INSERT INTO TRANSACTIONS VALUES ( "+
-                        newTransactionNumber+", '"+
-                        transactionDescription+"', "+
-                        amount+", '"+
-                        dateAndTime+"', "+
-                        accountNumber+");");
-
-        resultSet.close();
-        statement.close();
-        c.close();
-
     }
 
     /**
@@ -224,35 +237,40 @@ public class DatabaseInterface {
      *
      * @param username the username of the user, ie "toro", a unique ID
      * @return User object, or null value
+     * @throws ParseException This is thrown when the database isn't able to parse the given query
      * @throws SQLException this will be caught by the servlet class
      * @throws ClassNotFoundException this will be caught by the servlet class
      */
     public User getUser(String username) throws ParseException, SQLException, ClassNotFoundException {
-        Connection c;
-        Statement stmt;
-        Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection(connectionLink);
+        Connection c = null;
+        Statement statement;
+        ResultSet resultSet = null;
 
-        stmt = c.createStatement();
-        stmt.setQueryTimeout(30); // set timeout to 30 sec.
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection(connectionLink);
 
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM USERS");
-        while (resultSet.next()) {
-            String databaseUserName = resultSet.getString("USERNAME");
-            if (username.contentEquals(databaseUserName)) { //if the username is equal to the given, we have our user
+            statement = c.createStatement();
+            statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-                User user = new User(resultSet.getInt("UID"),
-                        databaseUserName, resultSet.getString("FIRST_NAME"),
-                        resultSet.getString("LAST_NAME"));
-                ArrayList<Account> accounts = getAccounts(user);
-                user.addAccounts(accounts); //call the private getAccounts function
+            resultSet = statement.executeQuery("SELECT * FROM USERS");
 
-                resultSet.close();
-                stmt.close();
-                c.close();
+            while (resultSet.next()) {
+                String databaseUserName = resultSet.getString("USERNAME");
+                if (username.contentEquals(databaseUserName)) { //if the username is equal to the given, we have our user
 
-                return user;
+                    User user = new User(resultSet.getInt("UID"),
+                            databaseUserName, resultSet.getString("FIRST_NAME"),
+                            resultSet.getString("LAST_NAME"));
+                    ArrayList<Account> accounts = getAccounts(user);
+                    user.addAccounts(accounts); //call the private getAccounts function
+
+                    return user;
+                }
             }
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (c != null) c.close();
         }
         /*there was no user!*/
         return null;
@@ -263,125 +281,136 @@ public class DatabaseInterface {
      * for the first instance of the accountNumber.
      *
      * @param account the account number for the account inside of the ACCOUNT table, a unique ID.
+     * @throws ParseException This is thrown when the database isn't able to parse the given query
      * @throws ClassNotFoundException this will be caught by the servlet class
      * @throws SQLException this will be caught by the servlet class
      * TODO: Updated with changes to Accounts holding a list of Bills due.
      */
     private ArrayList<Bill> getBills(Account account) throws ParseException, ClassNotFoundException, SQLException {
         ArrayList<Bill> bills = new ArrayList<Bill>();
-        Class.forName("org.sqlite.JDBC");
-        Connection connection;
-        Statement statement;
-        ResultSet resultSet;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+        Connection c = null;
+        Statement statement;
+        ResultSet resultSet = null;
 
-        connection = DriverManager.getConnection(connectionLink); //this will get the file in resources
-        statement = connection.createStatement();
-        resultSet = statement.executeQuery("SELECT * FROM BILLS");
-        while (resultSet.next()) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection(connectionLink); //this will get the file in resources
+            statement = c.createStatement();
 
-            int BillsID = resultSet.getInt("BID");
-            String Bill_Name = resultSet.getString("BILL_NAME");
-            String Bill_Description = resultSet.getString("BILL_DESCRIPTION");
-            float Bill_Amount = resultSet.getFloat("BILL_AMOUNT");
-            Date Bill_Due_Date = sdf.parse(resultSet.getString("BILL_DUE_DATE"));
-            String Bill_Status = resultSet.getString("BILL_STATUS");
-            int Uid = resultSet.getInt("UID");
-            int Account_Number = resultSet.getInt("ACCOUNT_NUMBER");
+            resultSet = statement.executeQuery("SELECT * FROM BILLS");
 
-            Bill bill = new Bill(BillsID, Bill_Name, Bill_Description, Bill_Amount, Bill_Due_Date, Bill_Status, account);
-            bills.add(bill);
+            while (resultSet.next()) {
+
+                int BillsID = resultSet.getInt("BID");
+                String Bill_Name = resultSet.getString("BILL_NAME");
+                String Bill_Description = resultSet.getString("BILL_DESCRIPTION");
+                float Bill_Amount = resultSet.getFloat("BILL_AMOUNT");
+                Date Bill_Due_Date = sdf.parse(resultSet.getString("BILL_DUE_DATE"));
+                String Bill_Status = resultSet.getString("BILL_STATUS");
+                //int Uid = resultSet.getInt("UID");
+                //int Account_Number = resultSet.getInt("ACCOUNT_NUMBER");
+
+                Bill bill = new Bill(BillsID, Bill_Name, Bill_Description,
+                        Bill_Amount, Bill_Due_Date, Bill_Status, account);
+                bills.add(bill);
+            }
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (c != null) c.close();
         }
-        resultSet.close();
-        statement.close();
-        connection.close();
-        return bills;
+        return bills; //does this always return, even with exception?
     }
     
      /**
      * This function finds all accounts tied to a User. It takes a User class, and get it's ID.
      * Then it checks the database for accounts tied to that ID
      * @param parentUser A User object that is used to get the ID.
-     * @throws SQLException this will be caught by the servlet class
+     * @return an Arraylist of Accounts that are recursively filed.
+      * @throws ParseException This is thrown when the database isn't able to parse the given query
+     * @throws SQLException this will be caught by the servlet class.
      * @throws ClassNotFoundException this will be caught by the servlet class
      */
     private ArrayList<Account> getAccounts(User parentUser) throws ParseException, SQLException, ClassNotFoundException{
-        Connection c;
-        Statement stmt;
-        ResultSet resultSet;
         ArrayList<Account> accounts = new ArrayList<Account>();
-        
-        Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection(connectionLink);
-       
-        stmt = c.createStatement();
-        /*resultSet = stmt.executeQuery("SELECT * ACCOUNTS, USER"
-                                    + "WHERE ACCOUNTS.UID = USER.UID;");
-                                    */
-        resultSet = stmt.executeQuery("SELECT * FROM ACCOUNTS");
-        while (resultSet.next()){
-            int id = resultSet.getInt("UID");
-            if(parentUser.getId() == id) {
-                int accountNumber = resultSet.getInt("ACCOUNT_NUMBER");
-                String accountType = resultSet.getString("ACCOUNT_TYPE");
-                float accountBalance = resultSet.getFloat("ACCOUNT_BALANCE");
-                Account account = new Account(accountNumber, accountBalance, parentUser, accountType);
+        Connection c = null;
+        Statement statement;
+        ResultSet resultSet = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection(connectionLink);
+
+            statement = c.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM ACCOUNTS");
+            while (resultSet.next()) {
+                int id = resultSet.getInt("UID");
+                if (parentUser.getId() == id) {
+                    int accountNumber = resultSet.getInt("ACCOUNT_NUMBER");
+                    String accountType = resultSet.getString("ACCOUNT_TYPE");
+                    float accountBalance = resultSet.getFloat("ACCOUNT_BALANCE");
+                    Account account = new Account(accountNumber, accountBalance, parentUser, accountType);
                 /*TODO: These need to be tested!*/
-                account.addTransactions(getTransactions(account)); //get the transactions for this Account
-                account.addBills(getBills(account)); //get the bills for this account
-                accounts.add(account);
+                    account.addTransactions(getTransactions(account)); //get the transactions for this Account
+                    account.addBills(getBills(account)); //get the bills for this account
+                    accounts.add(account);
+                }
             }
+        }  finally {
+            if (resultSet != null) resultSet.close();
+            if (c != null) c.close();
         }
-        resultSet.close();
-        stmt.close();
-        c.close();
         return accounts;
     }
 
-    private ArrayList<Transaction> getTransactions(Account account) throws SQLException, ParseException,ClassNotFoundException
-    {
-        Connection dbConnection;
-        Statement sqlQuery;
-        ResultSet result;
-
+    /**
+     * This function finds all the accounts tied to the account object. It takes an Account class.
+     * @param account An Account object that is used to get the ID
+     * @return ArrayList of Transactions that are recursively filed.
+     * @throws ParseException This is thrown when the database isn't able to parse the given query
+     * @throws SQLException this will be caught by the servlet class
+     * @throws ClassNotFoundException this wil be caught by the servlet class
+     */
+    private ArrayList<Transaction> getTransactions(Account account) throws ParseException,
+            SQLException, ClassNotFoundException {
         int tNumber;
         String tDescription;
         float tAmount;
         Date tDate;
         int aNumber;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
-
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
-        Class.forName("org.sqlite.JDBC");
-        dbConnection = DriverManager.getConnection(connectionLink);
+        Connection c = null;
+        Statement statement;
+        ResultSet resultSet = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection(connectionLink);
 
-        sqlQuery = dbConnection.createStatement();
-        result = sqlQuery.executeQuery("SELECT * FROM TRANSACTIONS WHERE ACCOUNT_NUMBER = " +
-                account.getAccountNumber() + ";");
+            statement = c.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM TRANSACTIONS WHERE ACCOUNT_NUMBER = " +
+                    account.getAccountNumber() + ";");
 
-        while(result.next())
-        {
-            aNumber = result.getInt("ACCOUNT_NUMBER");
-            if(account.getAccountNumber() == aNumber) {
+            while (resultSet.next()) {
+                aNumber = resultSet.getInt("ACCOUNT_NUMBER");
+                if (account.getAccountNumber() == aNumber) {
 
-                tNumber = result.getInt("TRANSACTION_NUMBER");
-                tDescription = result.getString("TRANSACTION_DESCRIPTION");
-                tAmount = result.getFloat("TRANSACTION_AMOUNT");
+                    tNumber = resultSet.getInt("TRANSACTION_NUMBER");
+                    tDescription = resultSet.getString("TRANSACTION_DESCRIPTION");
+                    tAmount = resultSet.getFloat("TRANSACTION_AMOUNT");
 
-                tDate = sdf.parse(result.getString("TRANSACTION_DATE"));
+                    tDate = sdf.parse(resultSet.getString("TRANSACTION_DATE"));
 
-                Transaction transaction = new Transaction(account, tNumber, tAmount, tDescription,
-                        tDate);
+                    Transaction transaction = new Transaction(account, tNumber, tAmount, tDescription,
+                            tDate);
 
-                transactions.add(transaction);
+                    transactions.add(transaction);
+                }
             }
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (c != null) c.close();
         }
-        result.close();
-        sqlQuery.close();
-        dbConnection.close();
-
         return transactions;
     }
-
 }
