@@ -31,7 +31,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 
-
 public class UploadServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config)throws ServletException{
@@ -41,27 +40,36 @@ public class UploadServlet extends HttpServlet {
 
     @Override
     @SuppressWarnings("uncheked")
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+    public void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+        response.setContentType("text");
+        response.setCharacterEncoding("UTF-8");
+
+        //http://www.technicalkeeda.com/java/how-to-upload-file-using-servlet-jsp
         PrintWriter out = response.getWriter();
-        
+
         if(!ServletFileUpload.isMultipartContent(request)){
             out.println("Nothing to upload");
-            
         }
-        FileItemFactory itemFactory = new DiskFileItemFactory();
+        DiskFileItemFactory itemFactory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(itemFactory);
         try{
             List<FileItem> items = upload.parseRequest(request);
+            out.println(items.size());
+
             for(FileItem item:items){
-                String contentType = item.getContentType();
-                if(!contentType.equals("image/png")){
-                    out.println("only png format image files supported");
-                    
+                if(!item.isFormField()) {
+                    out.println("   fieldName: " + item.getFieldName());
+                    out.println("   content type " + item.getContentType());
+                    out.println("   name " + item.getName());
+                } else {
+                    out.println("We got Form Field Data");
                 }
             }
+            out.println("--End--");
         }catch(FileUploadException e){
             out.println("Upload failed");
         }
     }
+
   
 }
