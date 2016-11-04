@@ -14,7 +14,7 @@ import junit.framework.TestCase;
  */
 public class TestTess4j extends TestCase{
     protected Tess4j tess;
-    protected File imageFile;
+    protected File imageFile = new File ("jdbc:sqlite::resource:ModifiedCheckTemplate.jpg");
     protected File OutputText;
     
     @Override
