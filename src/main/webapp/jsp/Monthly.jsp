@@ -113,6 +113,7 @@ window.open("http://www.w3schools.com");
                             "<td>" + trans.get(i).getTransactionAmount() + "</td>" +
                             "<td>" + trans.get(i).getTransactionDescription() + "</td>" +
                             "</tr>";
+                    out.print(line);
                 }
             %>
         </table>
