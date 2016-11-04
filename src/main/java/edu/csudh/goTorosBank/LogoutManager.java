@@ -6,7 +6,8 @@ import java.io.IOException;
 import org.json.simple.JSONObject;
 
 /**
- * Logout Manager - removes the user's credentials from the browser, thus removing access until login again.
+ * Logout Manager - removes the user's credentials.
+ * removes the user's credentials. from the browser, thus removing access until login again.
  * @author Bradley Taniguchi
  * @see HttpServlet
  */

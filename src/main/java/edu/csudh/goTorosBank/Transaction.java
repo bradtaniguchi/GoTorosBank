@@ -7,9 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by brad on 10/12/16.
- * Based Off Database Model 10/12/16
- * Transaction is a Class that holds all of the information of a transaction that was
+ * Transaction is a Class that holds all of the information of a transaction.
+ * Transaction is a Class that holds all of the information of a transaction. that was
  * made in the database weather it was a deposit or withdrawl it will have all of these
  * attributes
  *
@@ -19,6 +18,9 @@ import java.util.Date;
  * private float transactionAmount;
  * private Account account;
  * private SimpleDateFormat sdf;
+ *
+ * Created by brad on 10/12/16.
+ * Based Off Database Model 10/12/16
  */
 public class Transaction {
     private int transactionNumber;

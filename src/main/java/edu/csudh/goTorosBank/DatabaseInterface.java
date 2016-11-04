@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Interface that interacts with the database
+ * Interface that interacts with the database.
  * @authors Rudy, Daniel, Bradley, Crosby, Jesus
  */
 public class DatabaseInterface {

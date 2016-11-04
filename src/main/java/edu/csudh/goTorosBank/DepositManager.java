@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Manages deposits
+ * Manages deposits.
  * Bradley Taniguchi
  * 9/28/16
  * Temp Deposit manager

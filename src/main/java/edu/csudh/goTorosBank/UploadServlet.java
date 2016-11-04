@@ -31,7 +31,9 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 
-
+/**
+ * uploads servlets.
+ */
 public class UploadServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config)throws ServletException{
