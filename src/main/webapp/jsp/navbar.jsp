@@ -12,9 +12,19 @@
         <li><a href="profile.jsp">ProfileTest</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a id="logout" href="#">Logout <span class="glyphicon glyphicon-user"></span></a></li>
-        <li><a href="profile.jsp">my Account</a></li>
+
+        <li id="here">
+            <script>
+                var url = document.URL;
+                if(url.includes("index")) {
+
+                }else{
+                    document.write("<a id='logout' " +
+                            "href='#'>Logout <span class='glyphicon glyphicon-user'>" +
+                            "</span></a>");
+                }
+            </script>
+        </li>
     </ul>
-    Relative Path: <%= request.getServletPath() %>
 </nav>
 
