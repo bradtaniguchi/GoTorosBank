@@ -6,14 +6,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Keeps track of all Billing information.
+ * Information like bill id, bill name, bill description, bill amount, bill due date and bill status
+ * and can have the account that is associated with it
  * Created by crosby on 10/13/16.
- *
  */
+
 public class Bill {
     private int billID;
     private String billName;
     private String billDescription;
-    private double billAmount;
+    private float billAmount;
     private Date billDueDate; //CHANGE THIS TO A FORMATTED DATE Done
     private String billStatus; //remove this later, replace with enum
     private SimpleDateFormat sdf;
@@ -22,7 +25,7 @@ public class Bill {
     //private int uID;
     private Account account;
 
-    public Bill(int billID, String billName, String billDescription, double billAmount,
+    public Bill(int billID, String billName, String billDescription, float billAmount,
                 Date billDueDate, String billStatus, Account account) {
         this.billID = billID;
         this.billName = billName;
@@ -55,7 +58,7 @@ public class Bill {
     public String getBillDescaription(){
         return billDescription;
     }
-    public double getBillAmmount(){
+    public float getBillAmmount(){
         return billAmount;
     }
 

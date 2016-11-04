@@ -2,6 +2,7 @@ package edu.csudh.goTorosBank;
 
 import junit.framework.TestCase;
 
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -16,6 +17,31 @@ public class TestDatabaseInterface extends TestCase {
     @Override
     protected void setUp() {
         database = new DatabaseInterface("jdbc:sqlite::resource:testGoTorosBank.db"); //use test database
+        try {
+            Connection c;
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+            Statement statement = c.createStatement();
+            float newAmount = 100;
+            c.setAutoCommit(false);
+            //used to change the balance in the database
+            statement.executeUpdate(
+                    "UPDATE ACCOUNTS "+
+                    "SET ACCOUNT_BALANCE="+ newAmount + " " +
+                    "WHERE ACCOUNT_NUMBER="+ 1 +";");
+
+            /*Remove any extra transactions from the test database.*/
+            statement.executeUpdate(
+                    "DELETE from TRANSACTIONS " +
+                    "WHERE TRANSACTION_NUMBER > 2;");
+            c.commit();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Setup Database ERROR! " + e.getMessage());
+        } catch (SQLException e ) {
+            fail("Setup Database ERROR! " + e.getMessage());
+        }
     }
 
     public void testValidate() throws Exception {
@@ -40,7 +66,7 @@ public class TestDatabaseInterface extends TestCase {
                     acc.getAccountType().contentEquals("savings"));
 
             assertNotNull(acc.getAccountBalance());
-            assertEquals(100,acc.getAccountBalance());
+            assertEquals(100f,acc.getAccountBalance());
 
             assertNotNull(acc.getAccountNumber());
             assertTrue(acc.getAccountNumber() == 1 ||
@@ -66,12 +92,222 @@ public class TestDatabaseInterface extends TestCase {
                     assertEquals(4, x.getBillID());
                     assertEquals("Eddison", x.getBillName());
                     assertEquals("your gass bill", x.getBillDescaription());
-                    assertEquals(100.0, x.getBillAmmount());
+                    assertEquals(100.0f, x.getBillAmmount());
                     assertEquals("1999-12-30 12:00:00", x.getBillDueDate());
                     assertEquals("done", x.getBillStatus());
                     /*get user id not found*/
                 }
             }
+        }
+    }
+
+    /*TODO: This test is failing*/
+    public void testDeposit(){
+        int accountID = 1; //test using the 1st account
+        float amount = 50; //amount we are going to add
+        float endAmount = 150; //the amount we want at the end
+        try {
+            database.deposit(accountID, amount, "Test Deposit");
+        } catch(SQLException e){
+            fail("Database ERROR! " + e.getMessage());
+
+        } catch(ClassNotFoundException e) {
+            fail("Database ERROR! " + e.getMessage());
+        }
+
+        try {
+            Connection c = null;
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+
+            Statement statement = c.createStatement();
+            //statement.setQueryTimeout(30); // set timeout to 30 sec.
+            ResultSet resultSet;
+
+            resultSet = statement.executeQuery(
+                    "SELECT ACCOUNT_BALANCE " +
+                    "FROM ACCOUNTS " +
+                    "WHERE ACCOUNT_NUMBER="+accountID+";");
+
+            assertEquals(endAmount, resultSet.getFloat("ACCOUNT_BALANCE"));
+
+            resultSet.close();
+            statement.close();
+            c.close();
+
+        } catch (ClassNotFoundException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        } catch (SQLException e ) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        }
+    }
+
+    public void testWithdraw() {
+        int accountID = 1; //test using the 1st account
+        float amount = 30; //withdraw 30 dollars
+        float endAmount = 70; //the amount we want at the end
+
+        Connection c;
+        Statement statement;
+        ResultSet resultSet;
+        try {
+            database.withdraw(accountID, amount, "Test Withdraw");
+        } catch (SQLException e) {
+            fail("Database ERROR! " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            fail("Database ERROR! " + e.getMessage());
+        }
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+
+            statement = c.createStatement();
+
+            resultSet = statement.executeQuery(
+                    "SELECT ACCOUNT_BALANCE " +
+                    "FROM ACCOUNTS " +
+                    "WHERE ACCOUNT_NUMBER=" + accountID+";");
+
+            assertEquals(endAmount, resultSet.getFloat("ACCOUNT_BALANCE"));
+
+            resultSet.close();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        } catch(SQLException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        }
+    }
+    /*public void testTransfer(){
+        float endingTo = 120;
+        float endingFrom = 80;
+        int accountIDTo = 1;
+        int accountIDFrom = 2;
+
+        try {
+            database.transfer(1,2,20);
+        } catch (ClassNotFoundException e) {
+            fail("Transfer ERROR! " + e.getMessage());
+        } catch(SQLException e) {
+            fail("Transfer ERROR! " + e.getMessage());
+        }
+
+        Connection c;
+        Statement statement;
+        ResultSet resultSet;
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+
+            statement = c.createStatement();
+
+            resultSet = statement.executeQuery(
+                    "SELECT ACCOUNT_BALANCE " +
+                            "FROM ACCOUNTS " +
+                            "WHERE ACCOUNT_NUMBER=" + accountIDTo+";");
+
+            assertEquals(endingTo, resultSet.getFloat("ACCOUNT_BALANCE"));
+
+            resultSet.close();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Verify Database 1 ERROR! " + e.getMessage());
+        } catch(SQLException e) {
+            fail("Verify Database 1 ERROR! " + e.getMessage());
+        }
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+
+            statement = c.createStatement();
+
+            resultSet = statement.executeQuery(
+                    "SELECT ACCOUNT_BALANCE " +
+                            "FROM ACCOUNTS " +
+                            "WHERE ACCOUNT_NUMBER=" + accountIDFrom+";");
+
+            assertEquals(endingFrom, resultSet.getFloat("ACCOUNT_BALANCE"));
+
+            resultSet.close();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Verify Database 2 ERROR! " + e.getMessage());
+        } catch(SQLException e) {
+            fail("Verify Database 2 ERROR! " + e.getMessage());
+        }
+    }*/
+    @Override
+    public void tearDown() {
+        /*Undo our changes, set value back to 100*/
+        Connection c = null;
+        Statement statement = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+            statement = c.createStatement();
+
+            float newAmount = 100;
+            c.setAutoCommit(false);
+            //used to change the balance in the database
+            statement.executeUpdate(
+                    "UPDATE ACCOUNTS "+
+                            "SET ACCOUNT_BALANCE="+ newAmount + " " +
+                            "WHERE ACCOUNT_NUMBER="+ 1 +";");
+
+            c.commit();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Teardown Database ERROR! (Account1) " + e.getMessage());
+        } catch (SQLException e ) {
+            fail("Teardown Database ERROR! (Account1) " + e.getMessage());
+        }
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+            statement = c.createStatement();
+
+            float newAmount = 100;
+            c.setAutoCommit(false);
+            //used to change the balance in the database
+            statement.executeUpdate(
+                    "UPDATE ACCOUNTS "+
+                            "SET ACCOUNT_BALANCE="+ newAmount + " " +
+                            "WHERE ACCOUNT_NUMBER="+ 2 +";");
+            c.commit();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Teardown Database ERROR! (Account2) " + e.getMessage());
+        } catch (SQLException e ) {
+            fail("Teardown Database ERROR! (Account2) " + e.getMessage());
+        }
+        /*COMBINE THESE TWO AT A LATER TIME*/
+        /*Change the transaction amount*/
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+            statement = c.createStatement();
+
+            c.setAutoCommit(false);
+            /*Remove any extra test statements*/
+            statement.executeUpdate(
+                    "DELETE from TRANSACTIONS " +
+                            "WHERE TRANSACTION_NUMBER > 2;");
+
+            c.commit();
+            statement.close();
+            c.close();
+        } catch (ClassNotFoundException e) {
+            fail("Teardown Database ERROR! (Transactions) " + e.getMessage());
+        } catch (SQLException e ) {
+            fail("Teardown Database ERROR! (Transactions) " + e.getMessage());
         }
     }
 }

@@ -54,6 +54,14 @@
         <servlet-name>UploadServlet</servlet-name>
         <url-pattern>/util/UploadServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>edu.csudh.goTorosBank.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/util/DownloadServlet</url-pattern>
+    </servlet-mapping>
     
     <!--remove this mapping later, once unit tests are ready to go-->
     <servlet>

@@ -10,13 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by brad on 10/27/16.
- * This class will provide a connection from the front-end to the backend
- * and doing the business logic of the use case of a user transfering money
+ * This class will provide a connection from the front-end to the backend.
+ * This class will provide a connection from the front-end to the backend and doing
+ * the business logic of the use case of a user transfering money
  * between accounts.
+ *
+ * Created by brad on 10/27/16.
  */
 public class TransferServlet extends HttpServlet {
     @Override
@@ -53,13 +56,32 @@ public class TransferServlet extends HttpServlet {
 
             int accountIDFrom = Integer.parseInt(request.getParameter("accountIDFrom"));
             int accountIDTo = Integer.parseInt(request.getParameter("accountIDTo"));
-            int amount = Integer.parseInt(request.getParameter("amount"));
+            float amount = Float.parseFloat(request.getParameter("amount"));
 
-            /*Transfer the money...*/
-            database.transfer(accountIDFrom, accountIDTo, amount);
-            returnJson.put("successfulTransaction", true);
-            returnJson.put("message", "Successfully transferred: " + amount + " From account: " + accountIDFrom +
-                " to account: " + accountIDTo);
+            /*This case is when the user has no accounts*/
+            if (myUser.getUserAccounts().size() == 0) {
+                returnJson.put("successfulTransaction", false);
+                returnJson.put("message", "No Accounts to Transfer! between!");
+                /*This case is when the user has only 1 account*/
+            } else if (myUser.getUserAccounts().size() == 1) {
+                returnJson.put("successfulTransaction", false);
+                returnJson.put("message", "You cannot transfer between a single account!");
+
+            } else {
+                /* Get the account with the given ID. */
+                Account fromAccount = myUser.getUserAccount(accountIDFrom);
+                /*and check to make sure the user can afford the amount to transfer*/
+                if (0 > (fromAccount.getAccountBalance()-amount)) {
+                    returnJson.put("successfulTransaction", false);
+                    returnJson.put("message", "Insufficient funds in account " + fromAccount.getAccountNumber());
+                /*Transfer the money...*/
+                } else {
+                    database.transfer(accountIDFrom, accountIDTo, amount);
+                    returnJson.put("successfulTransaction", true);
+                    returnJson.put("message", "Successfully transferred: " + amount + " From account: " + accountIDFrom +
+                            " to account: " + accountIDTo);
+                }
+            }
         } catch(SQLException e) {
             returnJson.put("successfulTransaction", false);
             returnJson.put("message", "SQLException: " + e.getMessage());

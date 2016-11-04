@@ -78,9 +78,11 @@ $(document).ready(function() {
             var transactions = User["accounts"][index]["transactions"];
             //for (var i in transactions){
             $.each(transactions ,function(index){
-               html += '<td>' + transactions[index]["transactionDate"] + '</td>';
-               html += '<td>' + transactions[index]["transactionAmount"] + '</td>';
-               html += '<td>' + transactions[index]["transactionDescription"] + '</td>';
+                html += '<tr>';
+                html += '<td>' + transactions[index]["transactionDate"] + '</td>';
+                html += '<td>' + transactions[index]["transactionAmount"] + '</td>';
+                html += '<td>' + transactions[index]["transactionDescription"] + '</td>';
+                html += '<tr>';
             });
             html += "</tr>"; //end the transaction entry
             $(this).html(html); //now add the html to the page

@@ -1,7 +1,6 @@
 package edu.csudh.goTorosBank;
 
 import junit.framework.TestCase;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,14 +27,14 @@ public class TestAccount extends TestCase {
 
         accounts = new ArrayList<Account>();
         Dummy = new User(100, "jeus@gmail.com", "Jeus", "Cortez", accounts);
-        DummyAccount1 = new Account(900, 100000, Dummy, "gambling"); //account 1
-        DummyAccount2 = new Account(310, 2000, Dummy, "savings"); //account 2        
+        DummyAccount1 = new Account(900, 100000f, Dummy, "gambling"); //account 1
+        DummyAccount2 = new Account(310, 2000f, Dummy, "savings"); //account 2        
         accounts.add(DummyAccount1);
         accounts.add(DummyAccount2);
         //Dummy has two accounts: gambling and savings
         yodaAccounts = new ArrayList<Account>();
         Yoda = new User(1, "UseTheForce@StarWars.com", "Yoda", "YoMama", yodaAccounts);
-        TheYodaAccount = new Account(100, 900000000, Yoda, "LightSabers");
+        TheYodaAccount = new Account(100, 900000000f, Yoda, "LightSabers");
         yodaAccounts.add(TheYodaAccount);
         //Yoda has one account: LightSabers
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
@@ -43,7 +42,7 @@ public class TestAccount extends TestCase {
         SampleTransaction = new Transaction(TheYodaAccount, 1, 120.00f, "Food");
         TheYodaAccount.addTransaction(SampleTransaction);
     }
-
+    
     public void testAccounts() {
         //checks for AccountName to not be null
         assertNotNull(Dummy.getUserAccountName());
@@ -59,7 +58,7 @@ public class TestAccount extends TestCase {
         assertEquals(310, DummyAccount2.getAccountNumber());
         assertEquals(100, TheYodaAccount.getAccountNumber());
     }
-
+    
     public void testAccountType() {
         assertEquals("gambling", DummyAccount1.getAccountType());
         assertEquals("savings", DummyAccount2.getAccountType());
@@ -67,9 +66,9 @@ public class TestAccount extends TestCase {
     }
 
     public void testAccountBalance() {
-        assertEquals(100000, DummyAccount1.getAccountBalance());
-        assertEquals(2000, DummyAccount2.getAccountBalance());
-        assertEquals(900000000, TheYodaAccount.getAccountBalance());
+        assertEquals(100000f, DummyAccount1.getAccountBalance());
+        assertEquals(2000f, DummyAccount2.getAccountBalance());
+        assertEquals(900000000f, TheYodaAccount.getAccountBalance());
     }
 
     public void testRetrievingUser() {
@@ -89,7 +88,7 @@ public class TestAccount extends TestCase {
     public void testToJSON() {
         HashMap sampleMap = new HashMap();
         sampleMap.put("accountNumber", 100);
-        sampleMap.put("accountBalance", 900000000);
+        sampleMap.put("accountBalance", 900000000f);
         sampleMap.put("user", Yoda);
         sampleMap.put("accountType", "LightSabers");
 

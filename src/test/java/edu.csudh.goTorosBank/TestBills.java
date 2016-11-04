@@ -11,13 +11,13 @@ import java.util.Date;
 public class TestBills extends TestCase{
     private Bill bill;
     private User user = new User(1,"Test","first","last");//new to make user to make account to add to bill
-    private Account account = new Account(1,30,user,"Checking");//need to make account to test
+    private Account account = new Account(1,30f,user,"Checking");//need to make account to test
     private Date d = new Date(2016,4,5);
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy;
 
     @Override
     protected void setUp() {
-        bill = new Bill(1,"Bill Name","first bill",20,d,"Late",account);
+        bill = new Bill(1,"Bill Name","first bill",20f,d,"Late",account);
     }
     public void testBillID(){
         assertTrue(bill.getBillID()== 1);
@@ -32,7 +32,7 @@ public class TestBills extends TestCase{
 
     }
     public void testBillAmount(){
-        assertTrue(bill.getBillAmmount()== 20);
+        assertTrue(bill.getBillAmmount()== 20f);
 
     }
     public void testBillName(){

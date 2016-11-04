@@ -16,14 +16,29 @@ Todo list 10/24/16
     - Pay Bill (Bill) //need this
 
 minor changes:
-1. Change the Date string, to a Date Object.
+1. Change the Date string, to a Date Object. (Crosby-DONE)
 2. figure out how to escape any SQL code via a private function in the databaseInterface
-    can be called sanitizeInput()
+    can be called sanitizeInput() (Brad-Will Do Later)
 3. Change ALL amount variables in transactions to ints. Make sure this is handle properly.
-
+(We picked floats, Jesus-DONE)
 
 Other changes nitpick:
 (I think doing these changes can break a lot of things if we aren't careful)
 1. Why are there two constructors for the Transaction class?
 2. Verify the Date Object is used to create dates for Bills/Transactions. But after that they are strings,
     as it makes no sense to be able to change these aspects of the classes once created.
+    (DONE)
+================== 11/1/16
+PROGRESS UPDATE
+Still waiting on #5-#7 from above.
+
+-Why are there two constructors for the Transaction class?
+    Clean this class up please
+- Waiting for message encryption/decryption (Josue)
+- Waiting for Image recognition (Jesus)
+- Waiting for File loading servlet (Rudy)
+
+NEW:
+- update Withdraw and Deposit class to check if valid amounts first.
+    Currently I can go into negative amounts(!)
+- Write testTransfer class (Brad)

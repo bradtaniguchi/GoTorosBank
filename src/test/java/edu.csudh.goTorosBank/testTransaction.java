@@ -22,10 +22,10 @@ public class testTransaction extends TestCase {
 
     @Override
     protected void setUp() {
-        account = new Account(0, 100, user, "someType", transactions); //no bills, as we aren't testing that
+        account = new Account(0, 100f, user, "someType", transactions); //no bills, as we aren't testing that
         accounts = new ArrayList<Account>();
         accounts.add(account); /*now actually add */
-        transaction = new Transaction(account, 1, 100, "description",d); //main thing we are testing
+        transaction = new Transaction(account, 1, 100f, "description",d); //main thing we are testing
         user = new User(100, "joeblow@gmail.com",  "Joe", "Blow", accounts);
         sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy;
 
@@ -51,7 +51,7 @@ public class testTransaction extends TestCase {
      * tests the get amount of the transaction
      */
     public void testGetTransactionAmount() {
-        float testAmount = 100;
+        float testAmount = 100f;
         assertEquals(testAmount, transaction.getTransactionAmount());
     }
 
@@ -68,7 +68,7 @@ public class testTransaction extends TestCase {
     public void testToJSON() {
         HashMap testMap = new HashMap();
         testMap.put("transactionNumber", 1);
-        testMap.put("transactionAmount", 100.0);
+        testMap.put("transactionAmount", 100.0f);
         testMap.put("transactionDate", sdf.format(d));
         testMap.put("transactionDescription", "description");
 
