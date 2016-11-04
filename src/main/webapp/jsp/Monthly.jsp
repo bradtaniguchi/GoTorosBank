@@ -47,9 +47,6 @@ window.open("http://www.w3schools.com");
         .alignright {
             float:right;
         }
-        .alignright p{
-            margin
-        }
         img {
             display: block;
             margin: 0 auto;
@@ -98,7 +95,6 @@ window.open("http://www.w3schools.com");
             <td>Macys</td>
         </tr>
             <%
-
                 HttpSession userSession = request.getSession();
                 String userName = userSession.getAttribute("userName").toString();
 
