@@ -9,7 +9,8 @@ import java.util.Date;
  * Keeps track of all Billing information.
  * Information like bill id, bill name, bill description, bill amount, bill due date and bill status
  * and can have the account that is associated with it
- * Created by crosby on 10/13/16.
+ * @see DatabaseInterface#getBills(Account)
+ * @author crosby 10/13/16
  */
 
 public class Bill {
