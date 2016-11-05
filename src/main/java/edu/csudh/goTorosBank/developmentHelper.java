@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * Created by brad on 10/14/16.
+ * This class acts a servlet that provides basic IO.
  * This class acts a servlet that provides basic IO "console-like" output to the front-end
  * Provide classes and functions that you want to test, below...
  * TODO: Migrate this code to a unit test
+ * Created by brad on 10/14/16.
  */
 public class developmentHelper extends HttpServlet {
     private String html;

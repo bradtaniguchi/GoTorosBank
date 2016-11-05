@@ -6,7 +6,8 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 
 /**
- * an account object. This class represents a User's finances.
+ * An account object that holds all the account information.
+ * This class represents a User's finances.
  * Account for the user it holds all information for the user:
  * int accountNumber
  * String accountType

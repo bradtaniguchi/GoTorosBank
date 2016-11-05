@@ -5,8 +5,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
 /**
- * User - an account object. This class represents a User's finances.
- * */
+ * User - an account object.
+ * This class represents a User's finances such as use id account name account number
+ * first name and last name of the client and holds the list of accounts
+ */
 public class User {
     private int id;
     private String userAccountName;

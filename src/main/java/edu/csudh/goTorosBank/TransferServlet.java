@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by brad on 10/27/16.
- * This class will provide a connection from the front-end to the backend
- * and doing the business logic of the use case of a user transfering money
+ * This class will provide a connection from the front-end to the backend.
+ * This class will provide a connection from the front-end to the backend and doing
+ * the business logic of the use case of a user transfering money
  * between accounts.
+ *
+ * Created by brad on 10/27/16.
  */
 public class TransferServlet extends HttpServlet {
     @Override
