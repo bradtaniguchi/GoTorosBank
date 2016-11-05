@@ -1,15 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.csudh.goTorosBank;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -20,9 +9,11 @@ import java.util.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -34,6 +25,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 /**
  * uploads servlets.
  */
+@MultipartConfig
 public class UploadServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config)throws ServletException{
@@ -53,7 +45,9 @@ public class UploadServlet extends HttpServlet {
         if(!ServletFileUpload.isMultipartContent(request)){
             out.println("Nothing to upload");
         }
-        DiskFileItemFactory itemFactory = new DiskFileItemFactory();
+        Part file = request.getPart("file");
+        out.println("it worked! " + file.getContentType());
+        /*DiskFileItemFactory itemFactory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(itemFactory);
         try{
             List<FileItem> items = upload.parseRequest(request);
@@ -71,7 +65,7 @@ public class UploadServlet extends HttpServlet {
             out.println("--End--");
         }catch(FileUploadException e){
             out.println("Upload failed");
-        }
+        }*/
     }
 
   

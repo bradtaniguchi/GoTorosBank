@@ -3,25 +3,24 @@
  * This file holds the javascript/jquery front end to handle
  * the user depositing money and displaying the result of the transaction.
  */
-
+//http://stackoverflow.com/questions/3582671/how-to-open-a-local-disk-file-with-javascript
 $(document).ready(function() {
     console.log("depositManager.js ready");
-
-    /*jquery Click listeners: */
-    $('#depositSubmit').on('click', function() {
-        console.log("Submit Button clicked!");
-        var amount = $('#amount').val();
-        console.log("Amount found: " + amount);
+    $('#finalSubmit').on('click', function(){
+        var file = $('#input').get(0).files[0];
+        console.log(file.type);
+        var formdata = new FormData(); //add the file to the form data
+        formdata.append("file", file);
         $.ajax({
-            type:'POST',
-            url:'util/DepositManager',
-            dataType: "text",
-            data: {
-                amount: amount
-            },
+            type: 'POST',
+            url: 'util/UploadServlet',
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            data: formdata,
             success: function(response) {
-                console.log("Response Successful");
-                $('#returnDiv').text(response);
+                console.log("Response Successful " + response.toString());
+                $('#returnDiv').text(response.toString());
             },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);
@@ -30,4 +29,5 @@ $(document).ready(function() {
             }
         });
     });
+    console.log("loaded test");
 });
