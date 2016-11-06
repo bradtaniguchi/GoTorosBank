@@ -75,7 +75,8 @@
                 "</h3>");
         %>
         <div class="alignleft">
-            <h2>Crosby Lanham</h2>
+            <h2><%out.print(use.getUserFirstName()+" "+use.getUserLastName());%></h2>
+            <h3><%out.print(use.getUserAccountName());%></h3>
         </div>
         <div class="alignright">
             <p>Ending Balance: <%use.getTotalbalance();%></p>
