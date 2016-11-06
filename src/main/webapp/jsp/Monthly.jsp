@@ -1,23 +1,10 @@
-<%@ page import="edu.csudh.goTorosBank.Account" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="edu.csudh.goTorosBank.Transaction" %>
 <%@ page import="edu.csudh.goTorosBank.DatabaseInterface" %>
-
-<!DOCTYPE html>
-<!--
-<a href="https://www.thesitewizard.com/" target="_blank">thesitewizard.com</a>
-
-
-
-<button onclick="myFunction()">Try it</button>
-
-<script>
-function myFunction() {
-window.open("http://www.w3schools.com");
-}
-</script>
-
--->
+<%@ page import="edu.csudh.goTorosBank.Account" %>
+<%@ page import="edu.csudh.goTorosBank.Transaction" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.ParseException" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="edu.csudh.goTorosBank.User" %>
 
 <html>
 <head>
@@ -53,30 +40,45 @@ window.open("http://www.w3schools.com");
             height: 100px;
             width:auto;
         }
-        .line{
-            width: 112px;
-            height: 47px;
-            border-bottom: 1px solid black;
-            position: absolute;
-        }
+
         h2{
 
             -webkit-margin-before: 0.83em;
-            -webkit-margin-after: 0px;
-            -webkit-margin-start: 0px;
-            -webkit-margin-end: 0px;
+            -webkit-margin-after: 0;
+            -webkit-margin-start: 0;
+            -webkit-margin-end: 0;
         }
     </style>
 </head>
 <body>
-    <img src="bank-clipart.png" >
+    <%
+        DatabaseInterface data = new DatabaseInterface();
+        ArrayList<Account> accountList = null;
+        User use = null;
+        String username = "toro";
+        try {
+            use = data.getUser(username);
+            accountList = use.getUserAccounts();
+        } catch (ParseException e){
+            e.printStackTrace();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    %>
+    <img src="../pictures/bank-clipart.png" >
     <div id="textbox">
-        <h2>Account Number: 200912132</h2>
+        <%
+            for(Account x:accountList)
+                out.print("<h3>Account Number: "+x.getAccountNumber()+
+                "</h3>");
+        %>
         <div class="alignleft">
-            <p>Crosby Lanham</p>
+            <h2>Crosby Lanham</h2>
         </div>
         <div class="alignright">
-            <p>Ending Balance: 5000.94</p>
+            <p>Ending Balance: <%use.getTotalbalance();%></p>
             <button onclick="window.print();">Print</button>
         </div>
     </div>
@@ -88,33 +90,22 @@ window.open("http://www.w3schools.com");
             <th>Amount</th>
             <th>Description</th>
         </tr>
-        <tr>
-            <td>122938</td>
-            <td>10/14/2009</td>
-            <td>2000</td>
-            <td>Macys</td>
-        </tr>
             <%
-                HttpSession userSession = request.getSession();
-                String userName = userSession.getAttribute("userName").toString();
+            ArrayList<Transaction> trans = new ArrayList<Transaction>();
 
-                DatabaseInterface data = new DatabaseInterface();
-                ArrayList<Account> accountList = data.getUser(userName).getUserAccounts();
-                ArrayList<Transaction> trans = new ArrayList<>();
+            for (Account x :accountList) {
+                trans.addAll(x.getTransactions());
+            }
 
-                for (Account x :accountList) {
-                    trans.addAll(x.getTransactions());
-                }
-
-                for(int i=0;i<trans.size();i++) {
-                    String line = "<tr>" +
-                            "<td>" + trans.get(i).getAccount().getAccountNumber() + "</td>" +
-                            "<td>" + trans.get(i).getDate() + "</td>" +
-                            "<td>" + trans.get(i).getTransactionAmount() + "</td>" +
-                            "<td>" + trans.get(i).getTransactionDescription() + "</td>" +
-                            "</tr>";
-                    out.print(line);
-                }
+            for (Transaction tran : trans) {
+                String line = "<tr>" +
+                        "<td>" + tran.getAccount().getAccountNumber() + "</td>" +
+                        "<td>" + tran.getDate() + "</td>" +
+                        "<td>" + tran.getTransactionAmount() + "</td>" +
+                        "<td>" + tran.getTransactionDescription() + "</td>" +
+                        "</tr>";
+                out.print(line);
+            }
             %>
         </table>
     </body>

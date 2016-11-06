@@ -5,15 +5,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
 /**
- * User - an account object.
- * This class represents a User's finances such as use id account name account number
- * first name and last name of the client and holds the list of accounts
- */
+ * User - an account object. This class represents a User's finances.
+ * */
 public class User {
     private int id;
     private String userAccountName;
     private String userFirstName;
     private String userLastName;
+    private float totalBalance;
     private ArrayList<Account> accounts;
 
     /**
@@ -78,13 +77,21 @@ public class User {
         return jsonUser;
     }
 
-
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;
         if(obj == this) return true;
         if(obj instanceof User) return false;
         return false; //idk when we would get here
+    }
+
+    public float getTotalbalance(){
+        float total = 0;
+        for(Account x :accounts){
+              total+=x.getAccountBalance();
+        }
+        totalBalance = total;
+        return total;
     }
     public boolean equals(User user) {
         return (user.getId() == this.id);
@@ -111,7 +118,6 @@ public class User {
     public String getUserAccountName() {
         return userAccountName;
     }
-
     /**
      * getter for the user's first name
      * @return always returns bob, JK returns the first name
