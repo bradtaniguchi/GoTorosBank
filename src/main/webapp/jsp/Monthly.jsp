@@ -41,7 +41,7 @@
             width:auto;
         }
 
-        h2{
+        h2, h3{
 
             -webkit-margin-before: 0.83em;
             -webkit-margin-after: 0;
@@ -79,7 +79,7 @@
             <h3><%out.print(use.getUserAccountName());%></h3>
         </div>
         <div class="alignright">
-            <p>Ending Balance: <%use.getTotalbalance();%></p>
+            <p>Ending Balance: <%out.print(use.getTotalbalance());%></p>
             <button onclick="window.print();">Print</button>
         </div>
     </div>
