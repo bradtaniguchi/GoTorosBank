@@ -7,31 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 Deposit page
-<form class="form-horizontal">
-    <div class="form-group" style="margin:10px 50px">
-        <div class="col-xs-6">
-            <label for="amount">Deposit:</label>
-            <input type="text" class="form-control" id="amount"/>
-            <!--<p style="color:red">Bad Input!</p>-->
-        </div>
-    </div>
-    <div class="form-group" style="margin:10px 50px">
-        <div class="col-xs-6">
-            <button type="button" id="depositSubmit" class="btn btn-default">Submit</button>
-        </div>
-    </div>
-    <div id="returnDiv"></div>
-</form>
-<!-- this is the final version-->
-<form class="form-horizontal">
-    <div class="form-group" style="margin:10px 50px">
-        <div class="col-xs-6">
-            <label class="btn btn-default btn-file">
-                Browse <input type="file" style="display: none;">
-            </label>
-        </div>
-    </div>
-</form>
+
+<input type="file" id="input">
+<button type="button" id="finalSubmit" class="btn btn-default">Submit</button>
+<div id="returnDiv"></div>
+
 <!--test to see if we can add the javascript here!-->
 <script type="text/javascript" src="js/depositManager.js"></script>
 

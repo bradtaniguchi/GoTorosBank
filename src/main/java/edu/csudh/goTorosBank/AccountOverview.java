@@ -10,9 +10,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
 /**
- * Creates an overview of all the accounts for a user.
- * Created by brad on 10/19/16.
- * This class returns all information for current logged in user
+ * Creates an overview of all the accounts for a user in JSON format after getting the username from the session.
+ * By checking the userName session variable tied to the user's session by the Login Manager.
+ * The JSON returned appears with the following format:
+ *
+ * @see DatabaseInterface#getUser(String)
+ * @author brad 10/19/16
  */
 public class AccountOverview extends HttpServlet {
     private JSONObject json;
