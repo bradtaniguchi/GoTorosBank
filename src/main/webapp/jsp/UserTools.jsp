@@ -16,6 +16,6 @@
         <li id="Withdraw"><a href="#">Withdraw</a></li>
         <li id="Transfer"><a href="#">Transfer</a></li>
         <li id="PayBills"><a href="#">PayBills</a></li>
-        <li><a href="jsp/Monthly.jsp" target="_blank">monthly</a></li>
+        <li><a href="jsp/Monthly.jsp" target="_blank">Monthly Statement</a></li>
     </ul>
 </div> <!--different menu static items list-->
