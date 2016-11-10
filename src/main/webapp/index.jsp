@@ -15,13 +15,13 @@
                     <form class="form-horizontal">
                         <div class="form-group" style="margin:10px 50px">
                             <div class="col-xs-6">
-                                <label for="user">Name:</label>
+                                <label for="userName">Name:</label>
                                 <input type="text" class="form-control" id="userName"/>
                             </div>
                         </div>
                         <div class="form-group" style="margin:10px 50px">
                             <div class="col-xs-6">
-                                <label for="password">Password:</label>
+                                <label for="userPass">Password:</label>
                                 <input type="password" class="form-control" id="userPass"/>
                                 <!--<p style="color:red">Bad Input!</p>-->
                             </div>
@@ -31,7 +31,25 @@
                                 <button type="button" id="submit" class="btn btn-default">Submit</button>
                             </div>
                         </div>
-                        <div id="returnDiv"></div>
+                        <!--modal popup, to use instead of the nasty return div-->
+                        <div id="returnModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog modal-sm">
+                                <!--modal contents-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title" style="color:black">ERROR!</h4> <!--access via modal-title-->
+                                    </div>
+                                    <div class="modal-body" style="color:black"> <!--access via modal-body-->
+                                        <p>ERROR! GENERIC ERROR, NO ERROR SPECIFIED!</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </form>
                     <br/>
                 </div></div>
