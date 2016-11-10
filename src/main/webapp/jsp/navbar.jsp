@@ -14,14 +14,16 @@
     <ul class="nav navbar-nav navbar-right">
 
         <li id="here">
+            <a id="logout" href="/index.jsp"> Logout <span class="glyphicon glyphicon-user"></span></a>
             <script>
-                var url = document.URL;
-                if(url.includes("index")) {
-
-                }else{
-                    document.write("<a id='logout' " +
-                            "href='#'>Logout <span class='glyphicon glyphicon-user'>" +
-                            "</span></a>");
+                /*quick and dirty script to hide the logout button if your on the index page*/
+                var url = window.location.pathname;
+                var logoutButton = document.getElementById("logout");
+                console.log("location: " + url);
+                logoutButton.style.display = 'block';
+                if(url == "/index.jsp" || url == "/") { //if on these pages, don't show it tho!
+                    console.log("Hiding element");
+                    logoutButton.style.display = 'none';
                 }
             </script>
         </li>
