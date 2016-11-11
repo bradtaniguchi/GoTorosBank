@@ -38,5 +38,11 @@ $(document).ready(function(){
         });
         $('#userAccounts').html(html);
     }
+    $("#submit").off('click')
+        .on('click',function() {
+        /*do stuff*/
+        alert("not implemented yet");
+
+    });
     getAccounts();
 });
