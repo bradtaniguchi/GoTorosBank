@@ -67,5 +67,11 @@ public class AccountOverview extends HttpServlet {
     public void destroy(){
         getServletContext().log("destroy() called");
     }
+
+    public String getName(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession userSession = request.getSession();
+        return userSession.getAttribute("userName").toString();
+    }
 }
 

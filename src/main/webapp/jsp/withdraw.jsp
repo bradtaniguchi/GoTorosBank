@@ -1,4 +1,7 @@
-<%--
+<%@ page import="edu.csudh.goTorosBank.User" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="edu.csudh.goTorosBank.Account" %>
+<%@ page import="edu.csudh.goTorosBank.DatabaseInterface" %><%--
   Created by IntelliJ IDEA.
   User: brad
   Date: 9/26/16
@@ -13,12 +16,19 @@
         <div class="col-xs-6">
             <label for="Account">Account to Withdraw from:</label>
             <!--Dynamic buttons here-->
-            <div class="radio">
-                <label><input type="radio" name="optradio">Checkings</label>
-            </div>
-            <div class="radio">
-                <label><input type="radio" name="optradio">Savings</label>
-            </div>
+            <%
+                DatabaseInterface data = new DatabaseInterface();
+                User use = data.getUser("toro");
+
+                ArrayList<Account> accounts = use.getUserAccounts();
+
+                for(Account x:accounts){
+                    out.print("<div class='radio'><label>");
+                    out.print("<input type='radio' name='optradio'>");
+                    out.print(x.getAccountType());
+                    out.print("</label></div>");
+                }
+            %>
             <button type="button" id="submit" class="btn btn-default">Submit</button>
         </div>
     </div>

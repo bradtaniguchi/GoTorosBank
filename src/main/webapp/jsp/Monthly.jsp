@@ -1,10 +1,10 @@
-<%@ page import="edu.csudh.goTorosBank.DatabaseInterface" %>
 <%@ page import="edu.csudh.goTorosBank.Account" %>
+<%@ page import="edu.csudh.goTorosBank.DatabaseInterface" %>
 <%@ page import="edu.csudh.goTorosBank.Transaction" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.text.ParseException" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page import="edu.csudh.goTorosBank.User" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.text.ParseException" %>
+<%@ page import="java.util.ArrayList" %>
 
 <html>
 <head>
@@ -57,10 +57,14 @@
 <body>
     <div align="center" style="border: 2px solid black; width: 95%; padding: 10px 30px 10px 30px;">
         <%
+
             DatabaseInterface data = new DatabaseInterface();
             ArrayList<Account> accountList = null;
-            User use = null;
-            String username = "toro";
+            HttpSession sess = request.getSession();
+            Object iddd = sess.getAttribute("userName");
+            String username= iddd.toString();
+            User use = data.getUser(username);
+
             try {
                 use = data.getUser(username);
                 accountList = use.getUserAccounts();
@@ -72,6 +76,7 @@
                 e.printStackTrace();
             }
         %>
+
         <img src="../pictures/bank-clipart.png" >
         <div id="textbox">
             <%
