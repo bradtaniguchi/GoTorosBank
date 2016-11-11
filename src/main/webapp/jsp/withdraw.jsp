@@ -14,21 +14,9 @@
 <form class="form-horizontal">
     <div class="form-group">
         <div class="col-xs-6">
-            <label for="Account">Account to Withdraw from:</label>
+            <label>Account to Withdraw from:</label>
+            <div id="userAccounts"></div> <!--place the accounts here-->
             <!--Dynamic buttons here-->
-            <%
-                DatabaseInterface data = new DatabaseInterface();
-                User use = data.getUser("toro");
-
-                ArrayList<Account> accounts = use.getUserAccounts();
-
-                for(Account x:accounts){
-                    out.print("<div class='radio'><label>");
-                    out.print("<input type='radio' name='optradio'>");
-                    out.print(x.getAccountType());
-                    out.print("</label></div>");
-                }
-            %>
             <button type="button" id="submit" class="btn btn-default">Submit</button>
         </div>
     </div>
@@ -36,4 +24,5 @@
     <!-- use this to get data:
       http://stackoverflow.com/questions/596351/how-can-i-know-which-radio-button-is-selected-via-jquery
     -->
+    <script type="text/javascript" src="js/withdrawManager.js"></script>
 </form>

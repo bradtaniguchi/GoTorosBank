@@ -3,13 +3,10 @@
  * This script is attached to the navbar, and provides functionality to
  * Login/logout of the entire site. This calls the LogoutManager class
  * in the backend.
- * TODO: Add better printouts when you cannot logout
  */
-var debugging = true;  //temp flag
+var debugging = true;
 $(document).ready(function() {
-    if(debugging) console.log("logoutManager.js loaded");
     function logout() {
-        if(debugging) console.log("Attempting to logout");
         $.ajax({
             url:'LogoutManager',
             type:'POST',
@@ -28,11 +25,22 @@ $(document).ready(function() {
             }
         });
     }
+    function showModal(title, message) {
+        var returnModal = $('#navbarModal'); //my return modal that I can use to return message to the user
+        //var modalTitle = returnModal.add(".modal-title");//select the title
+        returnModal.find('.modal-header .modal-title').text(title);
+        returnModal.find('.modal-body').text(message);
+
+        returnModal.modal('show'); //show the modal
+    }
+
     /*Click listeners*/
     $('#logout').on('click', function() {
-        if(debugging) console.log("clicking logout!");
+        showModal("Logout?", "Would you Like to Logout of GoTorosBank?");
+    });
+    /*This is if they clicked on yes*/
+    $('#YesLogout').on('click', function() {
         logout();
-
     });
 });
 
