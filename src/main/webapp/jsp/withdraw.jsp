@@ -1,7 +1,4 @@
-<%@ page import="edu.csudh.goTorosBank.User" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="edu.csudh.goTorosBank.Account" %>
-<%@ page import="edu.csudh.goTorosBank.DatabaseInterface" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: brad
   Date: 9/26/16
