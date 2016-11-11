@@ -278,6 +278,42 @@ public class DatabaseInterface {
     }
 
     /**
+     * This function will take in a billID and go into the database and delete the appropriate bill
+     * to show that the bill has been paid.
+     *
+     * @param billID: the ID of the bill that is in the BILLS table, a unique ID.
+     * @throws ParseException: This is thrown when the database isn't able to parse the given query.
+     * @throws ClassNotFoundException: This will be caught by the servlet class
+     * @throws SQLException: This will be caught by the servlet class
+     */
+    public void payBill(int billID) throws ParseException, ClassNotFoundException, SQLException
+    {
+        Connection c = null;
+        Statement statement;
+        //ResultSet resultSet = null;
+
+        try
+        {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection(connectionLink);
+
+            statement = c.createStatement();
+            statement.setQueryTimeout(30); // set timeout to 30 sec.
+
+            c.setAutoCommit(false);
+
+            statement.executeUpdate("DELETE FROM BILLS WHERE BID=" + billID + ";");
+
+            c.commit();
+        }
+        finally
+        {
+
+            if (c != null) c.close();
+        }
+    }
+
+    /**
      * This function will take the account number for an account, then it will look inside of the ACCOUNT table
      * for the first instance of the accountNumber.
      *

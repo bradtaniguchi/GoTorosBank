@@ -3,6 +3,7 @@ package edu.csudh.goTorosBank;
 import junit.framework.TestCase;
 
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -177,6 +178,57 @@ public class TestDatabaseInterface extends TestCase {
         } catch (ClassNotFoundException e) {
             fail("Verify Database ERROR! " + e.getMessage());
         } catch(SQLException e) {
+            fail("Verify Database ERROR! " + e.getMessage());
+        }
+    }
+
+    public void testPayBill()
+    {
+        int BID = 5;
+        float amount = 50;
+
+        Connection c;
+        Statement statement;
+        ResultSet resultSet;
+
+        try
+        {
+            database.payBill(BID);
+        }
+        catch(ClassNotFoundException e)
+        {
+            fail("Database ERROR! " + e.getMessage());
+        }
+        catch (SQLException e)
+        {
+            fail("Database ERROR! " + e.getMessage());
+        }
+        catch (ParseException e)
+        {
+            fail("Database ERROR! " + e.getMessage());
+        }
+
+        try
+        {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
+
+            statement = c.createStatement();
+
+            statement.executeUpdate("INSERT INTO BILLS(BID, BILL_NAME, BILL_DESCRIPTION, BILL_AMOUNT, " +
+                    "BILL_DUE_DATE, BILL_STATUS, UID, ACCOUNT_NUMBER) VALUES" +
+                    " ( 5, 'Bill TEST', 'Pay your bill', 50.00, '2016-11-10', 'active', 1, 1);");
+
+            //resultSet.close();
+            statement.close();
+            c.close();
+        }
+        catch (ClassNotFoundException e)
+        {
+            fail("Verify Database ERROR! " + e.getMessage());
+        }
+        catch (SQLException e)
+        {
             fail("Verify Database ERROR! " + e.getMessage());
         }
     }
