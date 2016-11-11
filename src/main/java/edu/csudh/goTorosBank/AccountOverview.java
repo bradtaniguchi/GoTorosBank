@@ -39,7 +39,7 @@ public class AccountOverview extends HttpServlet {
 
         /*gets the username from the session*/
         HttpSession userSession = request.getSession();
-        username = userSession.getAttribute("userName").toString();
+        username = userSession.getAttribute("username").toString();
 
         /*get a User Object from the database that has all the information.*/
         response.setContentType("application/json");

@@ -15,8 +15,8 @@
                     <form class="form-horizontal">
                         <div class="form-group" style="margin:10px 50px">
                             <div class="col-xs-6">
-                                <label for="userName">Name:</label>
-                                <input type="text" class="form-control" id="userName"/>
+                                <label for="username">Name:</label>
+                                <input type="text" class="form-control" id="username"/>
                             </div>
                         </div>
                         <div class="form-group" style="margin:10px 50px">

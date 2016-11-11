@@ -61,7 +61,7 @@
             DatabaseInterface data = new DatabaseInterface();
             ArrayList<Account> accountList = null;
             HttpSession sess = request.getSession();
-            Object iddd = sess.getAttribute("userName");
+            Object iddd = sess.getAttribute("username");
             String username= iddd.toString();
             User use = data.getUser(username);
 

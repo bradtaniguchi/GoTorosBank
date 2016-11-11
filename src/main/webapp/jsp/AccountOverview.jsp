@@ -9,7 +9,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <h1>Bank Account Information</h1>
 <div>
-    <h3>Welcome: <c:out value="${sessionScope.userName}"/></h3> <!--EL, or expression language-->
+    <h3>Welcome: <c:out value="${sessionScope.username}"/></h3> <!--EL, or expression language-->
     <label><h3>Accounts:</h3></label>
     <p id="numberOfAccounts">Number of Accounts:  0</p>
 </div>

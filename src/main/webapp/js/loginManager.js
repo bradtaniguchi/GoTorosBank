@@ -8,7 +8,7 @@ $(document).ready(function() {
     /*Main function to submit*/
     function login() {
         //console.log("Attempting to login");
-        var name = $('#userName').val();
+        var name = $('#username').val();
         var pass = $('#userPass').val();
         if ( !name.length || !pass.length) {
             showModal("Login Error", "No Username or Password Found!", "okey");
@@ -17,7 +17,7 @@ $(document).ready(function() {
                 type: 'POST',
                 url: 'LoginManager',
                 data: {
-                    userName: name,
+                    username: name,
                     password: pass
                 },
                 success: function (response) {
@@ -54,7 +54,7 @@ $(document).ready(function() {
         returnModal.modal('show'); //show the modal
     }
     /*Click listener*/
-    $('#userName').keypress(function(e){
+    $('#username').keypress(function(e){
         if(e.which == 13) {
             login();
         }

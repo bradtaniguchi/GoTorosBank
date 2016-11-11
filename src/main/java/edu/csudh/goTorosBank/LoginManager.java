@@ -33,11 +33,11 @@ public class LoginManager extends HttpServlet {
         response.setContentType("application/json");
         try {
             if (new DatabaseInterface().validate(
-                    request.getParameter("userName"),
+                    request.getParameter("username"),
                     request.getParameter("password"))
                     ) {
                 HttpSession userSession = request.getSession();
-                userSession.setAttribute("userName", request.getParameter("userName"));
+                userSession.setAttribute("username", request.getParameter("username"));
                 //set other attributes here
                 returnJson.put("successfulLogin", true); // I get a warning here, disregard..
                 returnJson.put("message", "Valid Login");
