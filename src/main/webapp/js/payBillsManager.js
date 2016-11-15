@@ -49,15 +49,15 @@ $(document).ready(function(){
     }
     $('#makePayment').on('click', function() {
         console.log("makePayment button clicked!");
-        var accountId = parseInt($('#accountToPayFrom'));
-        var billId = parseInt($('#billToPay'));
+        var accountID = parseInt($('#accountToPayFrom'));
+        var billID = parseInt($('#billToPay'));
         $.ajax({
             type:'POST',
             url:'util/PayBillServlet',
-            dataType: "text",
+            dataType: "json",
             data: {
-                accountId : accountId,
-                billId : billId
+                "accountID" : accountID,
+                "billID" : billID
             },
             success: function(response){
                 console.log("Response Successful");
