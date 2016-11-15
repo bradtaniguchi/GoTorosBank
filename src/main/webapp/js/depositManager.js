@@ -13,7 +13,7 @@ $(document).ready(function() {
         formdata.append("file", file);
         $.ajax({
             type: 'POST',
-            url: 'util/UploadServlet',
+            url: 'util/DepositServlet',
             enctype: 'multipart/form-data',
             processData: false,
             contentType: false,
