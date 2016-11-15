@@ -6,41 +6,55 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<h1>paybills</h1>
-<hr/>
-<form class="form-horizontal">
+<%@ page import="java.sql.*" %>
+<%@ page import="org.sqlite.*" %>
+<h1>Pay Bills</h1>
+
+<table border="1" width="100%">
+    <tr>
+       <!-- <th>Bill ID</th>-->
+        <th>Bill Name</th>
+        <th>Bill Description</th>
+        <th>Bill Amount</th>
+        <th>Bill Due Date</th>
+        <th>Bill Status</th>
+    </tr>
+    <% Class.forName("org.sqlite.JDBC");
+       Connection c = DriverManager.getConnection("jdbc:sqlite::resource:GoTorosBank.db");
+       Statement statement = c.createStatement();
+    
+        ResultSet resultSet = statement.executeQuery("SELECT *"
+                                                + "FROM BILLS;");
+        while (resultSet.next()) {
+             out.println("<tr>");
+             //out.println("<td>" + resultSet.getInt("BILL_ID") + "</td>");
+             out.println("<td>" + resultSet.getString("BILL_NAME") + "</td>");
+             out.println("<td>" + resultSet.getString("BILL_DESCRIPTION") + "</td>");
+             out.println("<td>" + resultSet.getDouble("BILL_AMOUNT") + "</td>");
+             out.println("<td>" + resultSet.getString("BILL_DUE_DATE") + "</td>");
+             out.println("<td>" + resultSet.getString("BILL_STATUS") + "</td>");
+             out.println("</tr>");}
+    
+            resultSet.close();
+            c.close();%>
+</table>
     <div class="form-gorup">
-        <div class="col-xs-6">
             <label for="billToPay">Select bill to pay:<label/>
             <select class="form-control" id="billToPay">
                 <option>1</option>
                 <option>2</option>
-                <option>3</option>
-                <option>4</option>
             </select>
-        </div>
     </div>
     
     <div class="form-gourp">
         <label for="accountToPayFrom">Select bank account to make payment from:</label>
-        <select class="form-control" id="accountToPayFrom"><!--???-->
-            <option>1</option>
-            <option>2</option>
+        <select class="form-control" id="accountToPayFrom">
         </select>
     </div>
     
-    <div class="form-group" style="margin: 10px 50px">
-        <div class="col-xs-6">
-            <label for="ammont">Amount:</label>
-            <input type="text" class="form-control" id="paymentAmount"><!--??-->
-        </div>
-    </div>
-    
-    <div class="form-gorup" style="margin:10px 50px">
-        <div class="col-xs-6">
+    <div class="form-gorup">
             <button type="button" id="makePayment" class="btn btn-default">Make Payment</button>
-        </div>
     </div>
     
-    <div id="statusDiv"></div><!--or should it be returnDiv-->
+    <div id="statusDiv"></div>
     <script type="text/javascript" src="js/payBillsManager.js"></script>

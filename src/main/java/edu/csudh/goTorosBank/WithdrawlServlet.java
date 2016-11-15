@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DownloadServlet extends HttpServlet{
+public class WithdrawlServlet extends HttpServlet{
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);

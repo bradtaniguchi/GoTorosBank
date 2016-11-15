@@ -26,7 +26,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * uploads servlets.
  */
 @MultipartConfig
-public class UploadServlet extends HttpServlet {
+public class DepositServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config)throws ServletException{
         super.init(config);
