@@ -48,7 +48,7 @@ public class TransferServlet extends HttpServlet {
 
 
         HttpSession userSession = request.getSession();
-        String username = (String) userSession.getAttribute("userName"); //get the user name, and validate they exist
+        String username = (String) userSession.getAttribute("username"); //get the user name, and validate they exist
 
         try {
             DatabaseInterface database = new DatabaseInterface();
