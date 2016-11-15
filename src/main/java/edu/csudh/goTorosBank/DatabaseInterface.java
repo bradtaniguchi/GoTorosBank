@@ -338,19 +338,20 @@ public class DatabaseInterface {
             resultSet = statement.executeQuery("SELECT * FROM BILLS");
 
             while (resultSet.next()) {
+                if(account.getAccountNumber() == resultSet.getInt("ACCOUNT_NUMBER")) {
+                    int BillsID = resultSet.getInt("BID");
+                    String Bill_Name = resultSet.getString("BILL_NAME");
+                    String Bill_Description = resultSet.getString("BILL_DESCRIPTION");
+                    float Bill_Amount = resultSet.getFloat("BILL_AMOUNT");
+                    Date Bill_Due_Date = sdf.parse(resultSet.getString("BILL_DUE_DATE"));
+                    String Bill_Status = resultSet.getString("BILL_STATUS");
+                    //int Uid = resultSet.getInt("UID");
+                    //int Account_Number = resultSet.getInt("ACCOUNT_NUMBER");
 
-                int BillsID = resultSet.getInt("BID");
-                String Bill_Name = resultSet.getString("BILL_NAME");
-                String Bill_Description = resultSet.getString("BILL_DESCRIPTION");
-                float Bill_Amount = resultSet.getFloat("BILL_AMOUNT");
-                Date Bill_Due_Date = sdf.parse(resultSet.getString("BILL_DUE_DATE"));
-                String Bill_Status = resultSet.getString("BILL_STATUS");
-                //int Uid = resultSet.getInt("UID");
-                //int Account_Number = resultSet.getInt("ACCOUNT_NUMBER");
-
-                Bill bill = new Bill(BillsID, Bill_Name, Bill_Description,
-                        Bill_Amount, Bill_Due_Date, Bill_Status, account);
-                bills.add(bill);
+                    Bill bill = new Bill(BillsID, Bill_Name, Bill_Description,
+                            Bill_Amount, Bill_Due_Date, Bill_Status, account);
+                    bills.add(bill);
+                }
             }
         } finally {
             if (resultSet != null) resultSet.close();

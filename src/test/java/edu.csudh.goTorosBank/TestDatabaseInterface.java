@@ -86,9 +86,9 @@ public class TestDatabaseInterface extends TestCase {
             }
 
 
-            assertNotNull(acc.getBills());
+//            assertNotNull(acc.getBills());
             assertTrue(acc.getBills().size() == 1 || acc.getBills().size() == 0);
-            if(acc.getBills().size() != 0) {
+            if(acc.getBills().size() > 0) {
                 for (Bill x : acc.getBills()) {
                     assertEquals(4, x.getBillID());
                     assertEquals("Eddison", x.getBillName());
@@ -217,7 +217,7 @@ public class TestDatabaseInterface extends TestCase {
 
             statement.executeUpdate("INSERT INTO BILLS(BID, BILL_NAME, BILL_DESCRIPTION, BILL_AMOUNT, " +
                     "BILL_DUE_DATE, BILL_STATUS, UID, ACCOUNT_NUMBER) VALUES" +
-                    " ( 5, 'Bill TEST', 'Pay your bill', 50.00, '2016-11-10', 'active', 1, 1);");
+                    " ( 5, 'Bill TEST', 'Pay your bill', 50.00, '1999-12-30 12:00:00', 'active', 2, 3);");
 
             //resultSet.close();
             statement.close();
