@@ -47,20 +47,20 @@
         <url-pattern>/util/TransferServlet</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>UploadServlet</servlet-name>
-        <servlet-class>edu.csudh.goTorosBank.UploadServlet</servlet-class>
+        <servlet-name>DepositServlet</servlet-name>
+        <servlet-class>edu.csudh.goTorosBank.DepositServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UploadServlet</servlet-name>
-        <url-pattern>/util/UploadServlet</url-pattern>
+        <servlet-name>DepositServlet</servlet-name>
+        <url-pattern>/util/DepositServlet</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>DownloadServlet</servlet-name>
-        <servlet-class>edu.csudh.goTorosBank.DownloadServlet</servlet-class>
+        <servlet-name>WithdrawServlet</servlet-name>
+        <servlet-class>edu.csudh.goTorosBank.WithdrawServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>DownloadServlet</servlet-name>
-        <url-pattern>/util/DownloadServlet</url-pattern>
+        <servlet-name>WithdrawServlet</servlet-name>
+        <url-pattern>/util/WithdrawServlet</url-pattern>
     </servlet-mapping>
     
     <!--remove this mapping later, once unit tests are ready to go-->
