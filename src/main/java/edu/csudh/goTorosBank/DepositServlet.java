@@ -20,6 +20,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.simple.JSONObject;
 
 
 /**
@@ -27,46 +28,52 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */
 @MultipartConfig
 public class DepositServlet extends HttpServlet {
+    private static final String SAVE_DIR = "TempUpload"; //where we want to save the files
     @Override
     public void init(ServletConfig config)throws ServletException{
         super.init(config);
-        getServletContext().log("Init() clalled");
+        getServletContext().log("Init() called");
     }
 
     @Override
-    @SuppressWarnings("uncheked")
+    @SuppressWarnings("unchecked")
     public void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-        response.setContentType("text");
+        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
-        //http://www.technicalkeeda.com/java/how-to-upload-file-using-servlet-jsp
-        PrintWriter out = response.getWriter();
+        JSONObject returnJson = new JSONObject();
 
         if(!ServletFileUpload.isMultipartContent(request)){
-            out.println("Nothing to upload");
-        }
-        Part file = request.getPart("file");
-        out.println("it worked! " + file.getContentType());
-        /*DiskFileItemFactory itemFactory = new DiskFileItemFactory();
-        ServletFileUpload upload = new ServletFileUpload(itemFactory);
-        try{
-            List<FileItem> items = upload.parseRequest(request);
-            out.println(items.size());
+            //out.println("Nothing to upload, not multipart content!");
+            returnJson.put("successfulUpload", false);
+            returnJson.put("message", "Nothing to upload, not multipart content!");
+        } else {
+            Part fileItem = request.getPart("file"); //get the file part
+            String fileName = fileItem.getSubmittedFileName(); //and the name
+            String fileType = fileItem.getContentType(); //get type
+            if (fileType.equals("image/png")) {
+                // gets absolute path of the web application
+                String appPath = request.getServletContext().getRealPath("");
+                // constructs path of the directory to save uploaded file
+                String savePath = appPath + File.separator + SAVE_DIR;
 
-            for(FileItem item:items){
-                if(!item.isFormField()) {
-                    out.println("   fieldName: " + item.getFieldName());
-                    out.println("   content type " + item.getContentType());
-                    out.println("   name " + item.getName());
-                } else {
-                    out.println("We got Form Field Data");
+                try {
+                    File fileSaveDir = new File(savePath);
+                    if (!fileSaveDir.exists()) {
+                        fileSaveDir.mkdir();
+                    }
+                    fileItem.write(savePath + File.separator + fileName);
+
+                    returnJson.put("successfulUpload", true);
+                    returnJson.put("message", "file successfully uploaded: " + fileName);
+                } catch (Exception e) {
+                    returnJson.put("successfulUpload", false);
+                    returnJson.put("message", "Error with upload: " + e.getMessage());
                 }
+            } else {
+                returnJson.put("successfulUpload", false);
+                returnJson.put("message", "Error with upload, image type not recognized: " + fileType);
             }
-            out.println("--End--");
-        }catch(FileUploadException e){
-            out.println("Upload failed");
-        }*/
+        }
+        response.getWriter().write(returnJson.toJSONString());
     }
-
-  
 }

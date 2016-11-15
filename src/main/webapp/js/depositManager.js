@@ -19,8 +19,8 @@ $(document).ready(function() {
             contentType: false,
             data: formdata,
             success: function(response) {
-                console.log("Response Successful " + response.toString());
-                $('#returnDiv').text(response.toString());
+                console.log("Response Successful " + response["message"].toString());
+                $('#returnDiv').text(response["message"].toString());
             },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);
