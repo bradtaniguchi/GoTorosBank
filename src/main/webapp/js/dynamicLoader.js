@@ -7,6 +7,7 @@
 $(document).ready(function() {
     console.log("Dynamic loader ready");
     var transferLoaded = 0;
+    var payBillsLoaded = 0;
     function showPage(pageString) {
         console.log("Changing mainActivity to: " + pageString);
         $("#mainActivity").load(pageString);
@@ -54,6 +55,14 @@ $(document).ready(function() {
     });
     $("#PayBills").on('click', function() {
         showPage("jsp/payBills.jsp");
+        if(!payBillsLoaded) {
+            $.getScript("js/payBillsManager.js", function() {
+                payBillsLoaded = 1;
+            })
+                .fail(function(jqxhr, settings, exception){
+                    alert("Failure to load javascript!\n" + jqxhr.responseText);
+                });
+        }
         unEnable();
         $(this).addClass('active');
     });

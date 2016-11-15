@@ -10,7 +10,8 @@
 <%@ page import="org.sqlite.*" %>
 <h1>Pay Bills</h1>
 
-<table border="1" width="100%">
+<!--<table border="1" width="100%">-->
+<table class="table">
     <tr>
        <!-- <th>Bill ID</th>-->
         <th>Bill Name</th>
@@ -19,42 +20,46 @@
         <th>Bill Due Date</th>
         <th>Bill Status</th>
     </tr>
-    <% Class.forName("org.sqlite.JDBC");
-       Connection c = DriverManager.getConnection("jdbc:sqlite::resource:GoTorosBank.db");
-       Statement statement = c.createStatement();
-    
+    <% try {
+        Class.forName("org.sqlite.JDBC");
+        Connection c = DriverManager.getConnection("jdbc:sqlite::resource:GoTorosBank.db");
+        Statement statement = c.createStatement();
+
         ResultSet resultSet = statement.executeQuery("SELECT *"
-                                                + "FROM BILLS;");
+                + "FROM BILLS;");
         while (resultSet.next()) {
-             out.println("<tr>");
-             //out.println("<td>" + resultSet.getInt("BILL_ID") + "</td>");
-             out.println("<td>" + resultSet.getString("BILL_NAME") + "</td>");
-             out.println("<td>" + resultSet.getString("BILL_DESCRIPTION") + "</td>");
-             out.println("<td>" + resultSet.getDouble("BILL_AMOUNT") + "</td>");
-             out.println("<td>" + resultSet.getString("BILL_DUE_DATE") + "</td>");
-             out.println("<td>" + resultSet.getString("BILL_STATUS") + "</td>");
-             out.println("</tr>");}
-    
-            resultSet.close();
-            c.close();%>
+            out.println("<tr>");
+            //out.println("<td>" + resultSet.getInt("BILL_ID") + "</td>");
+            out.println("<td>" + resultSet.getString("BILL_NAME") + "</td>");
+            out.println("<td>" + resultSet.getString("BILL_DESCRIPTION") + "</td>");
+            out.println("<td>" + resultSet.getDouble("BILL_AMOUNT") + "</td>");
+            out.println("<td>" + resultSet.getString("BILL_DUE_DATE") + "</td>");
+            out.println("<td>" + resultSet.getString("BILL_STATUS") + "</td>");
+            out.println("</tr>");
+        }
+
+        resultSet.close();
+        c.close();
+    } catch ( ClassNotFoundException e) {
+        out.println("JSP ClassNotFound Exception: " + e.getMessage());
+    } catch (SQLException e) {
+        out.println("JSP SQLException: " + e.getMessage());
+    }
+    %>
 </table>
-    <div class="form-gorup">
-            <label for="billToPay">Select bill to pay:<label/>
-            <select class="form-control" id="billToPay">
-                <option>1</option>
-                <option>2</option>
-            </select>
+    <div class="form-group">
+            <label for="billToPay">Select bill to pay:</label>
+            <select class="form-control" id="billToPay"></select>
     </div>
     
-    <div class="form-gourp">
+    <div class="form-group">
         <label for="accountToPayFrom">Select bank account to make payment from:</label>
-        <select class="form-control" id="accountToPayFrom">
-        </select>
+        <select class="form-control" id="accountToPayFrom"></select>
     </div>
-    
-    <div class="form-gorup">
+
+    <div class="form-group">
             <button type="button" id="makePayment" class="btn btn-default">Make Payment</button>
     </div>
-    
+
     <div id="statusDiv"></div>
     <script type="text/javascript" src="js/payBillsManager.js"></script>
