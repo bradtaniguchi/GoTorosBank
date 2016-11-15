@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  * and doing the business logic of the use case of a user paying bills
  */
 
-public class payBillManager extends HttpServlet
+public class PayBillServlet extends HttpServlet
 {
     @Override
     public void init(ServletConfig config) throws ServletException

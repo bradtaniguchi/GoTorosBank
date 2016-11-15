@@ -62,6 +62,15 @@
         <servlet-name>WithdrawServlet</servlet-name>
         <url-pattern>/util/WithdrawServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>PayBillServlet</servlet-name>
+        <servlet-class>edu.csudh.goTorosBank.PayBillServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PayBillServlet</servlet-name>
+        <url-pattern>/util/PayBillServlet</url-pattern>
+    </servlet-mapping>
+
     
     <!--remove this mapping later, once unit tests are ready to go-->
     <servlet>
