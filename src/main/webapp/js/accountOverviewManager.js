@@ -76,6 +76,7 @@ $(document).ready(function() {
             /*for each account, we need to go through the transactions*/
             var html="<tr>"; //start the transaction entry
             var transactions = User["accounts"][index]["transactions"];
+            transactions = transactions.reverse(); //reverse the array
             //for (var i in transactions){
             $.each(transactions ,function(index){
                 html += '<tr>';
