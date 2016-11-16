@@ -63,16 +63,19 @@ $(document).ready(function(){
 
         /*check to see if values are the same, or if the input field is valid*/
         if (idFrom == "choose" || idTo == "choose") {
-        alert("Choose both to and from accounts");
+        //alert("Choose both to and from accounts");
+            showModal("Error!", "Choose both to and from accounts", "ok");
         } else if(idFrom == idTo) {
-            alert("Invalid Transfer! The to and from accounts are the same!");
+            //alert("Invalid Transfer! The to and from accounts are the same!");
+            showModal("Error!", "Invalid Transfer! The to and from accounts are the same!", "ok");
         } else if(Number(amount) <= 0) {
-            alert("Invalid Input! The amount " + Number(amount) + " is not big enough!");
+            showModal("Error!", "Invalid Input! The amount " + Number(amount) + " is not big enough!", "ok");
             /*TODO: truncate the input amount, and transfer to our backend amount*/
         } else { /*add any more cases here*/
             console.log("Correct input, transferring...");
             /*add transfer code here*/
             /*TODO: Finish this ajax call once transferServlet is finished...*/
+            showModal("Loading..", "Starting Transfer...", "ok");
             $.ajax({
                 type:'POST',
                 dataType:'JSON', //return type
@@ -86,9 +89,9 @@ $(document).ready(function(){
                     console.log("response successful");
                     if(response["successfulTransaction"]) {
                         console.log("Transaction Successful");
-                        alert("transaction successful!");
+                        showModal("Success!", "Transfer Successful!");
                     } else {
-                        alert(response["message"]);
+                        showModal("DatabaseError!", response["message"], "ok");
                     }
                 },
                 error: function(xhr, status, error) {
@@ -100,7 +103,15 @@ $(document).ready(function(){
             console.log("Finished with ajax?");
         }
     }
+    function showModal(title, message, buttonprompt) {
+        var returnModal = $('#returnModal'); //my return modal that I can use to return message to the user
+        //var modalTitle = returnModal.add(".modal-title");//select the title
+        returnModal.find('.modal-header .modal-title').text(title);
+        returnModal.find('.modal-body').text(message);
+        returnModal.find('.modal-footer .btn').text(buttonprompt);
 
+        returnModal.modal('show'); //show the modal
+    }
     /*add jquery listeners to the page here*/
     $('#transferSubmit').off('click')  //remove any previous click handlers
         .on('click', function() {
