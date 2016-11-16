@@ -76,14 +76,19 @@ $(document).ready(function() {
             /*for each account, we need to go through the transactions*/
             var html="<tr>"; //start the transaction entry
             var transactions = User["accounts"][index]["transactions"];
+            var transactionCounter = 0; //limit to the last 5 transactions
+            var maxTransactions = 5;
             transactions = transactions.reverse(); //reverse the array
-            //for (var i in transactions){
+
             $.each(transactions ,function(index){
-                html += '<tr>';
-                html += '<td>' + transactions[index]["transactionDate"] + '</td>';
-                html += '<td>' + transactions[index]["transactionAmount"] + '</td>';
-                html += '<td>' + transactions[index]["transactionDescription"] + '</td>';
-                html += '<tr>';
+                if(transactionCounter < maxTransactions) {
+                    transactionCounter = transactionCounter + 1;
+                    html += '<tr>';
+                    html += '<td>' + transactions[index]["transactionDate"] + '</td>';
+                    html += '<td>' + transactions[index]["transactionAmount"] + '</td>';
+                    html += '<td>' + transactions[index]["transactionDescription"] + '</td>';
+                    html += '<tr>';
+                }
             });
             html += "</tr>"; //end the transaction entry
             $(this).html(html); //now add the html to the page
