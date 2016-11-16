@@ -127,7 +127,7 @@ public class DatabaseInterface {
             if (c != null) c.close();
         }
         //now add a transfer row for the transaction
-        addTransaction(accountIDFrom,description,amount);
+        addTransaction(accountIDFrom,description,-amount);
     }
 
     /**
