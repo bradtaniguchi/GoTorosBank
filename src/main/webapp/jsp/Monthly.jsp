@@ -105,12 +105,11 @@
             </tr>
                 <%
                 ArrayList<Transaction> trans = new ArrayList<Transaction>();
-
+                //Gets all transactioins from the person from all accounts
                 for (Account x :accountList) {
                     trans.addAll(x.getTransactions());
                 }
-
-
+                //this is to sort the ArrayList
                 Collections.sort(trans, new Comparator<Transaction>() {
                     @Override
                     public int compare(Transaction o1, Transaction o2) {
