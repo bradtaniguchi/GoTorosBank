@@ -3,6 +3,7 @@ package edu.csudh.goTorosBank;
 import junit.framework.TestCase;
 
 import java.sql.*;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -213,7 +214,7 @@ public class TestDatabaseInterface extends TestCase {
         {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
-            Date billDueDate = (Date) sdf.parse("1999-12-30 12:00:00");
+            Date billDueDate = sdf.parse("1999-12-30 12:00:00");
 
             statement = c.createStatement();
 
