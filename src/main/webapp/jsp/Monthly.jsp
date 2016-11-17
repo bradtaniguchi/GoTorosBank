@@ -5,6 +5,8 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.text.ParseException" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Collections" %>
+<%@ page import="java.util.Comparator" %>
 
 <html>
 <head>
@@ -107,6 +109,14 @@
                 for (Account x :accountList) {
                     trans.addAll(x.getTransactions());
                 }
+
+
+                Collections.sort(trans, new Comparator<Transaction>() {
+                    @Override
+                    public int compare(Transaction o1, Transaction o2) {
+                        return o2.getDate().compareTo(o1.getDate());
+                    }
+                });
 
                 for (Transaction tran : trans) {
                     String line = "<tr>" +
