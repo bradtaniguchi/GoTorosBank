@@ -51,11 +51,12 @@ public class PayBillServlet extends HttpServlet
         {
             DatabaseInterface database = new DatabaseInterface();
             User myUser = database.getUser(username);
+            Bill payBill = null;
             int billID = 0;
 
             int accountID = Integer.parseInt(request.getParameter("accountID"));
             billID = Integer.parseInt(request.getParameter("billID"));
-            float amount = Float.parseFloat(request.getParameter("amount"));
+            //float amount = Float.parseFloat(request.getParameter("amount")); // Removes amount as requested issue #6
 
 
             if(myUser.getUserAccounts().size() == 0)
@@ -71,15 +72,24 @@ public class PayBillServlet extends HttpServlet
             else
             {
                 Account fromAccount = myUser.getUserAccount(accountID);
+                ArrayList<Bill> bills = fromAccount.getBills();
 
-                if((fromAccount.getAccountBalance() - amount) < 0)
+                for(int i = 0; i < bills.size(); i++)
+                {
+                    if(bills.get(i).getBillID() == billID)
+                    {
+                        payBill = bills.get(i);
+                    }
+                }
+
+                if((fromAccount.getAccountBalance() - payBill.getBillAmmount()) < 0)
                 {
                     returnJSON.put("successfulBillPay", false);
                     returnJSON.put("message", "Insufficient funds on account GoToros " + fromAccount.getAccountType() + " (# " + fromAccount.getAccountNumber() + ")");
                 }
                 else
                 {
-                    database.withdraw(accountID, amount, "Successfully paid bill " + billID);
+                    database.withdraw(accountID, payBill.getBillAmmount(), "Successfully paid bill " + billID);
                     database.payBill(billID);
 
                     returnJSON.put("successfulBillPay", true);
