@@ -45,7 +45,7 @@ public class PayBillServlet extends HttpServlet
          */
 
         HttpSession userSession = request.getSession();
-        String username = (String) userSession.getAttribute("userName");
+        String username = (String) userSession.getAttribute("username");
 
         try
         {

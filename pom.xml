@@ -134,7 +134,7 @@
                         <artifactId>tomcat7-maven-plugin</artifactId>
                         <version>2.2</version>
                         <configuration>
-                            <url>http://10.17.1.41:80/manager/text</url>
+                            <url>http://10.17.1.50:80/manager/text</url>
                             <server>IMSServer</server>
                             <path>/ROOT</path>
                         </configuration>
