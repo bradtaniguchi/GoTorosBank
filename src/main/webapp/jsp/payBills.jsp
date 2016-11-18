@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="org.sqlite.*" %>
+<%@ page import="edu.csudh.goTorosBank.DatabaseInterface" %>
 <h1>Pay Bills</h1>
 
 <!--<table border="1" width="100%">-->
@@ -24,9 +25,13 @@
         Class.forName("org.sqlite.JDBC");
         Connection c = DriverManager.getConnection("jdbc:sqlite::resource:GoTorosBank.db");
         Statement statement = c.createStatement();
+        HttpSession sess = request.getSession();
+        Object id = sess.getAttribute("username");
+        String username = id.toString();
 
+        DatabaseInterface database = new DatabaseInterface();
         ResultSet resultSet = statement.executeQuery("SELECT *"
-                + "FROM BILLS;");
+                + "FROM BILLS WHERE UID = " + database.getUser(username).getId() + ";");
         while (resultSet.next()) {
             out.println("<tr>");
             //out.println("<td>" + resultSet.getInt("BILL_ID") + "</td>");
