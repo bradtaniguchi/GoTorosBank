@@ -6,10 +6,9 @@
 --%>
 <nav class="navbar navbar-inverse" id="shadowOnly"  style="padding-right: 20px;">
     <div class="navbar-header">
-        <a class="navbar-brand" href="index.jsp">GoToros! Bank</a>
+        <a class="navbar-brand" >GoToros! Bank</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
-
         <li id="here">
             <a id="logout" style="cursor:pointer"> Logout <span class="glyphicon glyphicon-user"></span></a>
             <script>
