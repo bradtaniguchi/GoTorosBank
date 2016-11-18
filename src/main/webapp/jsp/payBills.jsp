@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*" %>
-<%@ page import="org.sqlite.*" %>
 <%@ page import="edu.csudh.goTorosBank.DatabaseInterface" %>
 <h1>Pay Bills</h1>
 
@@ -52,19 +51,40 @@
     }
     %>
 </table>
-    <div class="form-group">
-            <label for="billToPay">Select bill to pay:</label>
-            <select class="form-control" id="billToPay"></select>
-    </div>
-    
-    <div class="form-group">
-        <label for="accountToPayFrom">Select bank account to make payment from:</label>
-        <select class="form-control" id="accountToPayFrom"></select>
-    </div>
+<div class="form-group">
+        <label for="billToPay">Select bill to pay:</label>
+        <select class="form-control" id="billToPay"></select>
+</div>
 
-    <div class="form-group">
-            <button type="button" id="makePayment" class="btn btn-default">Make Payment</button>
-    </div>
+<div class="form-group">
+    <label for="accountToPayFrom">Select bank account to make payment from:</label>
+    <select class="form-control" id="accountToPayFrom"></select>
+</div>
 
-    <div id="statusDiv"></div>
-    <script type="text/javascript" src="js/payBillsManager.js"></script>
+<div class="form-group">
+    <button type="button" id="makePayment" class="btn btn-default">Make Payment</button>
+</div>
+
+<div id="returnDiv"></div>
+<!--add modal popup here-->
+<!-- Modal -->
+<div id="returnModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">X</button>
+                <h4 class="modal-title">Error!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="closeButton">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="js/payBillsManager.js"></script>

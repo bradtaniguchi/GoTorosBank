@@ -2,7 +2,7 @@
  * Created by brad on 10/12/16.
  */
 $(document).ready(function(){
-    console.log("payBillsManager.js ready2");
+    console.log("payBillsManager.js ready");
 
     /*when page is loaded, we will do this function*/
     function loadOptions() {
@@ -47,14 +47,10 @@ $(document).ready(function(){
             });
         });
     }
-    $('#makePayment').on('click', function() {
-        console.log("makePayment button clicked!");
-        var accountID = parseInt($('#accountToPayFrom'));
-        var billID = parseInt($('#billToPay'));
-        if(isNaN(accountID)) accountID = 0;
-        if(isNaN(billID)) billID = 0;
+    function payBill(accountID, billID){
         console.log("accountID: " + accountID);
         console.log("billID: " + billID);
+        /*do some logical checks first*/
         $.ajax({
             type:'POST',
             url:'util/PayBillServlet',
@@ -64,16 +60,43 @@ $(document).ready(function(){
                 "billID" : billID
             },
             success: function(response){
-                console.log("Response Successful");
-                $('#returnDiv').text(response);
-                /*expand on this for other scenarios*/
+                if(response["successfulBillPay"]) {
+                    showModal("Successful Paid Bill", response["message"], "ok");
+                } else { /*we were not able to commit*/
+                    showModal("Unable to Pay The Bill", response["message"], "ok");
+                }
             },
             error: function(xhr, status, error){
+                showModal("AJAX CALL ERROR!", xhr.responseText +"\n" + status + "\n" + error, "ok");
                 console.log(xhr.responseText);
                 console.log("Stats: " + status);
                 console.log("Error: " + error);
             }
         });
+    }
+    function showModal(title, message, buttonprompt) {
+        var returnModal = $('#returnModal'); //my return modal that I can use to return message to the user
+        //var modalTitle = returnModal.add(".modal-title");//select the title
+        returnModal.find('.modal-header .modal-title').text(title);
+        returnModal.find('.modal-body').text(message);
+        returnModal.find('.modal-footer .btn').text(buttonprompt);
+
+        returnModal.modal('show'); //show the modal
+    }
+    $('#makePayment').off('click').on('click', function() {
+        var accountID = $('#accountToPayFrom').val().trim();
+        var billID = $('#billToPay').val().trim();
+        accountID = accountID.replace(/[^\d.]/g, '');
+        billID = billID.replace(/[^\d.]/g, '');
+
+        if(isNaN(accountID) || isNaN(billID)) {
+            alert("Account id or bill isn't correct!"); //change to modal popup
+        } else {
+            payBill(accountID, billID); //call the function
+        }
+    });
+    $('#closeButton').off('click').on('click', function() {
+            window.location = "/profile.jsp";
     });
     loadOptions();
 });
