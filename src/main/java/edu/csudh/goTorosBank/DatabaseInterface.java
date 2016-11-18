@@ -335,7 +335,7 @@ public class DatabaseInterface {
             c = DriverManager.getConnection(connectionLink); //this will get the file in resources
             statement = c.createStatement();
 
-            resultSet = statement.executeQuery("SELECT * FROM BILLS");
+            resultSet = statement.executeQuery("SELECT * FROM BILLS WHERE ACCOUNT_NUMBER == "+account.getAccountNumber()+";");
 
             while (resultSet.next()) {
                 if(account.getAccountNumber() == resultSet.getInt("ACCOUNT_NUMBER")) {
