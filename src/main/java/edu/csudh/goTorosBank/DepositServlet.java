@@ -5,6 +5,7 @@ package edu.csudh.goTorosBank;
  * @author Rudy
  */
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 import javax.servlet.ServletConfig;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -62,7 +65,16 @@ public class DepositServlet extends HttpServlet {
                         fileSaveDir.mkdir();
                     }
                     fileItem.write(savePath + File.separator + fileName);
-
+        //Jeus Modifications************************************************************
+                    //attempt to create file
+                    //File CheckImage = new File(savePath+File.separator+fileName);
+                   
+                    //method extracts amount from check
+                    //Assigns the CheckAmount from the CheckImage
+           //--->  if the File CheckImage is correct, uncomment the line bellow to run function 
+                    //float CheckAmount = getCheckAmount(CheckImage);
+                    //What to do with the Check Amount???
+       //end of Jeus Modifications********************************************************
                     returnJson.put("successfulUpload", true);
                     returnJson.put("message", "file successfully uploaded: " + fileName);
                 } catch (Exception e) {
@@ -76,4 +88,34 @@ public class DepositServlet extends HttpServlet {
         }
         response.getWriter().write(returnJson.toJSONString());
     }
+    
+    public float getCheckAmount(File CheckImage){
+        
+        Tesseract instance = Tesseract.getInstance();
+        //String result will hold what the tesseract scanned from the image
+
+        String result = null;
+        
+        if(CheckImage.canExecute()==true){
+            System.out.println("File is good");
+        }
+
+        //runs the tesseract and catches exceprtions, assigns scanned output into result
+        try {
+            result = instance.doOCR(CheckImage);
+        } catch (TesseractException ex) {
+            ex.printStackTrace();
+        }
+        //Check amount extraction
+        String Extract1 = result.substring(result.indexOf('$'),result.indexOf(','));
+        String Extract2 = Extract1.substring(Extract1.indexOf('$')+2);
+        String amount = Extract2.trim();
+        amount = amount+".00";
+        //float checkk = Float.parseFloat(amount);
+        float CheckAmount = Float.parseFloat(amount);
+        return CheckAmount;
+        
+    }
+    
+    
 }
