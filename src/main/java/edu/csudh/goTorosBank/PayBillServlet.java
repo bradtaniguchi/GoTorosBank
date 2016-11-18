@@ -93,7 +93,7 @@ public class PayBillServlet extends HttpServlet
                     database.payBill(billID);
 
                     returnJSON.put("successfulBillPay", true);
-                    returnJSON.put("message", "You have successfully paid your bill: " + billID);
+                    returnJSON.put("message", "You have successfully paid your " + payBill.getBillName() + " bill.");
                 }
             }
         }
