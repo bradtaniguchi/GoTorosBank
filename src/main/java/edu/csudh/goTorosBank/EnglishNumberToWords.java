@@ -1,7 +1,14 @@
 package edu.csudh.goTorosBank;
 
 
+/*
 
+        System.out.println("*** " + EnglishNumberToWords.convert(2147483647));
+        System.out.println("*** " + EnglishNumberToWords.convert(3000000010L));
+        just do this and u get a string :
+            EnglishNumberToWords.convert(your number);
+        EnglishNumberToWords.convert(14);
+ */
 
 
 import java.text.DecimalFormat;
