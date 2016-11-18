@@ -51,6 +51,10 @@ $(document).ready(function(){
         console.log("makePayment button clicked!");
         var accountID = parseInt($('#accountToPayFrom'));
         var billID = parseInt($('#billToPay'));
+        if(isNaN(accountID)) accountID = 0;
+        if(isNaN(billID)) billID = 0;
+        console.log("accountID: " + accountID);
+        console.log("billID: " + billID);
         $.ajax({
             type:'POST',
             url:'util/PayBillServlet',
