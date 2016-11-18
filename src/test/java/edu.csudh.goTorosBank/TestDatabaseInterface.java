@@ -214,13 +214,12 @@ public class TestDatabaseInterface extends TestCase {
         {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite::resource:testGoTorosBank.db");
-            Date billDueDate = sdf.parse("1999-12-30 12:00:00");
-            //String dateFormat = sdf.format(billDueDate);
+            String date = "1999-12-30 12:00:00";
 
             statement = c.createStatement();
 
             statement.executeUpdate("INSERT INTO BILLS(BID, BILL_NAME, BILL_DESCRIPTION, BILL_AMOUNT, BILL_DUE_DATE, BILL_STATUS, UID, ACCOUNT_NUMBER) " +
-                    "VALUES (5, 'Bill TEST', 'Pay your bill', 50.00, '" + billDueDate + "', 'active', 2, 3);");
+                    "VALUES (5, 'Bill TEST', 'Pay your bill', 50.00, '1999-12-30 12:00:00', 'active', 2, 3);");
 
             //resultSet.close();
             statement.close();
@@ -231,10 +230,6 @@ public class TestDatabaseInterface extends TestCase {
             fail("Verify Database ERROR! " + e.getMessage());
         }
         catch (SQLException e)
-        {
-            fail("Verify Database ERROR! " + e.getMessage());
-        }
-        catch (ParseException e)
         {
             fail("Verify Database ERROR! " + e.getMessage());
         }
