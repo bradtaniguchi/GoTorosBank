@@ -5,8 +5,6 @@ package edu.csudh.goTorosBank;
  * @author Rudy
  */
 import java.io.*;
-import java.net.URL;
-import java.util.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -18,10 +16,6 @@ import javax.servlet.http.Part;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.json.simple.JSONObject;
 
@@ -32,9 +26,13 @@ import org.json.simple.JSONObject;
 @MultipartConfig
 public class DepositServlet extends HttpServlet {
     private static final String SAVE_DIR = "TempUpload"; //where we want to save the files
+    private static String DATA_PATH;
+    private static boolean readable;
     @Override
     public void init(ServletConfig config)throws ServletException{
         super.init(config);
+        DATA_PATH = getServletContext().getRealPath("");
+        DATA_PATH = DATA_PATH + "WEB-INF/classes";
         getServletContext().log("Init() called");
     }
 
@@ -53,7 +51,7 @@ public class DepositServlet extends HttpServlet {
             Part fileItem = request.getPart("file"); //get the file part
             String fileName = fileItem.getSubmittedFileName(); //and the name
             String fileType = fileItem.getContentType(); //get type
-            if (fileType.equals("image/png")) {
+            if (fileType.equals("image/png") || fileType.equals("image/jpeg")) {
                 // gets absolute path of the web application
                 String appPath = request.getServletContext().getRealPath("");
                 // constructs path of the directory to save uploaded file
@@ -65,18 +63,18 @@ public class DepositServlet extends HttpServlet {
                         fileSaveDir.mkdir();
                     }
                     fileItem.write(savePath + File.separator + fileName);
-        //Jeus Modifications************************************************************
-                    //attempt to create file
-                    //File CheckImage = new File(savePath+File.separator+fileName);
-                   
-                    //method extracts amount from check
-                    //Assigns the CheckAmount from the CheckImage
-           //--->  if the File CheckImage is correct, uncomment the line bellow to run function 
-                    //float CheckAmount = getCheckAmount(CheckImage);
-                    //What to do with the Check Amount???
-       //end of Jeus Modifications********************************************************
+                    String fullPath = getServletContext().getRealPath(SAVE_DIR + File.separator + fileName);
+                    float amount = getCheckAmount(fullPath);
+                    if(amount == -1) {
+                        amount = 0; //We couldn't read the check
+                        readable = false;
+                    }
+                    /*DO DATABASE TRANSACTIONS HERE?!?*/
                     returnJson.put("successfulUpload", true);
                     returnJson.put("message", "file successfully uploaded: " + fileName);
+                    returnJson.put("path", fullPath);
+                    returnJson.put("amount", amount);
+                    returnJson.put("readable", readable);
                 } catch (Exception e) {
                     returnJson.put("successfulUpload", false);
                     returnJson.put("message", "Error with upload: " + e.getMessage());
@@ -89,32 +87,31 @@ public class DepositServlet extends HttpServlet {
         response.getWriter().write(returnJson.toJSONString());
     }
     
-    public float getCheckAmount(File CheckImage){
-        
-        Tesseract instance = Tesseract.getInstance();
-        //String result will hold what the tesseract scanned from the image
+    public float getCheckAmount(String filepath) throws TesseractException, StringIndexOutOfBoundsException {
+        String result;
+        float returnAmount;
+        File checkFile = new File(filepath);
+        Tesseract instance = new Tesseract();
+        instance.setDatapath(DATA_PATH); //assign the training data
 
-        String result = null;
-        
-        if(CheckImage.canExecute()==true){
-            System.out.println("File is good");
-        }
+        //runs the tesseract and catches exceptions, assigns scanned output into result
+        result = instance.doOCR(checkFile);
 
-        //runs the tesseract and catches exceprtions, assigns scanned output into result
-        try {
-            result = instance.doOCR(CheckImage);
-        } catch (TesseractException ex) {
-            ex.printStackTrace();
-        }
         //Check amount extraction
-        String Extract1 = result.substring(result.indexOf('$'),result.indexOf(','));
-        String Extract2 = Extract1.substring(Extract1.indexOf('$')+2);
-        String amount = Extract2.trim();
-        amount = amount+".00";
-        //float checkk = Float.parseFloat(amount);
-        float CheckAmount = Float.parseFloat(amount);
-        return CheckAmount;
-        
+        /*TODO: add catchers, if we can't find the amount!*/
+        int startIndex = result.indexOf('$');
+        int resultIndex = result.indexOf(',');
+        if( startIndex == -1 || resultIndex == -1) { //one isn't found!
+            returnAmount = -1; //return a bad value back
+        } else {
+            String Extract1 = result.substring(startIndex, resultIndex);
+            /*wait does this just get the first 2 integers from the amount???*/
+            String Extract2 = Extract1.substring(Extract1.indexOf('$')+2);
+            String amount = Extract2.trim();
+            amount = amount+".00";
+            returnAmount = Float.parseFloat(amount);
+        }
+        return returnAmount;
     }
     
     

@@ -29,7 +29,7 @@ public class TestTess4j extends TestCase {
         //ClassLoader classLoader = getClass().getClassLoader();
 
         //imageFile = new File(classLoader.getResource(Image_Path).getFile());
-        //String pathToImage = "goTorosIndexServer Maven Webapp/src/main/resources/images/ModifiedCheckTemplate.jpg";
+        //String pathToImage = "goTorosIndexServer Maven Webapp/src/main/resources/tessdata/ModifiedCheckTemplate.jpg";
 
         //imageFile = new File("C:\\Users\\Cortez\\Desktop\\ModifiedCheckTemplate.jpg");
         //imageFile = new File(pathToImage);
