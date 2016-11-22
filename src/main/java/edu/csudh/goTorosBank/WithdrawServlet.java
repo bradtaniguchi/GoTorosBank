@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class WithdrawlServlet extends HttpServlet{
+public class WithdrawServlet extends HttpServlet{
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -32,14 +32,15 @@ public class WithdrawlServlet extends HttpServlet{
     }
     
     /**
-     * 
+     * TODO: Finish filling this out....
      * @param request
      * @param response
      * @throws ServletException
      * @throws IOException 
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @SuppressWarnings("unchecked") //need this to suppress warnings for our json.put
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        getServletContext ().log("goGet () called");
        
        JSONObject returnJSON = new JSONObject();
@@ -63,10 +64,15 @@ public class WithdrawlServlet extends HttpServlet{
        
        try{
            DatabaseInterface database = new DatabaseInterface();               
-           User myUser = database.getUser(username);                                                                     
-                                                                                
-           int accountID = Integer.parseInt(request.getParameter("accountID")); 
-           float amount = Float.parseFloat(request.getParameter("ammount"));   
+           User myUser = database.getUser(username);
+           if (request.getParameter("accountID")==null|| request.getParameter("amount")==null){
+               returnJSON.put("successfulWithdraw", false);
+               returnJSON.put("message", "Not valid arguments!");
+               response.getWriter().write(returnJSON.toJSONString());
+               return;
+           }
+           int accountID = Integer.parseInt(request.getParameter("accountID"));
+           float amount = Float.parseFloat(request.getParameter("amount"));
            Account accountFrom = myUser.getUserAccount(accountID);              
            
            //Checks to see if user is logged in
@@ -78,7 +84,7 @@ public class WithdrawlServlet extends HttpServlet{
            }
            else{
                returnJSON.put("userLoggedin", false);
-               returnJSON.put("message","Invalid Loggedin");
+               returnJSON.put("message","No user Found");
            }
            
            //Checks if user has selected an account
@@ -96,15 +102,15 @@ public class WithdrawlServlet extends HttpServlet{
                returnJSON.put("succesfulWithdraw", false);
                returnJSON.put("message", "Insufficient funds in account" + accountFrom.getAccountNumber());   
            }
-           //checks that user withdraws in amouonts of 20
+           //checks that user withdraws in amounts of 20
            else if(amount%20 != 0){
                returnJSON.put("successfulWithdraw", false);
-               returnJSON.put("message", "Must withdraw in ammounts of 20");
+               returnJSON.put("message", "Must withdraw in amounts of 20");
            }
            //checks that uer doesn't withdraw more than $500.00
            else if(amount > 500){
                returnJSON.put("successfulWithdraw", false);
-               returnJSON.put("message", "Withdraw ammount cannot exceed $500.00");
+               returnJSON.put("message", "Withdraw amount cannot exceed $500.00");
            }
            //creates check for user and makes chages to the database...
            else{       
@@ -161,6 +167,12 @@ public class WithdrawlServlet extends HttpServlet{
            returnJSON.put("successfulWithdraw", false);
            returnJSON.put("message", "ParseException: " + p.getMessage());
        }
+       /*added new case, where parseInt finds nothing*/
+       catch (NumberFormatException e) {
+           returnJSON.put("successfulWithdraw", false);
+           returnJSON.put("message", "NumberFormatException" + e.getMessage());
+       }
+        response.getWriter().write(returnJSON.toJSONString());
     }
     
     @Override
