@@ -9,10 +9,8 @@ import java.io.*;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
+
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
@@ -42,7 +40,16 @@ public class DepositServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         JSONObject returnJson = new JSONObject();
+        /*check if the user is logged in first*/
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username"); //get the user name, and validate they exist
 
+        if(username==null) {
+            returnJson.put("successfulUpload", false);
+            returnJson.put("message", "Not Logged in!");
+            response.getWriter().write(returnJson.toJSONString());
+            return;
+        }
         if(!ServletFileUpload.isMultipartContent(request)){
             //out.println("Nothing to upload, not multipart content!");
             returnJson.put("successfulUpload", false);
@@ -68,13 +75,36 @@ public class DepositServlet extends HttpServlet {
                     if(amount == -1) {
                         amount = 0; //We couldn't read the check
                         readable = false;
+                    } else {
+                        readable = true;
                     }
-                    /*DO DATABASE TRANSACTIONS HERE?!?*/
-                    returnJson.put("successfulUpload", true);
-                    returnJson.put("message", "file successfully uploaded: " + fileName);
-                    returnJson.put("path", fullPath);
-                    returnJson.put("amount", amount);
-                    returnJson.put("readable", readable);
+                    /*Get the account to deposit to...*/
+                    DatabaseInterface database = new DatabaseInterface();
+                    User user = database.getUser(username);
+                    /*Get the amount*/
+                    int accountID = Integer.parseInt(request.getParameter("account"));
+                    /*Get the description for the check*/
+                    String description = request.getParameter("description");
+                    /*add a checker to this parser...*/
+                    boolean foundAccount = false;
+                    for(Account acc : user.getUserAccounts()) {
+                        if(acc.getAccountNumber() == accountID){
+                            returnJson.put("amount", amount);
+                            returnJson.put("readable", readable);
+                            /*TODO: get the description!*/
+                            database.deposit(accountID, amount, description);
+                            foundAccount = true;
+                        }
+                    }
+                    if(foundAccount){
+                        returnJson.put("successfulUpload", true); //full transaction
+                        returnJson.put("message", "file successfully uploaded: " + fileName + "\n" +
+                            "for amount: " + amount);
+                    } else {
+                        returnJson.put("successfulUpload", false);
+                        returnJson.put("message", "We didn't find the account with id: " + accountID);
+                    }
+
                 } catch (Exception e) {
                     returnJson.put("successfulUpload", false);
                     returnJson.put("message", "Error with upload: " + e.getMessage());
