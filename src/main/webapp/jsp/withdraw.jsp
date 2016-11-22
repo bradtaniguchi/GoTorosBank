@@ -12,14 +12,31 @@
     <div class="form-group">
         <div class="col-xs-6">
             <label>Account to Withdraw from:</label>
-            <div id="userAccounts"></div> <!--place the accounts here-->
-            <!--Dynamic buttons here-->
+            <form id="userAccounts"></form> <!--place buttons here-->
             <button type="button" id="submit" class="btn btn-default">Submit</button>
         </div>
     </div>
-    <!--Brad QuickNote-->
-    <!-- use this to get data:
-      http://stackoverflow.com/questions/596351/how-can-i-know-which-radio-button-is-selected-via-jquery
-    -->
+    <div class="form-group">
+        <label for="amount">Amount:</label>
+        <input type="number" class="form-control" id="amount"/>
+    </div>
+    <div id="returnModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">X</button>
+                    <h4 class="modal-title">Error!</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <script type="text/javascript" src="js/withdrawManager.js"></script>
 </form>
