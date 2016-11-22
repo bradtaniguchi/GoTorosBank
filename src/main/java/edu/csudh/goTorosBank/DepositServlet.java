@@ -73,36 +73,36 @@ public class DepositServlet extends HttpServlet {
                     String fullPath = getServletContext().getRealPath(SAVE_DIR + File.separator + fileName);
                     float amount = getCheckAmount(fullPath);
                     if(amount == -1) {
-                        amount = 0; //We couldn't read the check
-                        readable = false;
+                        returnJson.put("message", "Could not Read the Check! Sorry!");
+                        returnJson.put("readable", false);
+                        returnJson.put("amount", 0);
                     } else {
-                        readable = true;
-                    }
-                    /*Get the account to deposit to...*/
-                    DatabaseInterface database = new DatabaseInterface();
-                    User user = database.getUser(username);
-                    /*Get the amount*/
-                    int accountID = Integer.parseInt(request.getParameter("account"));
-                    /*Get the description for the check*/
-                    String description = request.getParameter("description");
-                    /*add a checker to this parser...*/
-                    boolean foundAccount = false;
-                    for(Account acc : user.getUserAccounts()) {
-                        if(acc.getAccountNumber() == accountID){
-                            returnJson.put("amount", amount);
-                            returnJson.put("readable", readable);
-                            /*TODO: get the description!*/
-                            database.deposit(accountID, amount, description);
-                            foundAccount = true;
+                        /*Get the account to deposit to...*/
+                        DatabaseInterface database = new DatabaseInterface();
+                        User user = database.getUser(username);
+                        /*Get the amount*/
+                        int accountID = Integer.parseInt(request.getParameter("account"));
+                        /*Get the description for the check*/
+                        String description = request.getParameter("description");
+                        /*add a checker to this parser...*/
+                        boolean foundAccount = false;
+                        for (Account acc : user.getUserAccounts()) {
+                            if (acc.getAccountNumber() == accountID) {
+                                returnJson.put("amount", amount);
+                                returnJson.put("readable", readable);
+                                database.deposit(accountID, amount, description);
+                                foundAccount = true;
+                            }
                         }
-                    }
-                    if(foundAccount){
-                        returnJson.put("successfulUpload", true); //full transaction
-                        returnJson.put("message", "file successfully uploaded: " + fileName + "\n" +
-                            "for amount: " + amount);
-                    } else {
-                        returnJson.put("successfulUpload", false);
-                        returnJson.put("message", "We didn't find the account with id: " + accountID);
+                        if (foundAccount) {
+                            returnJson.put("successfulUpload", true); //full transaction
+                            returnJson.put("message", "file successfully uploaded: " + fileName + "\n" +
+                                    "for amount: " + amount);
+                            returnJson.put("readable", true);
+                        } else {
+                            returnJson.put("successfulUpload", false);
+                            returnJson.put("message", "We didn't find the account with id: " + accountID);
+                        }
                     }
 
                 } catch (Exception e) {
