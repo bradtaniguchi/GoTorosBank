@@ -14,7 +14,6 @@
         <link rel="stylesheet" type="text/css" href="css/tablefix.css">
     </head>
     <body id="backgroundColor">
-
     <script>
         var property="<%=session.getAttribute("username")%>";
         if(property.localeCompare("null") != 1) {
@@ -22,7 +21,6 @@
             document.location.href="/";
         }
     </script>
-
         <div class="container">
             <jsp:include page="jsp/navbar.jsp"/>
             <div>
