@@ -7,14 +7,20 @@ package edu.csudh.goTorosBank;
 
 /**
  *
- * @author Rudy
+ * @author Rudy and Juicy J
  */
 
+import com.lowagie.text.Font;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import java.sql.SQLException;
 import java.text.ParseException;
+import javax.imageio.ImageIO;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -142,7 +148,35 @@ public class WithdrawServlet extends HttpServlet{
                while((bytesRead = inStream.read(buffer)) != -1){
                outStream.write(buffer, 0, bytesRead);
                }
-        
+               
+               /*** ****************************JEUS MODIFICATIONS*******************************************************
+                
+               //Folder Creation 
+               File f = null;
+               try {
+               f = new File("PATH OF WHEREVER WE WANT TO MAKE FOLDER");    
+               if (!f.exists()) {
+                        f.mkdir();
+                    }
+               } catch (Exception e) {
+               e.printStackTrace();
+               }
+               
+               //path to folder
+               String folderPath = f.getAbsolutePath(); //this will be the path that we will write the image into
+               
+               //assigning the function returned image to variable writtenCheck
+               BufferedImage writtenCheck = writeIntoCheck(downloadFile, amount, personPayed, amountInWords, date, billType);
+               try {
+                   //writing created checkImage into the folder path
+                   ImageIO.write(writtenCheck, "jpg", new File(folderPath + "/" + person_gettingpayed + "_" + date + "_" + amount + ".jpg"));
+               } catch (Exception e) {
+                   e.printStackTrace();
+               }
+
+               
+                * *****************************END OF JEUS MODS*************************************************************/
+       
         inStream.close();
         outStream.close();
         
@@ -179,5 +213,52 @@ public class WithdrawServlet extends HttpServlet{
     public void destroy() {
         getServletContext().log("destroy() called");
     }
+    
+    public BufferedImage writeIntoCheck(File ImageFile,String theAmount, String person_payingto,
+            String amount_inwords, String dateWrote, String billType)throws IOException {
+
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(ImageFile);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String amount = theAmount;
+        String person_gettingPayed = person_payingto;
+        String amountinWords = amount_inwords;
+        String date = dateWrote;
+        String bill_type = billType;
+
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage img = new BufferedImage(
+                w, h, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = img.createGraphics();
+        g2d.setColor(g2d.getBackground());
+        g2d.fillRect(0, 0, w, h);
+        g2d.drawImage(image, 0, -100, null);
+        g2d.setPaint(Color.black);
+        g2d.setFont(new java.awt.Font("Serif",Font.BOLD,36));
+        //g2d.setFont(new Font("Serif", Font.BOLD, 36));
+
+        FontMetrics fm = g2d.getFontMetrics();
+        int x = img.getWidth() - fm.stringWidth(amount) - 100;
+        int y = fm.getHeight();
+        g2d.drawString(amount, x - 70, y + 335);
+        g2d.drawString(person_gettingPayed, x - 800, y + 329);
+        g2d.drawString(amountinWords, x - 940, y + 390);
+        g2d.drawString(date, x - 340, y + 245);
+        g2d.drawString(bill_type, x - 900, y + 530);
+
+        String signature = "Use The Force";
+        g2d.setFont(new java.awt.Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 36));
+        g2d.drawString(signature, x - 340, y + 530);
+        g2d.dispose();
+        return img;
+        //returns the new created image called img 
+    }
+
 }
 
