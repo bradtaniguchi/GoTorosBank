@@ -302,7 +302,7 @@ public class DatabaseInterface {
 
             c.setAutoCommit(false);
 
-            statement.executeUpdate("DELETE FROM BILLS WHERE BID=" + billID + ";");
+            statement.executeUpdate("DELETE FROM BILLS WHERE BID = " + billID + ";");
 
             c.commit();
         }

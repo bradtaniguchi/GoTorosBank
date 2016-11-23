@@ -38,10 +38,23 @@ $(document).ready(function(){
         });
         $('#userAccounts').html(html);
     }
+
+    /**
+     * This account sends the data to the backend via an ajax call.
+     * @param accountID
+     * @param amount
+     */
+    function withdraw(accountID, amount){
+
+    }
     $("#submit").off('click')
         .on('click',function() {
-        /*do stuff*/
-        alert("not implemented yet");
+            var amount = $('#amount').val().trim();
+            amount = amount.replace( /[^\d.]/g, '' );
+            //var accountID =;
+
+            console.log("Amount: " + amount);
+            console.log("AccountID: " + accountID);
 
     });
     getAccounts();

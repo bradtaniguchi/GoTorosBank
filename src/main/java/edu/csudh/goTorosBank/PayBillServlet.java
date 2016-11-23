@@ -93,6 +93,7 @@ public class PayBillServlet extends HttpServlet
                     database.payBill(billID);
 
                     returnJSON.put("successfulBillPay", true);
+                    returnJSON.put("message", "You have successfully paid your " + payBill.getBillName() + " bill.");
                 }
             }
         }
@@ -110,6 +111,11 @@ public class PayBillServlet extends HttpServlet
         {
             returnJSON.put("successfulBillPay", false);
             returnJSON.put("message", "ParseException: " + e.getMessage());
+        }
+        catch (NullPointerException e)
+        {
+            returnJSON.put("successfulBillPay", false);
+            returnJSON.put("message", "NullPointerException: " + e.getMessage());
         }
 
         response.getWriter().write(returnJSON.toJSONString());
