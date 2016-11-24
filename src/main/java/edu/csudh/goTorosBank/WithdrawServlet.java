@@ -19,7 +19,13 @@ import java.io.*;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import javax.imageio.ImageIO;
 
 import javax.servlet.ServletConfig;
@@ -31,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class WithdrawServlet extends HttpServlet{
+    private static final String SAVE_DIR = "TempUpload";
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -149,34 +156,51 @@ public class WithdrawServlet extends HttpServlet{
                outStream.write(buffer, 0, bytesRead);
                }
                
-               /*** ****************************JEUS MODIFICATIONS*******************************************************
-                
+               
+               /**
+                * *******************JEUS MODIFICATIONS******************
+                */
+               String appPath = request.getServletContext().getRealPath("");
+               // constructs path of the directory to save uploaded file
+               String savePath = appPath + File.separator + SAVE_DIR;
+
                //Folder Creation 
                File f = null;
                try {
-               f = new File("PATH OF WHEREVER WE WANT TO MAKE FOLDER");    
-               if (!f.exists()) {
-                        f.mkdir();
-                    }
-               } catch (Exception e) {
-               e.printStackTrace();
-               }
-               
-               //path to folder
-               String folderPath = f.getAbsolutePath(); //this will be the path that we will write the image into
-               
-               //assigning the function returned image to variable writtenCheck
-               BufferedImage writtenCheck = writeIntoCheck(downloadFile, amount, personPayed, amountInWords, date, billType);
-               try {
-                   //writing created checkImage into the folder path
-                   ImageIO.write(writtenCheck, "jpg", new File(folderPath + "/" + person_gettingpayed + "_" + date + "_" + amount + ".jpg"));
+                   f = new File(savePath);
+                   if (!f.exists()) {
+                       f.mkdir();
+                   }
                } catch (Exception e) {
                    e.printStackTrace();
                }
 
+               //path to folder
+               //this will be the path that we will write the image into
+               String folderPath = f.getAbsolutePath();
+
+               //Date generator function call
+               String Dates[] = dateGenerator();
+               String date = Dates[0]; //date to be written into check
+               String dateForWritingToPath = Dates[1]; //date for when saving image to a path
                
-                * *****************************END OF JEUS MODS*************************************************************/
-       
+               //making the amount from a float to a String
+               String amountInWords = new EnglishNumberToWords().convert((long)amount);
+               
+               //assigning the function returned image to variable writtenCheck
+               
+               /**********************************************************************************
+                * NOTE TO RUDY: NEED TO PASS THE_PERSON_GETTING_PAYED AND BILL_TYPE
+                * JUST MAKE SURE THEY ARE STRINGS WHEN PASSED INTO THE FUNCTION
+               BufferedImage writtenCheck = writeIntoCheck(downloadFile,amount,amountInWords,date, person_gettingpayed, billType);
+               try {
+                   //writing created checkImage into the folder path
+                   ImageIO.write(writtenCheck, "jpg", new File(folderPath + "/" + person_gettingpayed + "_" 
+                           +dateForWritingToPath + "_" + amount + ".jpg"));
+               } catch (Exception e) {
+                   e.printStackTrace();
+               }
+               ******************************************************************************************/ 
         inStream.close();
         outStream.close();
         
@@ -213,9 +237,26 @@ public class WithdrawServlet extends HttpServlet{
     public void destroy() {
         getServletContext().log("destroy() called");
     }
-    
-    public BufferedImage writeIntoCheck(File ImageFile,String theAmount, String person_payingto,
-            String amount_inwords, String dateWrote, String billType)throws IOException {
+ 
+    public String[] dateGenerator() {
+
+        LocalDateTime localDate = LocalDateTime.now();
+
+        String rawDate = DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate);
+
+        String Datemod[] = rawDate.split("\\W");
+        //re-organizing the date format from yyyy/MM/dd to MM/dd/yyyy
+        String theDate = Datemod[1] + "/" + Datemod[2] + "/" + Datemod[0];
+        //replacing the '/' for '-' so that there could be no error when saving it to a path
+        String theDateforSavingCheck = Datemod[1] + "-" + Datemod[2] + "-" + Datemod[0];
+        //inserting both modified dates into an array to return to the function call.
+        String Dates[] = {theDate, theDateforSavingCheck};
+
+        return Dates;
+    }
+
+    public BufferedImage writeIntoCheck(File ImageFile, String theAmount, String amountInWords,
+            String dateWrote, String person_payingto, String billType) throws IOException {
 
         BufferedImage image = null;
         try {
@@ -227,7 +268,7 @@ public class WithdrawServlet extends HttpServlet{
 
         String amount = theAmount;
         String person_gettingPayed = person_payingto;
-        String amountinWords = amount_inwords;
+        String amountinWords = amountInWords;
         String date = dateWrote;
         String bill_type = billType;
 
@@ -240,7 +281,7 @@ public class WithdrawServlet extends HttpServlet{
         g2d.fillRect(0, 0, w, h);
         g2d.drawImage(image, 0, -100, null);
         g2d.setPaint(Color.black);
-        g2d.setFont(new java.awt.Font("Serif",Font.BOLD,36));
+        g2d.setFont(new java.awt.Font("Serif", Font.BOLD, 36));
         //g2d.setFont(new Font("Serif", Font.BOLD, 36));
 
         FontMetrics fm = g2d.getFontMetrics();
@@ -259,6 +300,5 @@ public class WithdrawServlet extends HttpServlet{
         return img;
         //returns the new created image called img 
     }
-
 }
 

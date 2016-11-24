@@ -50,7 +50,7 @@ public class EnglishNumberToWords {
             " nineteen"
     };
 
-    private EnglishNumberToWords() {}
+    EnglishNumberToWords() {}
 
     private static String convertLessThanOneThousand(int number) {
         String soFar;

@@ -2,7 +2,7 @@ package edu.csudh.goTorosBank;
 
 /**
  *
- * @author Rudy
+ * @author Rudy and Juicy J
  */
 import java.io.*;
 
@@ -144,5 +144,5 @@ public class DepositServlet extends HttpServlet {
         return returnAmount;
     }
     
-    
+   
 }
