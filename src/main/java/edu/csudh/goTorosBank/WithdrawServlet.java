@@ -186,17 +186,17 @@ public class WithdrawServlet extends HttpServlet{
                
                //making the amount from a float to a String
                String amountInWords = new EnglishNumberToWords().convert((long)amount);
-               
+               String amountAsString = String.valueOf(amount)+"0";
                //assigning the function returned image to variable writtenCheck
                
-               /**********************************************************************************
+               /***********************************************************************************
                 * NOTE TO RUDY: NEED TO PASS THE_PERSON_GETTING_PAYED AND BILL_TYPE
                 * JUST MAKE SURE THEY ARE STRINGS WHEN PASSED INTO THE FUNCTION
-               BufferedImage writtenCheck = writeIntoCheck(downloadFile,amount,amountInWords,date, person_gettingpayed, billType);
+               BufferedImage writtenCheck = writeIntoCheck(downloadFile,amountAsString,amountInWords,date, person_gettingpayed, billType);
                try {
                    //writing created checkImage into the folder path
                    ImageIO.write(writtenCheck, "jpg", new File(folderPath + "/" + person_gettingpayed + "_" 
-                           +dateForWritingToPath + "_" + amount + ".jpg"));
+                           +dateForWritingToPath + "_" + amountAsString + ".jpg"));
                } catch (Exception e) {
                    e.printStackTrace();
                }
