@@ -86,7 +86,9 @@ public class WithdrawServlet extends HttpServlet{
            }
            int accountID = Integer.parseInt(request.getParameter("accountID"));
            float amount = Float.parseFloat(request.getParameter("amount"));
-           Account accountFrom = myUser.getUserAccount(accountID);              
+           Account accountFrom = myUser.getUserAccount(accountID); 
+           String person_gettingpayed = (String) request.getAttribute("person_gettingpayed");
+           String billType = (String) request.getAttribute("billType");
            
            //Checks to see if user is logged in
            if(database.validate(request.getParameter("username"), request.getParameter("password"))){
@@ -124,6 +126,14 @@ public class WithdrawServlet extends HttpServlet{
            else if(amount > 500){
                returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "Withdraw amount cannot exceed $500.00");
+           }
+           else if(person_gettingpayed == null){
+               returnJSON.put("successfulWithdraw", false);
+               returnJSON.put("message", "There is no person getting payed");
+           }
+           else if(billType == null){
+               returnJSON.put("successfulWithdraw", false);
+               returnJSON.put("message", "There is no bill decription");
            }
            //creates check for user and makes chages to the database...
            else{       
