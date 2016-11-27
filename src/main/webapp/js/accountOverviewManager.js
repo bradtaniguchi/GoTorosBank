@@ -67,10 +67,13 @@ $(document).ready(function() {
     function updateAccounts(User) {
         var html = ""; //this is to append to transactions later
         $(".accountType").each(function(index){ /*get accountTypes*/
-            $(this).html(User["accounts"][index]["accountType"]); //set the html for select item
+            $(this).text(User["accounts"][index]["accountType"]); //set the html for select item
         });
         $(".balance").each(function(index){ /*get balance of account*/
-            $(this).html(User["accounts"][index]["accountBalance"])
+            $(this).html(User["accounts"][index]["accountBalance"]);
+        });
+        $(".accountID").each(function(index){ /*get account*/
+            $(this).html("ID: " + User["accounts"][index]["accountNumber"]);
         });
         $(".transaction").each(function(index){
             /*for each account, we need to go through the transactions*/
