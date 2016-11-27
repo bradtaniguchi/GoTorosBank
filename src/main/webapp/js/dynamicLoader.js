@@ -14,8 +14,8 @@ $(document).ready(function() {
     }
     /*Ghetto way to enable the rest of the buttons..*/
     function unEnable() {
-        var property="<%=session.getAttribute('username')%>";
-        if(property.localeCompare("null") != 1) {
+        //var userLoggedIn="<%=session.getAttribute('username')%>";
+        if(userLoggedIn.localeCompare("null") != 1) {
             alert("You must first log in to use this site!!!");
             document.location.href="/";
         }

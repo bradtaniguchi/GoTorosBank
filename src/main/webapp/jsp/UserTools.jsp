@@ -19,3 +19,7 @@
         <li><a href="jsp/Monthly.jsp" target="_blank">Monthly Statement</a></li>
     </ul>
 </div> <!--different menu static items list-->
+<script>
+    /*global variable */
+    var userLoggedIn="<%=session.getAttribute("username")%>";
+</script>
