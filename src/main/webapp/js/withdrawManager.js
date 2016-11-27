@@ -31,14 +31,14 @@ $(document).ready(function(){
     function makeAccounts(User) {
         var html=""; //the full html to return, radial button for each account
         var accounts = User["accounts"];
+        var accountSelector = $('#userAccounts');
+        accountSelector.html("<option>choose</option>");
         $.each(accounts, function(index) {
-           html += '<div class="radio">';
-           html += '<label><input type="radio" name="optradio">' + accounts[index]["accountType"] + '</label>';
-           html += '</div>';
+           html += '<option>' + accounts[index]["accountNumber"] + ' ' +
+                   accounts[index]["accountType"] + '</option>';
         });
-        $('#userAccounts').html(html);
+        accountSelector.html(html);
     }
-
     /**
      * This account sends the data to the backend via an ajax call.
      * @param accountID
@@ -54,7 +54,7 @@ $(document).ready(function(){
             //var accountID =;
 
             console.log("Amount: " + amount);
-            console.log("AccountID: " + accountID);
+            console.log("Account: " + userAccount);
 
     });
     getAccounts();
