@@ -22,8 +22,6 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import javax.imageio.ImageIO;
@@ -247,12 +245,11 @@ public class WithdrawServlet extends HttpServlet{
     public void destroy() {
         getServletContext().log("destroy() called");
     }
- 
     public String[] dateGenerator() {
 
-        LocalDateTime localDate = LocalDateTime.now();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String rawDate = sdf.format(new Date());
 
-        String rawDate = DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate);
 
         String Datemod[] = rawDate.split("\\W");
         //re-organizing the date format from yyyy/MM/dd to MM/dd/yyyy
@@ -264,7 +261,6 @@ public class WithdrawServlet extends HttpServlet{
 
         return Dates;
     }
-
     public BufferedImage writeIntoCheck(File ImageFile, String theAmount, String amountInWords,
             String dateWrote, String person_payingto, String billType) throws IOException {
 
