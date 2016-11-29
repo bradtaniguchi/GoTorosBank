@@ -7,6 +7,9 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Collections" %>
 <%@ page import="java.util.Comparator" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.lang.reflect.Array" %>
 
 <html>
 <head>
@@ -109,6 +112,18 @@
                 for (Account x :accountList) {
                     trans.addAll(x.getTransactions());
                 }
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String dateAndTime = sdf.format(new Date());
+
+                    ArrayList<Transaction> thismonthstrans = new ArrayList<Transaction>();
+
+                    for (Transaction x:trans) {
+                        if (x.getDate().contains(dateAndTime.substring(0, 7))){
+                            thismonthstrans.add(x);
+                        }
+                    }
+
+
                 //this is to sort the ArrayList
                 Collections.sort(trans, new Comparator<Transaction>() {
                     @Override
@@ -116,15 +131,17 @@
                         return o2.getDate().compareTo(o1.getDate());
                     }
                 });
-
-                for (Transaction tran : trans) {
-                    String line = "<tr>" +
-                            "<td>" + tran.getAccount().getAccountNumber() + "</td>" +
-                            "<td>" + tran.getDate() + "</td>" +
-                            "<td>" + tran.getTransactionAmount() + "</td>" +
-                            "<td>" + tran.getTransactionDescription() + "</td>" +
-                            "</tr>";
-                    out.print(line);
+                if (thismonthstrans.size() == 0){
+                    out.print("<tr><td colspan=\"4\">Sorry you have no purchases this month</td></tr>");
+                }
+                for (Transaction tran : thismonthstrans) {
+                        String line = "<tr>" +
+                                "<td>" + tran.getAccount().getAccountNumber() + "</td>" +
+                                "<td>" + tran.getDate() + "</td>" +
+                                "<td>" + tran.getTransactionAmount() + "</td>" +
+                                "<td>" + tran.getTransactionDescription() + "</td>" +
+                                "</tr>";
+                        out.print(line);
                 }
                 %>
             </table>
