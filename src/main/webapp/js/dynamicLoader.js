@@ -8,9 +8,11 @@ $(document).ready(function() {
     console.log("Dynamic loader ready");
     var transferLoaded = 0;
     var payBillsLoaded = 0;
-    function showPage(pageString) {
+    function showPage(pageString, title) {
         console.log("Changing mainActivity to: " + pageString);
-        $("#mainActivity").load(pageString);
+        document.title = 'GoTorosBank '+ title;
+        $('#mainActivity').parent().find('.panel-heading').html('<h4>' + title + '</h4>');
+        $('#mainActivity').load(pageString);
     }
     /*Ghetto way to enable the rest of the buttons..*/
     function unEnable() {
@@ -30,23 +32,23 @@ $(document).ready(function() {
     * http://stackoverflow.com/questions/17327668/best-way-to-disable-button-in-twitters-bootstrap
     */
     $("#ProfilePage").on('click', function() {
-        showPage("jsp/AccountOverview.jsp");
+        showPage("jsp/AccountOverview.jsp", "Account Overview");
         unEnable();
         $(this).addClass('active');
     });
     $("#Deposit").on('click', function() {
-        showPage("jsp/deposit.jsp");
+        showPage("jsp/deposit.jsp", "Deposit");
         unEnable();
         $(this).addClass('active');
     });
     $("#Withdraw").on('click', function() {
-        showPage("jsp/withdraw.jsp");
+        showPage("jsp/withdraw.jsp", "Withdraw");
         unEnable();
         $(this).addClass('active');
     });
     $("#Transfer").on('click', function() {
         console.log("Clicked transfer");
-        showPage("jsp/transfer.jsp");
+        showPage("jsp/transfer.jsp", "Transfer");
         if(!transferLoaded) { // protect against loading this file twice
             $.getScript("js/transferManager.js", function () {
                 transferLoaded = 1; //file is loaded on the page already
@@ -59,7 +61,7 @@ $(document).ready(function() {
         $(this).addClass('active');
     });
     $("#PayBills").on('click', function() {
-        showPage("jsp/payBills.jsp");
+        showPage("jsp/payBills.jsp", "PayBills");
         if(!payBillsLoaded) {
             $.getScript("js/payBillsManager.js", function() {
                 payBillsLoaded = 1;
