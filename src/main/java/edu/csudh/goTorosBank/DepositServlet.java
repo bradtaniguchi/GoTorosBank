@@ -131,40 +131,38 @@ public class DepositServlet extends HttpServlet {
         int startIndex = result.indexOf('$');
         int resultIndex = result.indexOf('.');
 
-        try {
-            if (startIndex > 0 && resultIndex > 0) {
-                //checks that '$' and '.' exist
+        //try {
+        if (startIndex > 0 && resultIndex > 0) {
+            //checks that '$' and '.' exist
 
-                String Extract1 = result.substring(startIndex);
-                //substring from '$' to end of string 
+            String Extract1 = result.substring(startIndex);
+            //substring from '$' to end of string
 
-                int subString_dollarSignIndex = Extract1.indexOf('$');
-                int subString_PeriodIndex = Extract1.indexOf('.');
-                int gapSize = subString_PeriodIndex - subString_dollarSignIndex;
-                //the difference between '$' and '.' index
+            int subString_dollarSignIndex = Extract1.indexOf('$');
+            int subString_PeriodIndex = Extract1.indexOf('.');
+            int gapSize = subString_PeriodIndex - subString_dollarSignIndex;
+            //the difference between '$' and '.' index
 
-                if (subString_PeriodIndex > 0 && gapSize < 7) {
-                    //if the '.' exists in substring and the distance between '$' and '.' is lesser than 7, it is a valid amount
-                    //if the gap_size between '$' and '.' is greater then it must not be a valid amount
+            if (subString_PeriodIndex > 0 && gapSize < 7) {
+                //if the '.' exists in substring and the distance between '$' and '.' is lesser than 7, it is a valid amount
+                //if the gap_size between '$' and '.' is greater then it must not be a valid amount
 
-                    //extracts the amount from: $ ###.00 To: ###
-                    String Extract2 = Extract1.substring(Extract1.indexOf('$') + 2, subString_PeriodIndex);
-                    String amount = Extract2.trim();
-                    amount = amount + ".00"; //adds two zeros to the end of extracted form.
-                    returnAmount = Float.parseFloat(amount); //casts the string to a float
-                    return returnAmount;
-                } else {
-                    throw new JeusException("Image has no proper amount or is not a check");
-                }
-
+                //extracts the amount from: $ ###.00 To: ###
+                String Extract2 = Extract1.substring(Extract1.indexOf('$') + 2, subString_PeriodIndex);
+                String amount = Extract2.trim();
+                amount = amount + ".00"; //adds two zeros to the end of extracted form.
+                returnAmount = Float.parseFloat(amount); //casts the string to a float
+                return returnAmount;
             } else {
                 throw new JeusException("Image has no proper amount or is not a check");
-
             }
-
-        } catch (JeusException e) {
-            e.printStackTrace();
+        } else {
+            throw new JeusException("Image has no proper amount or is not a check");
         }
-        return 0;
+
+        //} catch (JeusException e) {
+        //    e.printStackTrace();
+        //}
+        //return 0;
     }
 }

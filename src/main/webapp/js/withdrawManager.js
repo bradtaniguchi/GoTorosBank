@@ -41,10 +41,12 @@ $(document).ready(function(){
     /**
      * This account sends the data to the backend via an ajax call.
      * @param account
+     * @param personGettingPaid
      * @param amount
      */
-    function withdraw(amount, account) {
+    function withdraw(amount, personGettingPaid, account) {
         console.log("amount: " + amount);
+        console.log("Person: " + personGettingPaid);
         console.log("accountID: " + account);
         $.ajax({
             type:'POST',
@@ -52,7 +54,10 @@ $(document).ready(function(){
             url: 'util/WithdrawServlet',
             data: {
                 amount: amount,
-                accountID: account
+                personGettingPaid: personGettingPaid,
+                accountID: account,
+                billType: 'SOMETYPE'
+
             },
             success: function(response) {
                 console.log("message: " + response["message"]);
