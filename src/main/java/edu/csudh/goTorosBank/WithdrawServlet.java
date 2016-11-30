@@ -198,16 +198,16 @@ public class WithdrawServlet extends HttpServlet{
                
                /***********************************************************************************
                 * NOTE TO RUDY: NEED TO PASS THE_PERSON_GETTING_PAYED AND BILL_TYPE
-                * JUST MAKE SURE THEY ARE STRINGS WHEN PASSED INTO THE FUNCTION
-               BufferedImage writtenCheck = writeIntoCheck(downloadFile,amountAsString,amountInWords,date, person_gettingpayed, billType);
+                * JUST MAKE SURE THEY ARE STRINGS WHEN PASSED INTO THE FUNCTION */
+               BufferedImage writtenCheck = writeIntoCheck(downloadFile,amountAsString,amountInWords,date, personGettingPaid, billType);
                try {
                    //writing created checkImage into the folder path
-                   ImageIO.write(writtenCheck, "jpg", new File(folderPath + "/" + person_gettingpayed + "_" 
+                   ImageIO.write(writtenCheck, "jpg", new File(folderPath + "/" + personGettingPaid + "_" 
                            +dateForWritingToPath + "_" + amountAsString + ".jpg"));
                } catch (Exception e) {
                    e.printStackTrace();
                }
-               ******************************************************************************************/ 
+               //******************************************************************************************/ 
         inStream.close();
         outStream.close();
         
@@ -302,4 +302,3 @@ public class WithdrawServlet extends HttpServlet{
         //returns the new created image called img 
     }
 }
-
