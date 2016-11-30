@@ -68,11 +68,11 @@ $(document).ready(function(){
         } else if(idFrom == idTo) {
             //alert("Invalid Transfer! The to and from accounts are the same!");
             showModal("Error!", "Invalid Transfer! The to and from accounts are the same!", "ok");
-        } else if(Number(amount) <= 0) {
+        } else if(amount <= 0) {
             showModal("Error!", "Invalid Input! The amount " + Number(amount) + " is not big enough!", "ok");
             /*TODO: truncate the input amount, and transfer to our backend amount*/
         } else { /*add any more cases here*/
-            console.log("Correct input, transferring...");
+            console.log("Correct input, transferring...??" + amount);
             /*add transfer code here*/
             /*TODO: Finish this ajax call once transferServlet is finished...*/
             showModal("Loading..", "Starting Transfer...", "ok");
