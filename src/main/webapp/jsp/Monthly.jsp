@@ -13,6 +13,9 @@
 
 <html>
 <head>
+    <title>
+        Monthley Statment Page
+    </title>
     <style>
         #textbox{
             text-align: left;
