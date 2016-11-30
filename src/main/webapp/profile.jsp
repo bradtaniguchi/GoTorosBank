@@ -16,7 +16,7 @@
     <body id="backgroundColor">
     <script>
         var property="<%=session.getAttribute("username")%>";
-        if(property.localeCompare("null") != 1) {
+        if(property.localeCompare("null") == 0) {
             alert("You must first log in to use this site!!!");
             document.location.href="/";
         }
