@@ -86,8 +86,8 @@ public class WithdrawServlet extends HttpServlet{
            float amount = Float.parseFloat(request.getParameter("amount"));
            Account accountFrom = myUser.getUserAccount(accountID); 
            //String person_gettingpayed = (String) request.getAttribute("person_gettingpayed");
-           String personGettingPayed = (String) request.getAttribute("personGettingPayed");
-           String billType = (String) request.getAttribute("billType");
+           String personGettingPaid = request.getParameter("personGettingPaid");
+           String billType = request.getParameter("billType");
            
            //Checks to see if user is logged in
            /*
@@ -128,7 +128,7 @@ public class WithdrawServlet extends HttpServlet{
                returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "Withdraw amount cannot exceed $500.00");
            }
-           else if(personGettingPayed == null){
+           else if(personGettingPaid == null){
                returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "There is no person getting payed");
            }
@@ -214,19 +214,15 @@ public class WithdrawServlet extends HttpServlet{
         database.withdraw(accountID, amount, username);
         returnJSON.put("successfulWithdraw", true);
         returnJSON.put("message", "Successfully withdrew $" + amount + " from account " + accountID);
-        
-        
           }
        }
        catch(SQLException s){
-           returnJSON.put("userLoggedin", false);
-           returnJSON.put("errormessage", "Sorry we have a SQLException");
-           returnJSON.put("errormessage2",s);
+           returnJSON.put("errorMessage", "Sorry we have a SQLException");
+           returnJSON.put("errorMessage2",s);
        }
        catch(ClassNotFoundException cl){
-           returnJSON.put("userLoggedin", false);
-           returnJSON.put("errormessage", "Sorry we have a ClassNotFoundException");
-           returnJSON.put("errormessage2",cl);
+           returnJSON.put("errorMessage", "Sorry we have a ClassNotFoundException");
+           returnJSON.put("errorMessage2",cl);
        }
        catch(ParseException p){
            returnJSON.put("successfulWithdraw", false);
@@ -235,7 +231,7 @@ public class WithdrawServlet extends HttpServlet{
        /*added new case, where parseInt finds nothing*/
        catch (NumberFormatException e) {
            returnJSON.put("successfulWithdraw", false);
-           returnJSON.put("message", "NumberFormatException" + e.getMessage());
+           returnJSON.put("message", "NumberFormatException " + e.getMessage());
        }
         response.getWriter().write(returnJSON.toJSONString());
     }
