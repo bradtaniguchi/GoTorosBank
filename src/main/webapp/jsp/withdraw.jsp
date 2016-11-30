@@ -14,6 +14,9 @@
     <label for="amount">Amount:</label>
     <input type="number" class="form-control" id="amount"/>
 
+    <label for="personGettingPaid">To:</label>
+    <input type="text" class="form-control" id="personGettingPaid"/>
+    <br/>
     <label for="userAccounts">Account to withdraw from:</label>
     <select class="form-control" id="userAccounts">
     </select>

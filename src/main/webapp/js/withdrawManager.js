@@ -24,7 +24,6 @@ $(document).ready(function(){
                 console.log("XHR: "+xhr.responseText);
                 console.log("Status: "+status.responseText);
                 console.log("Error: " + error.responseText);
-
             }
         });
     }
@@ -41,21 +40,44 @@ $(document).ready(function(){
     }
     /**
      * This account sends the data to the backend via an ajax call.
-     * @param accountID
+     * @param account
      * @param amount
      */
-    function withdraw(accountID, amount){
-
+    function withdraw(amount, account) {
+        console.log("amount: " + amount);
+        console.log("accountID: " + account);
+        $.ajax({
+            type:'POST',
+            dataType: 'json',
+            url: 'util/WithdrawServlet',
+            data: {
+                amount: amount,
+                accountID: account
+            },
+            success: function(response) {
+                console.log("message: " + response["message"]);
+                console.log("successfulWithdraw " + response["successfulWithdraw"]);
+            },
+            error: function(xhr, status, error) {
+                console.log("ERROR with gettingAccountData! See Below for statements");
+                console.log("XHR: " + xhr.responseText);
+                console.log("Status: " + status.responseText);
+                console.log("Error: " + error.responseText);
+            }
+        });
     }
     $("#submit").off('click')
         .on('click',function() {
             var amount = $('#amount').val().trim();
             amount = amount.replace( /[^\d.]/g, '' );
-            //var accountID =;
 
-            console.log("Amount: " + amount);
-            console.log("Account: " + userAccount);
+            var personGettingPaid = $('#personGettingPaid').val().trim();
 
+            var userAccount = $('#userAccounts').val().trim();
+            userAccount = userAccount.replace( /[^\d.]/g, '' );
+
+            withdraw(amount, personGettingPaid, userAccount);
     });
+
     getAccounts();
 });

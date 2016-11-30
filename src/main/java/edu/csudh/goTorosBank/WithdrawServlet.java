@@ -85,10 +85,12 @@ public class WithdrawServlet extends HttpServlet{
            int accountID = Integer.parseInt(request.getParameter("accountID"));
            float amount = Float.parseFloat(request.getParameter("amount"));
            Account accountFrom = myUser.getUserAccount(accountID); 
-           String person_gettingpayed = (String) request.getAttribute("person_gettingpayed");
+           //String person_gettingpayed = (String) request.getAttribute("person_gettingpayed");
+           String personGettingPayed = (String) request.getAttribute("personGettingPayed");
            String billType = (String) request.getAttribute("billType");
            
            //Checks to see if user is logged in
+           /*
            if(database.validate(request.getParameter("username"), request.getParameter("password"))){
                userSession.setAttribute("username", request.getParameter("username"));
                
@@ -98,21 +100,22 @@ public class WithdrawServlet extends HttpServlet{
            else{
                returnJSON.put("userLoggedin", false);
                returnJSON.put("message","No user Found");
-           }
+           }*/
            
            //Checks if user has selected an account
            if(myUser.getUserAccounts().size() == 0){
-               returnJSON.put("succesfulWithdrawl", false);
+               returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "No account to withdraw from");
            }
            //checks that user only selects one account
-           else if(myUser.getUserAccounts().size() > 1 ){
-               returnJSON.put("succesfulWithdrawl", false);
+           /* why can't a user withdraw from a single account...
+           else if(myUser.getUserAccounts().size() == 1 ){
+               returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "You cannot withdraw from both account at the same time");
-           }
+           }*/
            //checks if user has sufficient funds
            else if(0 > (accountFrom.getAccountBalance() - amount)){
-               returnJSON.put("succesfulWithdraw", false);
+               returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "Insufficient funds in account" + accountFrom.getAccountNumber());   
            }
            //checks that user withdraws in amounts of 20
@@ -125,13 +128,13 @@ public class WithdrawServlet extends HttpServlet{
                returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "Withdraw amount cannot exceed $500.00");
            }
-           else if(person_gettingpayed == null){
+           else if(personGettingPayed == null){
                returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "There is no person getting payed");
            }
            else if(billType == null){
                returnJSON.put("successfulWithdraw", false);
-               returnJSON.put("message", "There is no bill decription");
+               returnJSON.put("message", "There is no bill description");
            }
            //creates check for user and makes chages to the database...
            else{       
@@ -151,7 +154,7 @@ public class WithdrawServlet extends HttpServlet{
                response.setContentType(mimeType);
                response.setContentLength((int) downloadFile.length());
         
-               String headerKey = "Content-Diposition";
+               String headerKey = "Content-Disposition";
                String headerValue = String.format("attachment; filename = \"%s\"", downloadFile.getName());
                response.setHeader(headerKey, headerValue);
         
@@ -163,11 +166,7 @@ public class WithdrawServlet extends HttpServlet{
                while((bytesRead = inStream.read(buffer)) != -1){
                outStream.write(buffer, 0, bytesRead);
                }
-               
-               
-               /**
-                * *******************JEUS MODIFICATIONS******************
-                */
+
                String appPath = request.getServletContext().getRealPath("");
                // constructs path of the directory to save uploaded file
                String savePath = appPath + File.separator + SAVE_DIR;
@@ -214,7 +213,7 @@ public class WithdrawServlet extends HttpServlet{
         
         database.withdraw(accountID, amount, username);
         returnJSON.put("successfulWithdraw", true);
-        returnJSON.put("massage", "Successfully withdrew $" + amount + " from account " + accountID);
+        returnJSON.put("message", "Successfully withdrew $" + amount + " from account " + accountID);
         
         
           }
