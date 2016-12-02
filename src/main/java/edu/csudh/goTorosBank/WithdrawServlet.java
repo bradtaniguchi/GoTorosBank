@@ -79,7 +79,7 @@ public class WithdrawServlet extends HttpServlet{
            if (request.getParameter("accountID")==null|| request.getParameter("amount")==null){
                returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "Not valid arguments!");
-               response.getWriter().write(returnJSON.toJSONString());
+               //response.getWriter().write(returnJSON.toJSONString());
                return;
            }
            int accountID = Integer.parseInt(request.getParameter("accountID"));
@@ -108,8 +108,8 @@ public class WithdrawServlet extends HttpServlet{
                returnJSON.put("message", "No account to withdraw from");
            }
            //checks that user only selects one account
-           /* why can't a user withdraw from a single account...
-           else if(myUser.getUserAccounts().size() == 1 ){
+            /*why can't a user withdraw from a single account...
+           else if(myUser.getUserAccounts().size() != 1 ){
                returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "You cannot withdraw from both account at the same time");
            }*/
@@ -137,9 +137,28 @@ public class WithdrawServlet extends HttpServlet{
                returnJSON.put("message", "There is no bill description");
            }
            //creates check for user and makes chages to the database...
-           else{       
-               File checkImage = new File ("/src/main/resources/checkImage.png");
+           else{   
+               
+               //response.setContentType("image/jpeg");
+               File blueCheck = new File ("blank-blue-check");
+               String pathToWeb = getServletContext().getRealPath("/" + blueCheck);
+               //File blueCheck = new File(pathToWeb + "blank-blue-check.jpg");
+               /* Call Jesus functions here:
+               *
+               *
+               */
+                returnJSON.put("pathToWeb", pathToWeb);
+              // BufferedImage bufferedImage = ImageIO.read(new File(pathToWeb));
+               //OutputStream out = response.getOutputStream();
+               //ImageIO.write(bufferedImage, "jpg", out);
+               //out.close();
+               
+               
+              /* File checkImage = new File ("/src/main/resources/blank-blue-check.jpg");
                String absolutePath = checkImage.getAbsolutePath();
+               
+               
+               
                File downloadFile = new File (absolutePath);
                FileInputStream inStream = new FileInputStream(downloadFile);
                       
@@ -196,9 +215,9 @@ public class WithdrawServlet extends HttpServlet{
                String amountAsString = String.valueOf(amount)+"0";
                //assigning the function returned image to variable writtenCheck
                
-               /***********************************************************************************
+               /* **********************************************************************************
                 * NOTE TO RUDY: NEED TO PASS THE_PERSON_GETTING_PAYED AND BILL_TYPE
-                * JUST MAKE SURE THEY ARE STRINGS WHEN PASSED INTO THE FUNCTION */
+                * JUST MAKE SURE THEY ARE STRINGS WHEN PASSED INTO THE FUNCTION 
                BufferedImage writtenCheck = writeIntoCheck(downloadFile,amountAsString,amountInWords,date, personGettingPaid, billType);
                try {
                    //writing created checkImage into the folder path
@@ -207,9 +226,9 @@ public class WithdrawServlet extends HttpServlet{
                } catch (Exception e) {
                    e.printStackTrace();
                }
-               //******************************************************************************************/ 
+               //******************************************************************************************
         inStream.close();
-        outStream.close();
+        outStream.close(); */
         
         database.withdraw(accountID, amount, username);
         returnJSON.put("successfulWithdraw", true);
