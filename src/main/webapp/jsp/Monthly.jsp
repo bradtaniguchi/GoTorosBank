@@ -14,8 +14,9 @@
 <html>
 <head>
     <title>
-        Monthley Statment Page
+        Monthly Statement Page
     </title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <style>
         #textbox{
             text-align: left;
@@ -63,7 +64,7 @@
     </style>
 </head>
 <body>
-    <div align="center" style="border: 2px solid black; width: 95%; padding: 10px 30px 10px 30px;">
+    <div align="center" style="border: 2px solid black; padding: 10px 30px 10px 30px;">
         <%
 
             DatabaseInterface data = new DatabaseInterface();
@@ -87,21 +88,16 @@
 
         <img src="../pictures/bank-clipart.png" >
         <div id="textbox">
-            <%
-                for(Account x:accountList)
-                    out.print("<h3>Account Number: "+x.getAccountNumber()+
-                    "</h3>");
-            %>
             <div class="alignleft">
                 <h2><%out.print(use.getUserFirstName()+" "+use.getUserLastName());%></h2>
                 <h3><%out.print(use.getUserAccountName());%></h3>
             </div>
             <div class="alignright">
                 <p>Ending Balance: <%out.print(use.getTotalbalance());%></p>
-                <button onclick="window.print();">Print</button>
+                <button type="button" class="btn btn-default" onclick="window.print();">Print</button>
             </div>
         </div>
-        <div style="clear: both;"><p></br></p></div>
+        <div style="clear: both;"><p><br/></p></div>
         <table>
             <tr>
                 <th>Account</th>
@@ -111,7 +107,7 @@
             </tr>
                 <%
                 ArrayList<Transaction> trans = new ArrayList<Transaction>();
-                //Gets all transactioins from the person from all accounts
+                //Gets all transactions from the person from all accounts
                 for (Account x :accountList) {
                     trans.addAll(x.getTransactions());
                 }

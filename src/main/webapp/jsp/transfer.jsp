@@ -23,7 +23,7 @@
     <input type="number" class="form-control" id="amount"/>
 </div>
 <div class="form-group">
-    <button type="button" id="transferSubmit" class="btn btn-default">Submit</button>
+    <button type="button" id="transferSubmit" class="btn btn-default">Transfer</button>
 </div>
 <div id="statusDiv"></div> <!--return any errors, status statements here-->
 <!-- Modal -->

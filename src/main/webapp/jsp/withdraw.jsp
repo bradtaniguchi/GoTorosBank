@@ -21,7 +21,7 @@
     <select class="form-control" id="userAccounts">
     </select>
 
-    <button type="button" id="submit" class="btn btn-default">Submit</button>
+    <button type="button" id="submit" class="btn btn-default">Withdraw</button>
 </div>
 
 <div id="returnModal" class="modal fade" role="dialog">
