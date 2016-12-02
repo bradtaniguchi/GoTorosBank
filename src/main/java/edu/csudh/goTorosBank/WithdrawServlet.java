@@ -57,19 +57,6 @@ public class WithdrawServlet extends HttpServlet{
        JSONObject returnJSON = new JSONObject();
        response.setContentType("application/json");
        
-       /* Check Case Step:
-        * 1. All Good
-        * 2. User Not Logged In
-        * 3. User Has Accounts
-        * 4. Check Amount
-        *      a. check if sufficient funds in balance
-        *      b. Check that user is withdrawing in ammount of 20
-        *      c. Put limit on amount to withdraw
-        *********************
-        * - Make Check
-        * - Make changes in the Database
-        */
-       
        HttpSession userSession = request.getSession();
        String username = (String) userSession.getAttribute("username");
        
@@ -88,31 +75,13 @@ public class WithdrawServlet extends HttpServlet{
            //String person_gettingpayed = (String) request.getAttribute("person_gettingpayed");
            String personGettingPaid = request.getParameter("personGettingPaid");
            String billType = request.getParameter("billType");
-           
-           //Checks to see if user is logged in
-           /*
-           if(database.validate(request.getParameter("username"), request.getParameter("password"))){
-               userSession.setAttribute("username", request.getParameter("username"));
-               
-               returnJSON.put("userLoggedin", true);
-               returnJSON.put("message","Valid Login");
-           }
-           else{
-               returnJSON.put("userLoggedin", false);
-               returnJSON.put("message","No user Found");
-           }*/
-           
+
            //Checks if user has selected an account
            if(myUser.getUserAccounts().size() == 0){
                returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "No account to withdraw from");
            }
-           //checks that user only selects one account
-            /*why can't a user withdraw from a single account...
-           else if(myUser.getUserAccounts().size() != 1 ){
-               returnJSON.put("successfulWithdraw", false);
-               returnJSON.put("message", "You cannot withdraw from both account at the same time");
-           }*/
+
            //checks if user has sufficient funds
            else if(0 > (accountFrom.getAccountBalance() - amount)){
                returnJSON.put("successfulWithdraw", false);
@@ -148,100 +117,24 @@ public class WithdrawServlet extends HttpServlet{
                *
                */
                 returnJSON.put("pathToWeb", pathToWeb);
-              // BufferedImage bufferedImage = ImageIO.read(new File(pathToWeb));
+               //BufferedImage bufferedImage = ImageIO.read(new File(pathToWeb));
                //OutputStream out = response.getOutputStream();
                //ImageIO.write(bufferedImage, "jpg", out);
                //out.close();
                
-               
-              /* File checkImage = new File ("/src/main/resources/blank-blue-check.jpg");
-               String absolutePath = checkImage.getAbsolutePath();
-               
-               
-               
-               File downloadFile = new File (absolutePath);
-               FileInputStream inStream = new FileInputStream(downloadFile);
-                      
-               ServletContext context = getServletContext();
-        
-               String mimeType = context.getMimeType(absolutePath);
-               if (mimeType == null){
-               mimeType = "application/octet-stream";
-               }
-               System.out.println("MIME Type: " + mimeType);
-        
-               response.setContentType(mimeType);
-               response.setContentLength((int) downloadFile.length());
-        
-               String headerKey = "Content-Disposition";
-               String headerValue = String.format("attachment; filename = \"%s\"", downloadFile.getName());
-               response.setHeader(headerKey, headerValue);
-        
-               OutputStream outStream = response.getOutputStream();
-        
-               byte[] buffer = new byte [4096];
-               int bytesRead = -1;
-        
-               while((bytesRead = inStream.read(buffer)) != -1){
-               outStream.write(buffer, 0, bytesRead);
-               }
 
-               String appPath = request.getServletContext().getRealPath("");
-               // constructs path of the directory to save uploaded file
-               String savePath = appPath + File.separator + SAVE_DIR;
-
-               //Folder Creation 
-               File f = null;
-               try {
-                   f = new File(savePath);
-                   if (!f.exists()) {
-                       f.mkdir();
-                   }
-               } catch (Exception e) {
-                   e.printStackTrace();
-               }
-
-               //path to folder
-               //this will be the path that we will write the image into
-               String folderPath = f.getAbsolutePath();
-
-               //Date generator function call
-               String Dates[] = dateGenerator();
-               String date = Dates[0]; //date to be written into check
-               String dateForWritingToPath = Dates[1]; //date for when saving image to a path
-               
-               //making the amount from a float to a String
-               String amountInWords = new EnglishNumberToWords().convert((long)amount);
-               String amountAsString = String.valueOf(amount)+"0";
-               //assigning the function returned image to variable writtenCheck
-               
-               /* **********************************************************************************
-                * NOTE TO RUDY: NEED TO PASS THE_PERSON_GETTING_PAYED AND BILL_TYPE
-                * JUST MAKE SURE THEY ARE STRINGS WHEN PASSED INTO THE FUNCTION 
-               BufferedImage writtenCheck = writeIntoCheck(downloadFile,amountAsString,amountInWords,date, personGettingPaid, billType);
-               try {
-                   //writing created checkImage into the folder path
-                   ImageIO.write(writtenCheck, "jpg", new File(folderPath + "/" + personGettingPaid + "_" 
-                           +dateForWritingToPath + "_" + amountAsString + ".jpg"));
-               } catch (Exception e) {
-                   e.printStackTrace();
-               }
-               //******************************************************************************************
-        inStream.close();
-        outStream.close(); */
-        
-        database.withdraw(accountID, amount, username);
-        returnJSON.put("successfulWithdraw", true);
-        returnJSON.put("message", "Successfully withdrew $" + amount + " from account " + accountID);
+                database.withdraw(accountID, amount, username);
+                returnJSON.put("successfulWithdraw", true);
+                returnJSON.put("message", "Successfully withdrew $" + amount + " from account " + accountID);
           }
        }
        catch(SQLException s){
            returnJSON.put("errorMessage", "Sorry we have a SQLException");
-           returnJSON.put("errorMessage2",s);
+           returnJSON.put("errorMessage2", s);
        }
        catch(ClassNotFoundException cl){
            returnJSON.put("errorMessage", "Sorry we have a ClassNotFoundException");
-           returnJSON.put("errorMessage2",cl);
+           returnJSON.put("errorMessage2", cl);
        }
        catch(ParseException p){
            returnJSON.put("successfulWithdraw", false);
@@ -254,7 +147,37 @@ public class WithdrawServlet extends HttpServlet{
        }
         response.getWriter().write(returnJSON.toJSONString());
     }
-    
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        String filename = request.getParameter("filename");
+        ServletContext cntx= request.getServletContext();
+        String mime = cntx.getMimeType(filename);
+
+        response.setContentType(mime);
+        try {
+            File file = new File(filename);
+            response.setContentLength((int) file.length());
+
+            FileInputStream in = new FileInputStream(file);
+            OutputStream out = response.getOutputStream();
+
+            // Copy the contents of the file to the output stream
+            byte[] buf = new byte[1024];
+            int count = 0;
+            while ((count = in.read(buf)) >= 0) {
+                out.write(buf, 0, count);
+            }
+            out.close();
+            in.close();
+
+            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");//fileName;
+        } catch(Exception e) {
+            response.getWriter().write(e.getMessage());
+        }
+
+
+    }
     @Override
     public void destroy() {
         getServletContext().log("destroy() called");
