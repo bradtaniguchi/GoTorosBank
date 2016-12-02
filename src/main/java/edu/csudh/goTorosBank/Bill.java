@@ -13,40 +13,40 @@ import java.util.Date;
  * @author crosby 10/13/16
  */
 
-public class Bill {
+public class Bill
+{
     private int billID;
     private String billName;
     private String billDescription;
     private float billAmount;
-    private Date billDueDate; //CHANGE THIS TO A FORMATTED DATE Done
-    private String billStatus; //remove this later, replace with enum
+    private Date billDueDate;
+    private String billStatus;
     private SimpleDateFormat sdf;
-    /*Change below to enums*/
-    //private enum billStatus { PAID, UNPAID, PENDING }; //the 3 different possibilities
-    //private int uID;
+
     private Account account;
 
     public Bill(int billID, String billName, String billDescription, float billAmount,
-                Date billDueDate, String billStatus, Account account) {
+                Date billDueDate, String billStatus, Account account)
+    {
         this.billID = billID;
         this.billName = billName;
         this.billDescription = billDescription;
         this.billAmount = billAmount;
-        this.billDueDate = billDueDate;//we need to ask the user for a due date
+        this.billDueDate = billDueDate;
         this.billStatus = billStatus;
-        //this.uID = uID;
         this.account= account;
         sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
     }
 
     @SuppressWarnings("unchecked")
-    public JSONObject toJSON() {
+    public JSONObject toJSON()
+    {
         JSONObject bill = new JSONObject();
         bill.put("billID", this.billID);
         bill.put("billName", this.billName);
         bill.put("billAmount", this.billAmount);
         bill.put("billStatus", this.billStatus);
-        bill.put("billDueDate", sdf.format(this.billDueDate)); //this needs to be a date!
+        bill.put("billDueDate", sdf.format(this.billDueDate));
         return bill;
     }
     /* getters */
@@ -63,10 +63,12 @@ public class Bill {
         return billAmount;
     }
 
-    public String getBillDueDate(){
+    public String getBillDueDate()
+    {
         /*return formatted string, instead of Date*/
         return sdf.format(billDueDate);
     }
+
     public String getBillStatus(){
         return billStatus;
     }
