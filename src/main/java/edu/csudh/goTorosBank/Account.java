@@ -15,12 +15,12 @@ import java.util.ArrayList;
  * private User user;
  * private ArrayList<Transaction> transactions;
  * private ArrayList<Bill> bills;
- *
  * 
  * @author Jesus Cortez, Bradley Taniguchi
  */
-public class Account{
 
+public class Account
+{
     private int accountNumber;
     private String accountType; 
     private float accountBalance;
@@ -38,19 +38,26 @@ public class Account{
      * @param bills the array list of bills
      */
     public Account(int accountNumber, float accountBalance, User user, String accountType,
-                   ArrayList<Transaction> transactions, ArrayList<Bill> bills){
+                   ArrayList<Transaction> transactions, ArrayList<Bill> bills)
+    {
         this.accountNumber = accountNumber;
         this.accountType = accountType;
         this.accountBalance = accountBalance;
         this.user = user;
-        if(transactions == null ) {
+        if(transactions == null )
+        {
             this.transactions = new ArrayList<Transaction>();
-        } else {
+        }
+        else
+        {
             this.transactions = transactions;
         }
-        if(transactions == null ) {
+        if(transactions == null)
+        {
             this.bills = new ArrayList<Bill>();
-        } else {
+        }
+        else
+        {
             this.bills = bills;
         }
     }
@@ -64,7 +71,8 @@ public class Account{
      * @param transactions the Array list of transactions
      */
     public Account(int accountNumber, float accountBalance, User user, String accountType,
-                   ArrayList<Transaction> transactions) {
+                   ArrayList<Transaction> transactions)
+    {
         this(accountNumber, accountBalance, user, accountType, transactions, null);
     }
 
@@ -75,14 +83,17 @@ public class Account{
      * @param user the user associated with the account
      * @param accountType the account type
      */
-    public Account(int accountNumber, float accountBalance, User user, String accountType) {
+    public Account(int accountNumber, float accountBalance, User user, String accountType)
+    {
         this(accountNumber, accountBalance, user, accountType, null, null);
     }
+
     @SuppressWarnings("unchecked")
     /**
      * makes Objects to JSONObjects
      */
-    public JSONObject toJSON() {
+    public JSONObject toJSON()
+    {
         JSONObject account = new JSONObject();
         JSONArray jsonTransactions = new JSONArray();
         JSONArray jsonBills = new JSONArray();
@@ -91,16 +102,20 @@ public class Account{
         account.put("accountType", this.accountType);
 
         /*setup the accounts for the user*/
-        for (Transaction trans : transactions) {
-            jsonTransactions.add(trans.toJSON()); //finish this once function added to classes
+        for (Transaction trans : transactions)
+        {
+            jsonTransactions.add(trans.toJSON());
         }
-        for (Bill bill : bills) {
+        for (Bill bill : bills)
+        {
             jsonBills.add(bill.toJSON());
         }
+
         account.put("transactions", jsonTransactions);
         account.put("bills", jsonBills);
         return account;
     }
+
     /* setter methods */
 
     /**
