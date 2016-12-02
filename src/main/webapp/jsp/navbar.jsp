@@ -6,7 +6,7 @@
 --%>
 <nav class="navbar navbar-inverse" id="shadowOnly"  style="padding-right: 20px;">
     <div class="navbar-header">
-        <a class="navbar-brand" >GoToros! Bank</a>
+        <div style="pointer-events: none; cursor: default;" class="navbar-brand" >GoToros! Bank</div>
     </div>
     <ul class="nav navbar-nav navbar-right">
         <li id="here">
