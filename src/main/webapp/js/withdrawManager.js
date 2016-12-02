@@ -62,6 +62,15 @@ $(document).ready(function(){
             success: function(response) {
                 console.log("message: " + response["message"]);
                 console.log("successfulWithdraw " + response["successfulWithdraw"]);
+                console.log("filename: " + response["filename"]);
+                /*$.ajax({
+                    type:'GET',
+                    url: 'util/WithdrawServlet',
+                    data: {
+                        filename: response["filename"]
+                    }
+                });
+                $('#image-return').append('<img src="theImg.png" />')*/
             },
             error: function(xhr, status, error) {
                 console.log("ERROR with gettingAccountData! See Below for statements");

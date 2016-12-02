@@ -22,6 +22,7 @@
     </select>
 
     <button type="button" id="submit" class="btn btn-default">Withdraw</button>
+    <div id="image-return"></div>
 </div>
 
 <div id="returnModal" class="modal fade" role="dialog">

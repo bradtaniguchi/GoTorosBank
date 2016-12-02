@@ -71,8 +71,7 @@ public class WithdrawServlet extends HttpServlet{
            }
            int accountID = Integer.parseInt(request.getParameter("accountID"));
            float amount = Float.parseFloat(request.getParameter("amount"));
-           Account accountFrom = myUser.getUserAccount(accountID); 
-           //String person_gettingpayed = (String) request.getAttribute("person_gettingpayed");
+           Account accountFrom = myUser.getUserAccount(accountID);
            String personGettingPaid = request.getParameter("personGettingPaid");
            String billType = request.getParameter("billType");
 
@@ -105,27 +104,22 @@ public class WithdrawServlet extends HttpServlet{
                returnJSON.put("successfulWithdraw", false);
                returnJSON.put("message", "There is no bill description");
            }
-           //creates check for user and makes chages to the database...
+           //creates check for user and makes changes to the database...
            else{   
                
                //response.setContentType("image/jpeg");
                File blueCheck = new File ("blank-blue-check");
                String pathToWeb = getServletContext().getRealPath("/" + blueCheck);
                //File blueCheck = new File(pathToWeb + "blank-blue-check.jpg");
-               /* Call Jesus functions here:
-               *
-               *
-               */
-                returnJSON.put("pathToWeb", pathToWeb);
-               //BufferedImage bufferedImage = ImageIO.read(new File(pathToWeb));
-               //OutputStream out = response.getOutputStream();
-               //ImageIO.write(bufferedImage, "jpg", out);
-               //out.close();
-               
+               returnJSON.put("pathToWeb", pathToWeb);
 
-                database.withdraw(accountID, amount, username);
-                returnJSON.put("successfulWithdraw", true);
-                returnJSON.put("message", "Successfully withdrew $" + amount + " from account " + accountID);
+               String filename = writeIntoCheck(pathToWeb, username, Float.toString(amount), "AMOUNT IN WORDS",
+                       "DATE", personGettingPaid, "BULLSHIT");
+
+               database.withdraw(accountID, amount, username);
+               returnJSON.put("filename", filename);
+               returnJSON.put("successfulWithdraw", true);
+               returnJSON.put("message", "Successfully withdrew $" + amount + " from account " + accountID);
           }
        }
        catch(SQLException s){
@@ -149,13 +143,16 @@ public class WithdrawServlet extends HttpServlet{
     }
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String filename = request.getParameter("filename");
+        //File blueCheck = new File("blank-blue-check.jpg");
+        File blueCheck = new File(request.getParameter("filename"));
+        String pathToWeb = getServletContext().getRealPath("/" + blueCheck);
+
         ServletContext cntx= request.getServletContext();
-        String mime = cntx.getMimeType(filename);
+        String mime = cntx.getMimeType(pathToWeb);
 
         response.setContentType(mime);
         try {
-            File file = new File(filename);
+            File file = new File(pathToWeb);
             response.setContentLength((int) file.length());
 
             FileInputStream in = new FileInputStream(file);
@@ -163,7 +160,7 @@ public class WithdrawServlet extends HttpServlet{
 
             // Copy the contents of the file to the output stream
             byte[] buf = new byte[1024];
-            int count = 0;
+            int count;
             while ((count = in.read(buf)) >= 0) {
                 out.write(buf, 0, count);
             }
@@ -171,7 +168,7 @@ public class WithdrawServlet extends HttpServlet{
             in.close();
 
             response.setHeader("Content-Transfer-Encoding", "binary");
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");//fileName;
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + blueCheck.getName() + "\"");//fileName;
         } catch(Exception e) {
             response.getWriter().write(e.getMessage());
         }
@@ -182,29 +179,21 @@ public class WithdrawServlet extends HttpServlet{
     public void destroy() {
         getServletContext().log("destroy() called");
     }
-    public String[] dateGenerator() {
+    public String fileNameGenerator(String username) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String rawDate = sdf.format(new Date());
-
-
-        String Datemod[] = rawDate.split("\\W");
-        //re-organizing the date format from yyyy/MM/dd to MM/dd/yyyy
-        String theDate = Datemod[1] + "/" + Datemod[2] + "/" + Datemod[0];
-        //replacing the '/' for '-' so that there could be no error when saving it to a path
-        String theDateforSavingCheck = Datemod[1] + "-" + Datemod[2] + "-" + Datemod[0];
-        //inserting both modified dates into an array to return to the function call.
-        String Dates[] = {theDate, theDateforSavingCheck};
-
-        return Dates;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
+        return sdf.format(new Date()) + "_" + username;
     }
-    public BufferedImage writeIntoCheck(File ImageFile, String theAmount, String amountInWords,
-            String dateWrote, String person_payingto, String billType) throws IOException {
+    public String writeIntoCheck(String filePath, String username, String theAmount, String amountInWords,
+            String dateWrote, String person_payingto, String billType) throws IOException, NullPointerException{
 
-        BufferedImage image = null;
+        File blueCheck = new File("blank-blue-check.jpg");
+        String pathToOriginal = getServletContext().getRealPath("/" + blueCheck);
+
+        File file = new File(pathToOriginal);
+        BufferedImage imageToCopy = null;
         try {
-            image = ImageIO.read(ImageFile);
-
+            imageToCopy = ImageIO.read(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -215,14 +204,14 @@ public class WithdrawServlet extends HttpServlet{
         String date = dateWrote;
         String bill_type = billType;
 
-        int w = image.getWidth();
-        int h = image.getHeight();
+        int w = imageToCopy.getWidth();
+        int h = imageToCopy.getHeight();
         BufferedImage img = new BufferedImage(
                 w, h, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = img.createGraphics();
         g2d.setColor(g2d.getBackground());
         g2d.fillRect(0, 0, w, h);
-        g2d.drawImage(image, 0, -100, null);
+        g2d.drawImage(imageToCopy, 0, -100, null);
         g2d.setPaint(Color.black);
         g2d.setFont(new java.awt.Font("Serif", Font.BOLD, 36));
         //g2d.setFont(new Font("Serif", Font.BOLD, 36));
@@ -240,7 +229,11 @@ public class WithdrawServlet extends HttpServlet{
         g2d.setFont(new java.awt.Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 36));
         g2d.drawString(signature, x - 340, y + 530);
         g2d.dispose();
-        return img;
-        //returns the new created image called img 
+        /*write check to file*/
+        String filename = fileNameGenerator(username);
+        String fullname = filePath + "_" + filename + ".jpg";
+        ImageIO.write(img, "jpg", new File(fullname));
+        return fullname;
     }
+
 }
