@@ -94,19 +94,19 @@ $(document).ready(function() {
                 contentType: false,
                 data: formdata,
                 success: function(response) {
-                    console.log("Response Successful " + response["message"].toString());
-                    console.log("Amount: " + response["amount"].toString());
-                    console.log("Readable: " + response["readable"].toString());
+                    console.log("Response Successful " + response["message"]);
+                    console.log("Amount: " + response["amount"]);
+                    console.log("Readable: " + response["readable"]);
                     //$('#returnDiv').text(response["message"].toString());
                     /*we got a successful response, and want to show the user the modal popup*/
                     var message;
                     var redirect
                     if(response["readable"]) { /*only if we could read the check*/
-                        message = response["message"].toString() + "\n" +
-                            "Amount: " + response["amount"].toString();
+                        message = response["message"]+ "\n" +
+                            "Amount: " + response["amount"];
                         redirect = true;
                     } else { /*The check was not readable!*/
-                        message = response["message"].toString(); /*this should say couldn't read the check..*/
+                        message = response["message"]; /*this should say couldn't read the check..*/
                         redirect = false;
                     }
                     showModal("Check Uploaded", message, "ok", redirect);
