@@ -68,9 +68,15 @@ $(document).ready(function(){
                     url: 'util/WithdrawServlet',
                     data: {
                         filename: response["filename"]
+                    },
+                    success: function(response) {
+                        console.log("SUCCESS PUT IMAGE ON PAGE")
+                        $('#image-return').html(); //just put image on page
                     }
-                });
-                $('#image-return').append('<img src="theImg.png" />')*/
+                });*/
+                var filename = response["filename"];
+                window.open = "util/WithdrawServlet?filename=" + filename;
+
             },
             error: function(xhr, status, error) {
                 console.log("ERROR with gettingAccountData! See Below for statements");

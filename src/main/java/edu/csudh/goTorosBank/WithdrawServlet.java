@@ -8,6 +8,13 @@ package edu.csudh.goTorosBank;
 /**
  *
  * @author Rudy and Juicy J
+ * TODO:
+ * 1. Date in Jesus' function
+ * 2. Impleement the amount in words class in Jesus' function
+ * 3. Pass the REASON from front-end to Jesus' function (rudy)
+ * 4. Get the Full name from the database, and put it on where it says "use the force"
+ *      pass to Jesus's function
+ * 5. Where it says BULLSHIT, use the memo from the parameters.
  */
 
 import com.lowagie.text.Font;
@@ -35,7 +42,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class WithdrawServlet extends HttpServlet{
-    private static final String SAVE_DIR = "TempUpload";
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -74,6 +80,7 @@ public class WithdrawServlet extends HttpServlet{
            Account accountFrom = myUser.getUserAccount(accountID);
            String personGettingPaid = request.getParameter("personGettingPaid");
            String billType = request.getParameter("billType");
+           String memo = request.getParameter("memo");
 
            //Checks if user has selected an account
            if(myUser.getUserAccounts().size() == 0){
@@ -113,9 +120,10 @@ public class WithdrawServlet extends HttpServlet{
                //File blueCheck = new File(pathToWeb + "blank-blue-check.jpg");
                returnJSON.put("pathToWeb", pathToWeb);
 
-               String filename = writeIntoCheck(pathToWeb, username, Float.toString(amount), "AMOUNT IN WORDS",
+               String fullpath = writeIntoCheck(pathToWeb, username, Float.toString(amount), "AMOUNT IN WORDS",
                        "DATE", personGettingPaid, "BULLSHIT");
-
+               String[] fullpathSplit= fullpath.split("/");
+               String filename = fullpathSplit[fullpathSplit.length-1];
                database.withdraw(accountID, amount, username);
                returnJSON.put("filename", filename);
                returnJSON.put("successfulWithdraw", true);
