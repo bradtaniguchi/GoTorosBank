@@ -100,7 +100,7 @@ $(document).ready(function() {
                     //$('#returnDiv').text(response["message"].toString());
                     /*we got a successful response, and want to show the user the modal popup*/
                     var message;
-                    var redirect
+                    var redirect;
                     if(response["readable"]) { /*only if we could read the check*/
                         message = response["message"]+ "\n" +
                             "Amount: " + response["amount"];
