@@ -95,7 +95,7 @@ $(document).ready(function(){
 
             var userAccount = $('#userAccounts').val().trim();
             userAccount = userAccount.replace( /[^\d.]/g, '' );
-
+            
             withdraw(amount, personGettingPaid, userAccount);
     });
 
