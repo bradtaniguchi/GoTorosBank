@@ -44,10 +44,11 @@ $(document).ready(function(){
      * @param personGettingPaid
      * @param amount
      */
-    function withdraw(amount, personGettingPaid, account) {
+    function withdraw(amount, personGettingPaid, account, memo) {
         console.log("amount: " + amount);
         console.log("Person: " + personGettingPaid);
         console.log("accountID: " + account);
+        console.log("memo: " + memo);
         $.ajax({
             type:'POST',
             dataType: 'json',
@@ -56,27 +57,19 @@ $(document).ready(function(){
                 amount: amount,
                 personGettingPaid: personGettingPaid,
                 accountID: account,
-                billType: 'SOMETYPE'
-
+                billType: memo
             },
             success: function(response) {
                 console.log("message: " + response["message"]);
                 console.log("successfulWithdraw " + response["successfulWithdraw"]);
                 console.log("filename: " + response["filename"]);
-                /*$.ajax({
-                    type:'GET',
-                    url: 'util/WithdrawServlet',
-                    data: {
-                        filename: response["filename"]
-                    },
-                    success: function(response) {
-                        console.log("SUCCESS PUT IMAGE ON PAGE")
-                        $('#image-return').html(); //just put image on page
-                    }
-                });*/
                 var filename = response["filename"];
-                window.open = "util/WithdrawServlet?filename=" + filename;
+                url= "/util/WithdrawServlet?filename=" + filename;
+                $('#image-return').html("<iframe id='iframe' src=" + url + "></iframe>");
 
+                /*now change the size of the iframe*/
+                $("#iframe").width(800);
+                $("#iframe").height(600);
             },
             error: function(xhr, status, error) {
                 console.log("ERROR with gettingAccountData! See Below for statements");
@@ -88,15 +81,16 @@ $(document).ready(function(){
     }
     $("#submit").off('click')
         .on('click',function() {
-            var amount = $('#amount').val().trim();
-            amount = amount.replace( /[^\d.]/g, '' );
+            /*We get all the selected-amount buttons, and get their id number*/
+            var amounts = $('#btn-group').children(); /*there should be only 1*/
+            var amount = amounts.find(':checked').val();
+            var personGettingPaid = $('#person-getting-paid').val().trim();
+            var account = $('#userAccounts').val().trim();
+            account = account.replace( /[^\d.]/g, '' );/*just get the number*/
 
-            var personGettingPaid = $('#personGettingPaid').val().trim();
+            var memo = $('#memo').val().trim();
 
-            var userAccount = $('#userAccounts').val().trim();
-            userAccount = userAccount.replace( /[^\d.]/g, '' );
-            
-            withdraw(amount, personGettingPaid, userAccount);
+            withdraw(amount, personGettingPaid, account, memo);
     });
 
     getAccounts();

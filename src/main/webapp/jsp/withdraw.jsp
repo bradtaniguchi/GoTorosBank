@@ -11,16 +11,45 @@
 
 <div class="form-group">
 
-    <label for="amount">Amount:</label>
-    <input type="number" class="form-control" id="amount"/>
-
-    <label for="personGettingPaid">To:</label>
-    <input type="text" class="form-control" id="personGettingPaid"/>
+    <label for="btn-group">Amount:</label>
+    <br/>
+    <!--Button group-->
+    <div id="btn-group" class="btn-group" data-toggle="buttons">
+        <label class="btn btn-default selected-amount">
+            <input type="radio" name="options" value="20" autocomplete="off"> $20
+        </label>
+        <label class="btn btn-default selected-amount">
+            <input type="radio" name="options" value="40" autocomplete="off"> $40
+        </label>
+        <label class="btn btn-default selected-amount">
+            <input type="radio" name="options" value="60" autocomplete="off"> $60
+        </label>
+        <label class="btn btn-default selected-amount">
+            <input type="radio" name="options" value="80" autocomplete="off"> $80
+        </label>
+        <label class="btn btn-default selected-amount">
+            <input type="radio" name="options" value="100" autocomplete="off"> $100
+        </label>
+        <label class="btn btn-default selected-amount">
+            <input type="radio" name="options" value="200" autocomplete="off"> $200
+        </label>
+        <label class="btn btn-default selected-amount">
+            <input type="radio" name="options" value="400" autocomplete="off"> $400
+        </label>
+    </div>
+    <!--End Button Group-->
+</div>
+<div class="form-group">
+    <br/>
+    <label for="person-getting-paid">To</label>
+    <input type="text" class="form-control" id="person-getting-paid"/>
     <br/>
     <label for="userAccounts">Account to withdraw from:</label>
-    <select class="form-control" id="userAccounts">
-    </select>
-
+    <select class="form-control" id="userAccounts"></select>
+    <br/>
+    <label for="memo">Memo</label>
+    <input type="text" class="form-control" id="memo"/>
+    <br/>
     <button type="button" id="submit" class="btn btn-default">Withdraw</button>
     <div id="image-return"></div>
 </div>
