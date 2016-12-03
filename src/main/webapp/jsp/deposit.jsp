@@ -18,7 +18,7 @@ Deposit page
     <label for="description">Description</label>
     <input type="text" class="form-control" id="description"/>
 
-    <button type="button" id="finalSubmit" class="btn btn-default">Deposit bill</button>
+    <button type="button" id="finalSubmit" class="btn btn-default">Deposit Check</button>
 </div>
 <div id="returnDiv"></div>
 <div id="returnModal" class="modal fade" role="dialog">
