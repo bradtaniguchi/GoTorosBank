@@ -102,8 +102,7 @@ $(document).ready(function() {
                     var message;
                     var redirect;
                     if(response["readable"]) { /*only if we could read the check*/
-                        message = response["message"]+ "\n" +
-                            "Amount: " + response["amount"];
+                        message = response["message"];
                         redirect = true;
                     } else { /*The check was not readable!*/
                         message = response["message"]; /*this should say couldn't read the check..*/
