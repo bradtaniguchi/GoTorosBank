@@ -1,15 +1,13 @@
 package edu.csudh.goTorosBank;
 
 import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Transaction is a Class that holds all of the information of a transaction.
- * Transaction is a Class that holds all of the information of a transaction. that was
- * made in the database weather it was a deposit or withdrawl it will have all of these
+ * Transaction is a Class that holds all of the information of a transaction that was
+ * made in the database weather it was a deposit or withdraw it will have all of these
  * attributes
  *
  * private int transactionNumber;
@@ -22,7 +20,8 @@ import java.util.Date;
  * Created by brad on 10/12/16.
  * Based Off Database Model 10/12/16
  */
-public class Transaction {
+public class Transaction
+{
     private int transactionNumber;
     private String transactionDescription;
     private Date transactionDate;
@@ -30,14 +29,14 @@ public class Transaction {
     private Account account;
     private SimpleDateFormat sdf;
 
-
     /**
      * PrimaryConstructor of a Transaction with the bank.
      * @param account the account object tied to this transaction
      * @param transactionAmount the amount this transaction is for (positive or negative float)
      * @param transactionDescription if there is one, a transaction description.
      */
-    public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDescription) {
+    public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDescription)
+    {
         this.transactionDescription = transactionDescription;
         this.transactionAmount = transactionAmount;
         this.transactionDate = new Date();
@@ -54,7 +53,9 @@ public class Transaction {
      * @param transactionDescription the transaction description
      * @param date the date that the transaction is being made in
      */
-    public Transaction(Account account, int transactionNumber, float transactionAmount, String transactionDescription, Date date){
+    public Transaction(Account account, int transactionNumber, float transactionAmount,
+                       String transactionDescription, Date date)
+    {
         this.transactionDescription = transactionDescription;
         this.transactionAmount = transactionAmount;
         this.transactionDate = date;
@@ -62,9 +63,12 @@ public class Transaction {
         this.account = account;
         sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
     }
+
     @SuppressWarnings("unchecked")
-    public JSONObject toJSON() {
+    public JSONObject toJSON()
+    {
         JSONObject transaction = new JSONObject();
+
         transaction.put("transactionNumber", this.transactionNumber);
         transaction.put("transactionAmount", this.transactionAmount);
         transaction.put("transactionDate", sdf.format(this.transactionDate));
@@ -79,7 +83,8 @@ public class Transaction {
      * @param transactionNumber the transaction number
      * @param transactionAmount the amount of money that is being transacted
      */
-    public Transaction(Account account, int transactionNumber, float transactionAmount) {
+    public Transaction(Account account, int transactionNumber, float transactionAmount)
+    {
         this(account, transactionNumber, transactionAmount,""); /*call the other constructor*/
     }
 

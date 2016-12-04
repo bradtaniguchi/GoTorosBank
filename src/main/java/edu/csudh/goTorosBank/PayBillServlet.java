@@ -38,12 +38,6 @@ public class PayBillServlet extends HttpServlet
         JSONObject returnJSON = new JSONObject();
         response.setContentType("application/json");
 
-        /* Use case steps:
-         * 1. Load bills
-         * 2. Select bill
-         * 3. Pay Bill
-         */
-
         HttpSession userSession = request.getSession();
         String username = (String) userSession.getAttribute("username");
 
@@ -56,8 +50,6 @@ public class PayBillServlet extends HttpServlet
 
             int accountID = Integer.parseInt(request.getParameter("accountID"));
             billID = Integer.parseInt(request.getParameter("billID"));
-            //float amount = Float.parseFloat(request.getParameter("amount")); // Removes amount as requested issue #6
-
 
             if(myUser.getUserAccounts().size() == 0)
             {
@@ -85,7 +77,8 @@ public class PayBillServlet extends HttpServlet
                 if((fromAccount.getAccountBalance() - payBill.getBillAmmount()) < 0)
                 {
                     returnJSON.put("successfulBillPay", false);
-                    returnJSON.put("message", "Insufficient funds on account GoToros " + fromAccount.getAccountType() + " (# " + fromAccount.getAccountNumber() + ")");
+                    returnJSON.put("message", "Insufficient funds on account GoToros " + fromAccount.getAccountType()
+                            + " (# " + fromAccount.getAccountNumber() + ")");
                 }
                 else
                 {

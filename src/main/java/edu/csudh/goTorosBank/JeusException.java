@@ -6,11 +6,12 @@ package edu.csudh.goTorosBank;
 
 /**
  *
- * @author Cortez
+ * @author Jesus Cortez
  */
-public class JeusException extends Exception{
-  public JeusException() { super(); }
-  public JeusException(String message) { super(message); }
-  public JeusException(String message, Throwable cause) { super(message, cause); }
-  public JeusException(Throwable cause) { super(cause); }
+public class JeusException extends Exception
+{
+    public JeusException() { super(); }
+    public JeusException(String message) { super(message); }
+    public JeusException(String message, Throwable cause) { super(message, cause); }
+    public JeusException(Throwable cause) { super(cause); }
 }
