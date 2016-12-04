@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.csudh.goTorosBank;
 
 /**
  *
- * @author Rudy and Juicy J TODO: 
+ * @author Rudy and Jesus TODO:
  * 3. Pass the REASON from front-end to
  * Jesus' function (rudy) 
  * 4. Get the Full name from the database, and put it on
@@ -38,10 +33,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class WithdrawServlet extends HttpServlet {
-
+public class WithdrawServlet extends HttpServlet
+{
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) throws ServletException
+    {
         super.init(config);
         getServletContext().log("Init() called");
     }
@@ -56,7 +52,8 @@ public class WithdrawServlet extends HttpServlet {
      */
     @Override
     @SuppressWarnings("unchecked") //need this to suppress warnings for our json.put
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
         getServletContext().log("goGet () called");
 
         JSONObject returnJSON = new JSONObject();
@@ -65,15 +62,20 @@ public class WithdrawServlet extends HttpServlet {
         HttpSession userSession = request.getSession();
         String username = (String) userSession.getAttribute("username");
 
-        try {
+        try
+        {
             DatabaseInterface database = new DatabaseInterface();
             User myUser = database.getUser(username);
-            if (request.getParameter("accountID") == null || request.getParameter("amount") == null) {
+
+            if (request.getParameter("accountID") == null || request.getParameter("amount") == null)
+            {
                 returnJSON.put("successfulWithdraw", false);
                 returnJSON.put("message", "Not valid arguments!");
                 //response.getWriter().write(returnJSON.toJSONString());
+
                 return;
             }
+
             int accountID = Integer.parseInt(request.getParameter("accountID"));
             float amount = Float.parseFloat(request.getParameter("amount"));
             Account accountFrom = myUser.getUserAccount(accountID);
@@ -84,30 +86,36 @@ public class WithdrawServlet extends HttpServlet {
             String lastName = myUser.getUserLastName();
 
             //Checks if user has selected an account
-            if (myUser.getUserAccounts().size() == 0) {
+            if (myUser.getUserAccounts().size() == 0)
+            {
                 returnJSON.put("successfulWithdraw", false);
                 returnJSON.put("message", "No account to withdraw from");
             } //checks if user has sufficient funds
-            else if (0 > (accountFrom.getAccountBalance() - amount)) {
+            else if (0 > (accountFrom.getAccountBalance() - amount))
+            {
                 returnJSON.put("successfulWithdraw", false);
                 returnJSON.put("message", "Insufficient funds in account" + accountFrom.getAccountNumber());
             } //checks that user withdraws in amounts of 20
-            else if (amount % 20 != 0) {
+            else if (amount % 20 != 0)
+            {
                 returnJSON.put("successfulWithdraw", false);
                 returnJSON.put("message", "Must withdraw in amounts of 20");
             } //checks that uer doesn't withdraw more than $500.00
-            else if (amount > 500) {
+            else if (amount > 500)
+            {
                 returnJSON.put("successfulWithdraw", false);
                 returnJSON.put("message", "Withdraw amount cannot exceed $500.00");
-            } else if (personGettingPaid == null) {
+            } else if (personGettingPaid == null)
+            {
                 returnJSON.put("successfulWithdraw", false);
                 returnJSON.put("message", "There is no person getting payed");
-            } else if (billType == null) {
+            } else if (billType == null)
+            {
                 returnJSON.put("successfulWithdraw", false);
                 returnJSON.put("message", "There is no bill description");
             } //creates check for user and makes changes to the database...
-            else {
-
+            else
+            {
                 //response.setContentType("image/jpeg");
                 File blueCheck = new File("blank-blue-check");
                 String pathToWeb = getServletContext().getRealPath("/" + blueCheck);
@@ -127,25 +135,37 @@ public class WithdrawServlet extends HttpServlet {
                 returnJSON.put("successfulWithdraw", true);
                 returnJSON.put("message", "Successfully withdrew $" + amount + " from account " + accountID);
             }
-        } catch (SQLException s) {
+        }
+        catch (SQLException s)
+        {
             returnJSON.put("errorMessage", "Sorry we have a SQLException");
             returnJSON.put("errorMessage2", s);
-        } catch (ClassNotFoundException cl) {
+        }
+        catch (ClassNotFoundException cl)
+        {
             returnJSON.put("errorMessage", "Sorry we have a ClassNotFoundException");
             returnJSON.put("errorMessage2", cl);
-        } catch (ParseException p) {
+        }
+        catch (ParseException p)
+        {
             returnJSON.put("successfulWithdraw", false);
             returnJSON.put("message", "ParseException: " + p.getMessage());
-        } /*added new case, where parseInt finds nothing*/ catch (NumberFormatException e) {
+        }
+        /*added new case, where parseInt finds nothing*/
+        catch (NumberFormatException e)
+        {
             returnJSON.put("successfulWithdraw", false);
             returnJSON.put("message", "NumberFormatException " + e.getMessage());
         }
+
         response.getWriter().write(returnJSON.toJSONString());
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
         //File blueCheck = new File("blank-blue-check.jpg");
+
         File blueCheck = new File(request.getParameter("filename"));
         String pathToWeb = getServletContext().getRealPath("/" + blueCheck);
 
@@ -153,7 +173,9 @@ public class WithdrawServlet extends HttpServlet {
         String mime = cntx.getMimeType(pathToWeb);
 
         response.setContentType(mime);
-        try {
+
+        try
+        {
             File file = new File(pathToWeb);
             response.setContentLength((int) file.length());
 
@@ -163,15 +185,20 @@ public class WithdrawServlet extends HttpServlet {
             // Copy the contents of the file to the output stream
             byte[] buf = new byte[1024];
             int count;
-            while ((count = in.read(buf)) >= 0) {
+
+            while ((count = in.read(buf)) >= 0)
+            {
                 out.write(buf, 0, count);
             }
+
             out.close();
             in.close();
 
             response.setHeader("Content-Transfer-Encoding", "binary");
             response.setHeader("Content-Disposition", "attachment; filename=\"" + blueCheck.getName() + "\"");//fileName;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             response.getWriter().write(e.getMessage());
         }
 
@@ -183,33 +210,39 @@ public class WithdrawServlet extends HttpServlet {
         getServletContext().log("destroy() called");
     }
 
-    public String fileNameGenerator(String username) {
-
+    public String fileNameGenerator(String username)
+    {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
         return sdf.format(new Date()) + "_" + username;
     }
 
     public String writeIntoCheck(String filePath, String username, float amount, String personGettingPayed,
-            String billType, String fullName) throws IOException, NullPointerException {
-
+            String billType, String fullName) throws IOException, NullPointerException
+    {
         File blueCheck = new File("blank-blue-check.jpg");
         String pathToOriginal = getServletContext().getRealPath("/" + blueCheck);
 
         File file = new File(pathToOriginal);
         BufferedImage imageToCopy = null;
-        try {
+
+        try
+        {
             imageToCopy = ImageIO.read(file);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
 
         //Creates amount in words and convert float to String
         String amountToWords = new EnglishNumberToWords().convert((long) amount);
         String amountInString = Float.toString(amount) + "0";
+
         //Creates date in clean format
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String rawDate = sdf.format(new Date());
         String Datemod[] = rawDate.split("\\W");
+
         //re-organizing the date format from yyyy/MM/dd to MM/dd/yyyy
         String date = Datemod[1] + "/" + Datemod[2] + "/" + Datemod[0];
 
@@ -237,6 +270,7 @@ public class WithdrawServlet extends HttpServlet {
         g2d.setFont(new java.awt.Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 36));
         g2d.drawString(signature, x - 340, y + 530);
         g2d.dispose();
+
         /*write check to file*/
         String filename = fileNameGenerator(username);
         String fullname = filePath + "_" + filename + ".jpg";
