@@ -80,6 +80,8 @@ public class WithdrawServlet extends HttpServlet {
             String personGettingPaid = request.getParameter("personGettingPaid");
             String billType = request.getParameter("billType");
             String memo = request.getParameter("memo");
+            String firstName = myUser.getUserFirstName();
+            String lastName = myUser.getUserLastName();
 
             //Checks if user has selected an account
             if (myUser.getUserAccounts().size() == 0) {
@@ -115,9 +117,9 @@ public class WithdrawServlet extends HttpServlet {
                  * ****************RUDY NEEDS TO ASSIGN FullName of person and
                  * pass to the method***********
                  */
-                String fullName = "  ";
+                String fullName = firstName + lastName;
                 String fullpath = writeIntoCheck(pathToWeb, username, amount,
-                        personGettingPaid, "BULLSHIT", fullName);
+                        personGettingPaid, memo, fullName);
                 String[] fullpathSplit = fullpath.split("/");
                 String filename = fullpathSplit[fullpathSplit.length - 1];
                 database.withdraw(accountID, amount, username);
