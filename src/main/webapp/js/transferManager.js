@@ -89,7 +89,7 @@ $(document).ready(function(){
                     console.log("response successful");
                     if(response["successfulTransaction"]) {
                         console.log("Transaction Successful");
-                        showModal("Success!", "Transfer Successful!");
+                        showModal("Success!", "Transfer Successful!", "ok", true);
                     } else {
                         showModal("DatabaseError!", response["message"], "ok");
                     }
@@ -103,14 +103,22 @@ $(document).ready(function(){
             console.log("Finished with ajax?");
         }
     }
-    function showModal(title, message, buttonprompt) {
+    function showModal(title, message, buttonprompt, redirect) {
         var returnModal = $('#returnModal'); //my return modal that I can use to return message to the user
         //var modalTitle = returnModal.add(".modal-title");//select the title
         returnModal.find('.modal-header .modal-title').text(title);
         returnModal.find('.modal-body').text(message);
-        returnModal.find('.modal-footer .btn').text(buttonprompt);
-
+        var button = returnModal.find('.modal-footer').find('.btn');
+        button.text(buttonprompt);
+        button.off('click'); /*lets be safe and remove any listeners by default*/
+        if(redirect) {
+            /*upon redirect, we want to redirect the user to the main page*/
+            button.on('click', function() {
+                window.location = "/profile.jsp";
+            });
+        }
         returnModal.modal('show'); //show the modal
+
     }
     /*add jquery listeners to the page here*/
     $('#transferSubmit').off('click')  //remove any previous click handlers

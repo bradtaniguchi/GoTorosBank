@@ -52,7 +52,7 @@ $(document).ready(function(){
             "<iframe id='iframe' src=" + url + "></iframe>");
         /*add a button listener, when they click on it, we redirect to main page*/
         modal.find("btn").off('click').on('click',function() {
-            window.location = "/";
+            window.location = "/profile.jsp";
         });
         modal.modal('show');
     }
