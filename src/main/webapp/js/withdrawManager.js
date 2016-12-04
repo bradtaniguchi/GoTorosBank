@@ -100,7 +100,7 @@ $(document).ready(function(){
                     amount: amount,
                     personGettingPaid: personGettingPaid,
                     accountID: account,
-                    billType: memo
+                    memo: memo
                 },
                 success: function (response) {
                     console.log("message: " + response["message"]);

@@ -100,7 +100,7 @@ public class WithdrawServlet extends HttpServlet
             {
                 returnJSON.put("successfulWithdraw", false);
                 returnJSON.put("message", "Must withdraw in amounts of 20");
-            } //checks that uer doesn't withdraw more than $500.00
+            } //checks that user doesn't withdraw more than $400.00 //changed to 400 -brad
             else if (amount > 500)
             {
                 returnJSON.put("successfulWithdraw", false);
@@ -109,11 +109,11 @@ public class WithdrawServlet extends HttpServlet
             {
                 returnJSON.put("successfulWithdraw", false);
                 returnJSON.put("message", "There is no person getting payed");
-            } else if (billType == null)
+            } else if(memo == null)
             {
                 returnJSON.put("successfulWithdraw", false);
-                returnJSON.put("message", "There is no bill description");
-            } //creates check for user and makes changes to the database...
+                returnJSON.put("message", "There was no memo");
+            }
             else
             {
                 //response.setContentType("image/jpeg");
@@ -121,11 +121,8 @@ public class WithdrawServlet extends HttpServlet
                 String pathToWeb = getServletContext().getRealPath("/" + blueCheck);
                 //File blueCheck = new File(pathToWeb + "blank-blue-check.jpg");
                 returnJSON.put("pathToWeb", pathToWeb);
-                /**
-                 * ****************RUDY NEEDS TO ASSIGN FullName of person and
-                 * pass to the method***********
-                 */
-                String fullName = firstName + lastName;
+
+                String fullName = firstName + " " + lastName;
                 String fullpath = writeIntoCheck(pathToWeb, username, amount,
                         personGettingPaid, memo, fullName);
                 String[] fullpathSplit = fullpath.split("/");
@@ -196,6 +193,12 @@ public class WithdrawServlet extends HttpServlet
 
             response.setHeader("Content-Transfer-Encoding", "binary");
             response.setHeader("Content-Disposition", "attachment; filename=\"" + blueCheck.getName() + "\"");//fileName;
+            /*now delete file once served once?*/
+            /*File newFile = new File(pathToWeb);
+            if(newFile.delete()) {
+                getServletContext().log("Deleted file: " + pathToWeb);
+            }*/
+
         }
         catch (Exception e)
         {
@@ -217,7 +220,7 @@ public class WithdrawServlet extends HttpServlet
     }
 
     public String writeIntoCheck(String filePath, String username, float amount, String personGettingPayed,
-            String billType, String fullName) throws IOException, NullPointerException
+            String billType, String fullUsername) throws IOException, NullPointerException
     {
         File blueCheck = new File("blank-blue-check.jpg");
         String pathToOriginal = getServletContext().getRealPath("/" + blueCheck);
@@ -266,9 +269,8 @@ public class WithdrawServlet extends HttpServlet
         g2d.drawString(date, x - 340, y + 245);
         g2d.drawString(billType, x - 900, y + 530);
 
-        String signature = fullName;
         g2d.setFont(new java.awt.Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 36));
-        g2d.drawString(signature, x - 340, y + 530);
+        g2d.drawString(fullUsername, x - 340, y + 530);
         g2d.dispose();
 
         /*write check to file*/
