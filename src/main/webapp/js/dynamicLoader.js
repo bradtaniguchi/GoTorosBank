@@ -6,8 +6,8 @@
 
 $(document).ready(function() {
     console.log("Dynamic loader ready");
-    var transferLoaded = 0;
-    var payBillsLoaded = 0;
+    //var transferLoaded = 0;
+    //var payBillsLoaded = 0;
     function showPage(pageString, title) {
         console.log("Changing mainActivity to: " + pageString);
         document.title = 'GoTorosBank '+ title;
@@ -49,27 +49,27 @@ $(document).ready(function() {
     $("#Transfer").on('click', function() {
         console.log("Clicked transfer");
         showPage("jsp/transfer.jsp", "Transfer");
-        if(!transferLoaded) { // protect against loading this file twice
+        /*if(!transferLoaded) { // protect against loading this file twice
             $.getScript("js/transferManager.js", function () {
                 transferLoaded = 1; //file is loaded on the page already
             })
                 .fail(function (jqxhr, settings, exception) {
                 alert("Failure to load javascript!\n" + jqxhr.responseText);
             });
-        }
+        }*/
         unEnable();
         $(this).addClass('active');
     });
     $("#PayBills").on('click', function() {
         showPage("jsp/payBills.jsp", "PayBills");
-        if(!payBillsLoaded) {
+        /*if(!payBillsLoaded) {
             $.getScript("js/payBillsManager.js", function() {
                 payBillsLoaded = 1;
             })
-                .fail(function(jqxhr, settings, exception){
-                    alert("Failure to load javascript!\n" + jqxhr.responseText);
-                });
-        }
+            .fail(function(jqxhr, settings, exception){
+                alert("Failure to load javascript!\n" + jqxhr.responseText);
+            });
+        }*/
         unEnable();
         $(this).addClass('active');
     });
